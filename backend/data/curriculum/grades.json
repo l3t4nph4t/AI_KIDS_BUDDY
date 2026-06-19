@@ -1,0 +1,42 @@
+[
+  {
+    "grade": 1,
+    "label": "Lớp 1",
+    "series": "Kết nối tri thức với cuộc sống",
+    "data_status": "IMPORTED",
+    "source_type": "metadata_only",
+    "notes": "8 books, 290 lessons, 290 daily units. Metadata QA'd."
+  },
+  {
+    "grade": 2,
+    "label": "Lớp 2",
+    "series": "Kết nối tri thức với cuộc sống",
+    "data_status": "IMPORTED",
+    "source_type": "metadata_only",
+    "notes": "9 books, 234 lessons, 229 daily units. Metadata QA'd."
+  },
+  {
+    "grade": 3,
+    "label": "Lớp 3",
+    "series": "Kết nối tri thức với cuộc sống",
+    "data_status": "IMPORTED",
+    "source_type": "metadata_only",
+    "notes": "12 books, 365 lessons, 365 daily units. Metadata QA'd."
+  },
+  {
+    "grade": 4,
+    "label": "Lớp 4",
+    "series": "Kết nối tri thức với cuộc sống",
+    "data_status": "IMPORTED",
+    "source_type": "metadata_only",
+    "notes": "7 books, 363 lessons, 363 daily units. Metadata QA'd."
+  },
+  {
+    "grade": 5,
+    "label": "Lớp 5",
+    "series": "Kết nối tri thức với cuộc sống",
+    "data_status": "IMPORTED",
+    "source_type": "metadata_only",
+    "notes": "10 books, 290 lessons, 290 daily units. Metadata QA'd."
+  }
+]

@@ -1,0 +1,32 @@
+{
+  "tables": {
+    "books": {
+      "primary_key": "book_id"
+    },
+    "lessons": {
+      "primary_key": "lesson_id",
+      "foreign_key": "book_id"
+    },
+    "daily_learning_units": {
+      "primary_key": "daily_unit_id",
+      "foreign_key": "lesson_id"
+    },
+    "lesson_content": {
+      "primary_key": "daily_unit_id",
+      "foreign_key": "daily_unit_id",
+      "description": "AI-generated lesson content: objective, explanation, examples, exercises, check questions."
+    }
+  },
+  "copyright_policy": [
+    "Store textbook metadata, TOC, page references, learning objectives, and AI-generated practice only.",
+    "Do not store full page text, songs, poems, stories, or images from SGK unless the project has usage permission.",
+    "For daily child learning, use page reference + parent-supervised activity + AI-generated derivative exercises.",
+    "Lesson content is AI-derived from verified metadata, labeled as 'ai_generated_from_verified_metadata'."
+  ],
+  "next_parse_stage": [
+    "Stage 1 import this metadata seed.",
+    "Stage 2 render page images locally for private QA only.",
+    "Stage 3 human/OCR extract lesson objectives and exercise types, not full copyrighted text.",
+    "Stage 4 generate AI practice cards aligned to lesson skill."
+  ]
+}

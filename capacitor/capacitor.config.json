@@ -1,0 +1,19 @@
+{
+  "appId": "com.vyvy.ai",
+  "appName": "VyVy",
+  "webDir": "../web",
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true
+  },
+  "android": {
+    "allowMixedContent": true
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": true,
+      "androidScaleType": "CENTER_CROP",
+      "showSpinner": false
+    }
+  }
+}

@@ -1,0 +1,27 @@
+.env
+.venv
+venv
+__pycache__
+*.pyc
+*.pyo
+*.log
+logs/
+# Exclude root-level data but keep backend/data (curriculum files needed)
+!/backend/data/
+.git
+.github
+node_modules/
+android/
+ios/
+capacitor/
+orchestration/
+reports/
+scripts/
+docs/
+*.md
+.pytest_cache
+tests/
+.idea/
+.vscode/
+Thumbs.db
+.DS_Store

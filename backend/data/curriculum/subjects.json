@@ -1,0 +1,89 @@
+{
+  "subject_catalog": {
+    "toan": {
+      "label": "Toán",
+      "emoji": "🔢",
+      "is_core": true,
+      "is_special": false
+    },
+    "tieng_viet": {
+      "label": "Tiếng Việt",
+      "emoji": "📖",
+      "is_core": true,
+      "is_special": false
+    },
+    "tieng_anh": {
+      "label": "Tiếng Anh",
+      "emoji": "🔤",
+      "is_core": true,
+      "is_special": false
+    },
+    "tu_nhien_xa_hoi": {
+      "label": "Tự nhiên và Xã hội",
+      "emoji": "🌿",
+      "is_core": true,
+      "is_special": false
+    },
+    "khoa_hoc": {
+      "label": "Khoa học",
+      "emoji": "🔬",
+      "is_core": true,
+      "is_special": false
+    },
+    "lich_su_dia_li": {
+      "label": "Lịch sử và Địa lí",
+      "emoji": "🗺️",
+      "is_core": true,
+      "is_special": false
+    },
+    "tin_hoc": {
+      "label": "Tin học",
+      "emoji": "💻",
+      "is_core": true,
+      "is_special": false
+    },
+    "cong_nghe": {
+      "label": "Công nghệ",
+      "emoji": "⚙️",
+      "is_core": true,
+      "is_special": false
+    },
+    "am_nhac": {
+      "label": "Âm nhạc",
+      "emoji": "🎵",
+      "is_core": false,
+      "is_special": true
+    },
+    "mi_thuat": {
+      "label": "Mĩ thuật",
+      "emoji": "🎨",
+      "is_core": false,
+      "is_special": true
+    },
+    "giao_duc_the_chat": {
+      "label": "Giáo dục thể chất",
+      "emoji": "🏃",
+      "is_core": false,
+      "is_special": true
+    },
+    "hoat_dong_trai_nghiem": {
+      "label": "Hoạt động trải nghiệm",
+      "emoji": "🌈",
+      "is_core": false,
+      "is_special": true
+    },
+    "dao_duc": {
+      "label": "Đạo đức",
+      "emoji": "💛",
+      "is_core": false,
+      "is_special": true
+    }
+  },
+  "grade_subjects": {
+    "1": ["toan", "tieng_viet", "tu_nhien_xa_hoi", "am_nhac", "giao_duc_the_chat", "hoat_dong_trai_nghiem"],
+    "2": ["toan", "tieng_viet", "am_nhac", "mi_thuat", "giao_duc_the_chat", "hoat_dong_trai_nghiem"],
+    "3": ["toan", "tieng_viet", "tieng_anh", "tu_nhien_xa_hoi", "tin_hoc", "am_nhac", "mi_thuat", "giao_duc_the_chat", "hoat_dong_trai_nghiem"],
+    "4": ["toan", "tieng_viet", "lich_su_dia_li", "khoa_hoc", "am_nhac"],
+    "5": ["toan", "tieng_viet", "tieng_anh", "lich_su_dia_li", "cong_nghe", "dao_duc", "am_nhac"]
+  }
+}

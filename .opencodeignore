@@ -1,0 +1,7 @@
+﻿mimo_output/
+docs/
+capacitor/
+node_modules/
+__pycache__/
+*.log
+*.txt

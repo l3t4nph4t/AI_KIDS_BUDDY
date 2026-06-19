@@ -1,0 +1,77 @@
+{
+  "active_grade": 5,
+  "completed_units": [
+    "DU_G2_0023",
+    "DU_G2_0005",
+    "DU_G3_0001"
+  ],
+  "unit_scores": {
+    "DU_G2_0023": {
+      "grade": 2,
+      "subject": "toan",
+      "score": 75,
+      "stars": 3,
+      "completed_at": "2026-06-11T01:57:48.289513Z"
+    },
+    "DU_G2_0005": {
+      "grade": 2,
+      "subject": "toan",
+      "score": 75,
+      "stars": 3,
+      "completed_at": "2026-06-11T02:01:13.887923Z"
+    },
+    "DU_G3_0001": {
+      "grade": 3,
+      "subject": "toan",
+      "score": 100,
+      "stars": 4,
+      "completed_at": "2026-06-11T17:00:22.169783Z"
+    }
+  },
+  "grade_progress": {
+    "2": {
+      "subject_progress": {
+        "toan": 2
+      },
+      "completed_count": 2
+    },
+    "3": {
+      "subject_progress": {
+        "toan": 1
+      },
+      "completed_count": 1
+    }
+  },
+  "subject_progress": {
+    "toan": 3
+  },
+  "streak": 2,
+  "last_date": "2026-06-12",
+  "sessions": [
+    {
+      "unit_id": "DU_G2_0023",
+      "grade": 2,
+      "subject": "toan",
+      "score": 75,
+      "stars": 3,
+      "completed_at": "2026-06-11T01:57:48.289513Z"
+    },
+    {
+      "unit_id": "DU_G2_0005",
+      "grade": 2,
+      "subject": "toan",
+      "score": 75,
+      "stars": 3,
+      "completed_at": "2026-06-11T02:01:13.887923Z"
+    },
+    {
+      "unit_id": "DU_G3_0001",
+      "grade": 3,
+      "subject": "toan",
+      "score": 100,
+      "stars": 4,
+      "completed_at": "2026-06-11T17:00:22.169783Z"
+    }
+  ],
+  "purchased_avatars": []
+}

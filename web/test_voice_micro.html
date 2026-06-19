@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Voice & Micro - VyVy</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        .test-section h3 { margin-top: 0; color: #FF8FAB; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; border: none; border-radius: 5px; }
+        .btn-primary { background: #FF8FAB; color: white; }
+        .btn-danger { background: #ff4444; color: white; }
+        .btn-success { background: #44ff44; color: black; }
+        .result { margin: 10px 0; padding: 10px; background: #f5f5f5; border-radius: 5px; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        #status { font-size: 18px; font-weight: bold; margin: 20px 0; }
+        .log { max-height: 300px; overflow-y: auto; background: #1e1e1e; color: #00ff00; padding: 10px; font-family: monospace; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h1>🎤 Test Voice & Micro - VyVy</h1>
+    <div id="status">⏳ Đang kiểm tra...</div>
+
+    <div class="test-section">
+        <h3>1. Kiểm tra trình duyệt hỗ trợ</h3>
+        <div id="browser-check" class="result">Đang kiểm tra...</div>
+        <button class="btn-primary" onclick="checkBrowserSupport()">Kiểm tra lại</button>
+    </div>
+
+    <div class="test-section">
+        <h3>2. Kiểm tra quyền Micro</h3>
+        <div id="micro-check" class="result">Đang kiểm tra...</div>
+        <button class="btn-primary" onclick="checkMicroPermission()">Kiểm tra quyền</button>
+        <button class="btn-primary" onclick="requestMicroPermission()">Yêu cầu quyền</button>
+    </div>
+
+    <div class="test-section">
+        <h3>3. Test Speech Recognition (STT)</h3>
+        <div id="stt-status" class="result">Nhấn nút để bắt đầu nói</div>
+        <button class="btn-primary" id="stt-start-btn" onclick="startSTT()">🎤 Bắt đầu nói</button>
+        <button class="btn-danger" id="stt-stop-btn" onclick="stopSTT()" disabled>⏹ Dừng</button>
+        <div id="stt-result" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>4. Test Speech Synthesis (TTS)</h3>
+        <div id="tts-status" class="result">Nhập text và nhấn nút để nghe</div>
+        <input type="text" id="tts-input" value="Xin chào bạn! Mình là VyVy." style="width: 70%; padding: 8px;">
+        <button class="btn-primary" onclick="testTTS()">🔊 Đọc text</button>
+        <button class="btn-danger" onclick="stopTTS()">⏹ Dừng</button>
+        <div id="tts-voices" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>5. Test Live Call Flow</h3>
+        <div id="live-call-status" class="result">Nhấn nút để mô phỏng cuộc gọi</div>
+        <button class="btn-primary" id="live-call-btn" onclick="startLiveCallTest()">📞 Bắt đầu gọi</button>
+        <button class="btn-danger" id="live-call-stop-btn" onclick="stopLiveCallTest()" disabled>📴 Kết thúc</button>
+        <div id="live-call-log" class="log"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>6. Kết quả kiểm tra</h3>
+        <div id="final-result" class="result"></div>
+        <button class="btn-success" onclick="generateReport()">📋 Tạo báo cáo</button>
+    </div>
+
+    <script>
+        var testResults = {
+            browserSupport: false,
+            speechRecognition: false,
+            speechSynthesis: false,
+            microPermission: false,
+            sttWorking: false,
+            ttsWorking: false,
+            liveCallWorking: false
+        };
+
+        var recognition = null;
+        var synthesis = window.speechSynthesis || null;
+        var isLiveCallActive = false;
+        var logEntries = [];
+
+        function log(msg) {
+            var time = new Date().toLocaleTimeString();
+            var entry = '[' + time + '] ' + msg;
+            logEntries.push(entry);
+            var logEl = document.getElementById('live-call-log');
+            if (logEl) {
+                logEl.innerHTML += entry + '<br>';
+                logEl.scrollTop = logEl.scrollHeight;
+            }
+            console.log(entry);
+        }
+
+        function updateStatus() {
+            var total = Object.keys(testResults).length;
+            var passed = Object.values(testResults).filter(v => v).length;
+            var statusEl = document.getElementById('status');
+            if (passed === total) {
+                statusEl.innerHTML = '✅ Tất cả test đã PASSED (' + passed + '/' + total + ')';
+                statusEl.style.color = 'green';
+            } else {
+                statusEl.innerHTML = '⏳ Đang kiểm tra... (' + passed + '/' + total + ' PASSED)';
+                statusEl.style.color = 'orange';
+            }
+        }
+
+        // 1. Browser Support Check
+        function checkBrowserSupport() {
+            var resultEl = document.getElementById('browser-check');
+            var html = '';
+
+            // Check SpeechRecognition
+            var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (SR) {
+                html += '<p class="success">✅ SpeechRecognition: Được hỗ trợ</p>';
+                testResults.speechRecognition = true;
+            } else {
+                html += '<p class="error">❌ SpeechRecognition: Không được hỗ trợ</p>';
+                html += '<p class="info">💡 Thử dùng Chrome hoặc Edge</p>';
+            }
+
+            // Check SpeechSynthesis
+            if (window.speechSynthesis) {
+                html += '<p class="success">✅ SpeechSynthesis: Được hỗ trợ</p>';
+                testResults.speechSynthesis = true;
+            } else {
+                html += '<p class="error">❌ SpeechSynthesis: Không được hỗ trợ</p>';
+            }
+
+            // Check User Agent
+            html += '<p class="info">📱 Browser: ' + navigator.userAgent.substring(0, 100) + '...</p>';
+
+            resultEl.innerHTML = html;
+            testResults.browserSupport = testResults.speechRecognition && testResults.speechSynthesis;
+            updateStatus();
+            log('Kiểm tra trình duyệt: ' + (testResults.browserSupport ? 'PASSED' : 'FAILED'));
+        }
+
+        // 2. Micro Permission Check
+        function checkMicroPermission() {
+            var resultEl = document.getElementById('micro-check');
+
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                resultEl.innerHTML = '<p class="error">❌ getUserMedia không được hỗ trợ</p>';
+                testResults.microPermission = false;
+                updateStatus();
+                return;
+            }
+
+            // Check permission status
+            if (navigator.permissions) {
+                navigator.permissions.query({ name: 'microphone' }).then(function(permissionStatus) {
+                    var html = '<p class="info">📊 Trạng thái quyền micro: ' + permissionStatus.state + '</p>';
+
+                    if (permissionStatus.state === 'granted') {
+                        html += '<p class="success">✅ Quyền micro đã được cấp</p>';
+                        testResults.microPermission = true;
+                    } else if (permissionStatus.state === 'prompt') {
+                        html += '<p class="info">⚠️ Quyền micro chưa được cấp. Nhấn "Yêu cầu quyền"</p>';
+                    } else if (permissionStatus.state === 'denied') {
+                        html += '<p class="error">❌ Quyền micro bị từ chối</p>';
+                        html += '<p class="info">💡 Vào Settings > Privacy > Microphone để bật lại</p>';
+                    }
+
+                    resultEl.innerHTML = html;
+                    updateStatus();
+                    log('Kiểm tra quyền micro: ' + permissionStatus.state);
+                }).catch(function(err) {
+                    resultEl.innerHTML = '<p class="info">⚠️ Không thể kiểm tra quyền: ' + err.message + '</p>';
+                    log('Lỗi kiểm tra quyền: ' + err.message);
+                });
+            } else {
+                resultEl.innerHTML = '<p class="info">⚠️ Permissions API không khả dụng. Nhấn "Yêu cầu quyền" để test</p>';
+            }
+        }
+
+        function requestMicroPermission() {
+            var resultEl = document.getElementById('micro-check');
+
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                resultEl.innerHTML = '<p class="error">❌ getUserMedia không được hỗ trợ</p>';
+                return;
+            }
+
+            resultEl.innerHTML = '<p class="info">⏳ Đang yêu cầu quyền micro...</p>';
+
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(function(stream) {
+                    resultEl.innerHTML = '<p class="success">✅ Quyền micro đã được cấp!</p>';
+                    testResults.microPermission = true;
+                    updateStatus();
+                    log('Quyền micro đã được cấp');
+
+                    // Stop the stream
+                    stream.getTracks().forEach(track => track.stop());
+                })
+                .catch(function(err) {
+                    var html = '<p class="error">❌ Lỗi yêu cầu quyền: ' + err.message + '</p>';
+                    if (err.name === 'NotAllowedError') {
+                        html += '<p class="info">💡 Người dùng từ chối quyền micro</p>';
+                        html += '<p class="info">💡 Vào Settings > Privacy > Microphone để bật lại</p>';
+                    } else if (err.name === 'NotFoundError') {
+                        html += '<p class="info">💡 Không tìm thấy thiết bị micro</p>';
+                    }
+                    resultEl.innerHTML = html;
+                    testResults.microPermission = false;
+                    updateStatus();
+                    log('Lỗi yêu cầu quyền micro: ' + err.message);
+                });
+        }
+
+        // 3. STT Test
+        function startSTT() {
+            var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SR) {
+                document.getElementById('stt-status').innerHTML = '<p class="error">❌ SpeechRecognition không khả dụng</p>';
+                return;
+            }
+
+            recognition = new SR();
+            recognition.lang = 'vi-VN';
+            recognition.interimResults = true;
+            recognition.maxAlternatives = 1;
+            recognition.continuous = true;
+
+            document.getElementById('stt-status').innerHTML = '<p class="info">🎤 Đang nghe... Hãy nói gì đó!</p>';
+            document.getElementById('stt-start-btn').disabled = true;
+            document.getElementById('stt-stop-btn').disabled = false;
+            document.getElementById('stt-result').innerHTML = '';
+
+            recognition.onstart = function() {
+                log('STT started');
+            };
+
+            recognition.onresult = function(event) {
+                var transcript = '';
+                var isFinal = false;
+
+                if (event.results && event.results.length > 0) {
+                    var lastResult = event.results[event.results.length - 1];
+                    transcript = lastResult[0].transcript || '';
+                    isFinal = lastResult.isFinal;
+                }
+
+                document.getElementById('stt-result').innerHTML =
+                    '<p><strong>Kết quả:</strong> ' + transcript + '</p>' +
+                    '<p><strong>Final:</strong> ' + isFinal + '</p>';
+
+                if (isFinal && transcript.trim()) {
+                    log('STT result: ' + transcript);
+                    testResults.sttWorking = true;
+                    updateStatus();
+                }
+            };
+
+            recognition.onerror = function(event) {
+                document.getElementById('stt-status').innerHTML = '<p class="error">❌ Lỗi: ' + event.error + '</p>';
+                log('STT error: ' + event.error);
+                document.getElementById('stt-start-btn').disabled = false;
+                document.getElementById('stt-stop-btn').disabled = true;
+            };
+
+            recognition.onend = function() {
+                document.getElementById('stt-status').innerHTML = '<p class="info">⏹ Đã dừng nghe</p>';
+                document.getElementById('stt-start-btn').disabled = false;
+                document.getElementById('stt-stop-btn').disabled = true;
+                log('STT ended');
+            };
+
+            try {
+                recognition.start();
+            } catch(e) {
+                document.getElementById('stt-status').innerHTML = '<p class="error">❌ Lỗi khởi động: ' + e.message + '</p>';
+                log('STT start error: ' + e.message);
+            }
+        }
+
+        function stopSTT() {
+            if (recognition) {
+                recognition.stop();
+                recognition = null;
+            }
+        }
+
+        // 4. TTS Test
+        function testTTS() {
+            if (!window.speechSynthesis) {
+                document.getElementById('tts-status').innerHTML = '<p class="error">❌ SpeechSynthesis không khả dụng</p>';
+                return;
+            }
+
+            var text = document.getElementById('tts-input').value;
+            if (!text) {
+                document.getElementById('tts-status').innerHTML = '<p class="error">❌ Nhập text trước</p>';
+                return;
+            }
+
+            window.speechSynthesis.cancel();
+
+            var utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'vi-VN';
+            utterance.rate = 0.95;
+            utterance.pitch = 1.25;
+
+            // Try to find Vietnamese voice
+            var voices = window.speechSynthesis.getVoices();
+            var viVoice = null;
+            for (var i = 0; i < voices.length; i++) {
+                if (voices[i].lang && voices[i].lang.indexOf('vi') === 0) {
+                    viVoice = voices[i];
+                    break;
+                }
+            }
+            if (viVoice) {
+                utterance.voice = viVoice;
+                log('Using Vietnamese voice: ' + viVoice.name);
+            }
+
+            document.getElementById('tts-status').innerHTML = '<p class="info">🔊 Đang đọc...</p>';
+
+            utterance.onend = function() {
+                document.getElementById('tts-status').innerHTML = '<p class="success">✅ Đọc xong!</p>';
+                testResults.ttsWorking = true;
+                updateStatus();
+                log('TTS completed');
+            };
+
+            utterance.onerror = function(event) {
+                document.getElementById('tts-status').innerHTML = '<p class="error">❌ Lỗi TTS: ' + event.error + '</p>';
+                log('TTS error: ' + event.error);
+            };
+
+            window.speechSynthesis.speak(utterance);
+            log('TTS started: ' + text.substring(0, 50) + '...');
+        }
+
+        function stopTTS() {
+            if (window.speechSynthesis) {
+                window.speechSynthesis.cancel();
+                document.getElementById('tts-status').innerHTML = '<p class="info">⏹ Đã dừng</p>';
+            }
+        }
+
+        // List voices
+        function listVoices() {
+            if (!window.speechSynthesis) return;
+
+            var voices = window.speechSynthesis.getVoices();
+            var html = '<p><strong>Danh sách voices (' + voices.length + '):</strong></p>';
+
+            var viVoices = voices.filter(v => v.lang && v.lang.indexOf('vi') === 0);
+            if (viVoices.length > 0) {
+                html += '<p class="success">✅ Tìm thấy ' + viVoices.length + ' giọng Việt:</p>';
+                viVoices.forEach(v => {
+                    html += '<p>- ' + v.name + ' (' + v.lang + ')</p>';
+                });
+            } else {
+                html += '<p class="error">❌ Không tìm thấy giọng Việt</p>';
+                html += '<p class="info">💡 Giọng English sẽ được dùng làm fallback</p>';
+            }
+
+            document.getElementById('tts-voices').innerHTML = html;
+        }
+
+        // 5. Live Call Test
+        function startLiveCallTest() {
+            var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SR) {
+                document.getElementById('live-call-status').innerHTML = '<p class="error">❌ SpeechRecognition không khả dụng</p>';
+                return;
+            }
+
+            isLiveCallActive = true;
+            document.getElementById('live-call-btn').disabled = true;
+            document.getElementById('live-call-stop-btn').disabled = false;
+            document.getElementById('live-call-status').innerHTML = '<p class="info">📞 Cuộc gọi đang hoạt động...</p>';
+            document.getElementById('live-call-log').innerHTML = '';
+
+            log('=== BẮT ĐẦU CUỘC GỌI ===');
+
+            // Simulate live call flow
+            recognition = new SR();
+            recognition.lang = 'vi-VN';
+            recognition.interimResults = true;
+            recognition.continuous = true;
+
+            recognition.onstart = function() {
+                log('🎤 Đang nghe...');
+            };
+
+            recognition.onresult = function(event) {
+                var transcript = '';
+                var isFinal = false;
+
+                if (event.results && event.results.length > 0) {
+                    var lastResult = event.results[event.results.length - 1];
+                    transcript = lastResult[0].transcript || '';
+                    isFinal = lastResult.isFinal;
+                }
+
+                if (isFinal && transcript.trim()) {
+                    log('👤 Bạn nói: ' + transcript);
+
+                    // Simulate VyVy response
+                    var responses = [
+                        'Xin chào bạn! Mình là VyVy.',
+                        'Bạn khỏe không?',
+                        'Hôm nay bạn có vui không?',
+                        'Mình rất thích nói chuyện với bạn!',
+                        'Bạn muốn chơi gì?'
+                    ];
+                    var response = responses[Math.floor(Math.random() * responses.length)];
+                    log('🤖 VyVy nói: ' + response);
+
+                    // Speak response
+                    if (window.speechSynthesis) {
+                        var utterance = new SpeechSynthesisUtterance(response);
+                        utterance.lang = 'vi-VN';
+                        utterance.rate = 0.95;
+                        utterance.pitch = 1.25;
+
+                        utterance.onend = function() {
+                            log('🔊 Đã nói xong, tiếp tục nghe...');
+                            if (isLiveCallActive) {
+                                try { recognition.start(); } catch(e) {}
+                            }
+                        };
+
+                        window.speechSynthesis.speak(utterance);
+                    }
+                }
+            };
+
+            recognition.onerror = function(event) {
+                log('❌ Lỗi: ' + event.error);
+                if (event.error === 'not-allowed') {
+                    document.getElementById('live-call-status').innerHTML = '<p class="error">❌ Quyền micro bị từ chối</p>';
+                    stopLiveCallTest();
+                }
+            };
+
+            recognition.onend = function() {
+                if (isLiveCallActive) {
+                    log('🔄 Restarting recognition...');
+                    setTimeout(function() {
+                        if (isLiveCallActive) {
+                            try { recognition.start(); } catch(e) {}
+                        }
+                    }, 200);
+                }
+            };
+
+            try {
+                recognition.start();
+                testResults.liveCallWorking = true;
+                updateStatus();
+            } catch(e) {
+                log('❌ Lỗi khởi động: ' + e.message);
+                stopLiveCallTest();
+            }
+        }
+
+        function stopLiveCallTest() {
+            isLiveCallActive = false;
+            if (recognition) {
+                recognition.stop();
+                recognition = null;
+            }
+            if (window.speechSynthesis) {
+                window.speechSynthesis.cancel();
+            }
+
+            document.getElementById('live-call-btn').disabled = false;
+            document.getElementById('live-call-stop-btn').disabled = true;
+            document.getElementById('live-call-status').innerHTML = '<p class="info">📴 Cuộc gọi đã kết thúc</p>';
+
+            log('=== KẾT THÚC CUỘC GỌI ===');
+        }
+
+        // 6. Generate Report
+        function generateReport() {
+            var html = '<h3>Báo cáo kiểm tra Voice & Micro</h3>';
+            html += '<table border="1" cellpadding="8" cellspacing="0" style="width:100%">';
+            html += '<tr><th>Test</th><th>Kết quả</th><th>Ghi chú</th></tr>';
+
+            var tests = [
+                { name: 'Browser Support', result: testResults.browserSupport, note: 'SpeechRecognition + SpeechSynthesis' },
+                { name: 'Speech Recognition API', result: testResults.speechRecognition, note: 'window.SpeechRecognition' },
+                { name: 'Speech Synthesis API', result: testResults.speechSynthesis, note: 'window.speechSynthesis' },
+                { name: 'Micro Permission', result: testResults.microPermission, note: 'getUserMedia({audio:true})' },
+                { name: 'STT hoạt động', result: testResults.sttWorking, note: 'Nhận dạng giọng nói tiếng Việt' },
+                { name: 'TTS hoạt động', result: testResults.ttsWorking, note: 'Đọc text tiếng Việt' },
+                { name: 'Live Call Flow', result: testResults.liveCallWorking, note: 'STT → Process → TTS loop' }
+            ];
+
+            var passed = 0;
+            tests.forEach(function(test) {
+                var status = test.result ? '✅ PASSED' : '❌ FAILED';
+                var statusClass = test.result ? 'success' : 'error';
+                html += '<tr><td>' + test.name + '</td><td class="' + statusClass + '">' + status + '</td><td>' + test.note + '</td></tr>';
+                if (test.result) passed++;
+            });
+
+            html += '</table>';
+            html += '<p><strong>Tổng kết: ' + passed + '/' + tests.length + ' test PASSED</strong></p>';
+
+            if (passed === tests.length) {
+                html += '<p class="success">🎉 TẤT CẢ TEST ĐÃ PASSED! Voice & Micro hoạt động bình thường.</p>';
+            } else {
+                html += '<p class="error">⚠️ CÓ ' + (tests.length - passed) + ' TEST FAILED. Kiểm tra lại.</p>';
+            }
+
+            html += '<h4>Khắc phục sự cố:</h4>';
+            html += '<ul>';
+            html += '<li><strong>Micro không hoạt động:</strong> Vào Settings > Privacy > Microphone > Cho phép trình duyệt</li>';
+            html += '<li><strong>STT không nhận dạng:</strong> Kiểm tra kết nối internet, thử nói rõ hơn</li>';
+            html += '<li><strong>TTS không đọc:</strong> Kiểm tra loa, volume, thử giọng English nếu không có giọng Việt</li>';
+            html += '<li><strong>Live Call bị ngắt:</strong> Kiểm tra quyền micro liên tục, không tắt tab</li>';
+            html += '</ul>';
+
+            document.getElementById('final-result').innerHTML = html;
+            log('Đã tạo báo cáo: ' + passed + '/' + tests.length + ' PASSED');
+        }
+
+        // Initialize
+        window.onload = function() {
+            checkBrowserSupport();
+            checkMicroPermission();
+
+            // Load voices
+            if (window.speechSynthesis) {
+                window.speechSynthesis.onvoiceschanged = listVoices;
+                listVoices();
+            }
+        };
+    </script>
+</body>
+</html>

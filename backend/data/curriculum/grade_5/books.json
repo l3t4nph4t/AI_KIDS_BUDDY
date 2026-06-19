@@ -1,0 +1,122 @@
+[
+  {
+    "book_id": "KNTT_G5_MATH_T1",
+    "title": "SGK Toán 5 - Tập 1",
+    "subject": "toan",
+    "grade": 5,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": 1,
+    "source_type": "pdf_toc",
+    "parse_status": "toc_verified_from_pdf_visual",
+    "rights_note": "Index/metadata only. Do not store full copyrighted page text unless licensed/approved.",
+    "source_file": "SGK TOÁN TẬP 1 - LỚP 5 (KẾT NỐI TRI THỨC).pdf"
+  },
+  {
+    "book_id": "KNTT_G5_MATH_T2",
+    "title": "SGK Toán 5 - Tập 2",
+    "subject": "toan",
+    "grade": 5,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": 2,
+    "source_type": "pdf_toc",
+    "parse_status": "toc_verified_from_pdf_visual",
+    "rights_note": "Index/metadata only. Do not store full copyrighted page text unless licensed/approved.",
+    "source_file": "SGK TOÁN TẬP 2 - LỚP 5 (KẾT NỐI TRI THỨC).pdf"
+  },
+  {
+    "book_id": "KNTT_G5_VIETNAMESE_T1",
+    "title": "SGK Tiếng Việt 5 - Tập 1",
+    "subject": "tieng_viet",
+    "grade": 5,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": 1,
+    "source_type": "pdf_toc",
+    "parse_status": "toc_verified_from_pdf_visual",
+    "rights_note": "Index/metadata only. Do not store full copyrighted page text unless licensed/approved.",
+    "source_file": "SGK TIẾNG VIỆT TẬP 1 - LỚP 5 (KẾT NỐI TRI THỨC).pdf"
+  },
+  {
+    "book_id": "KNTT_G5_VIETNAMESE_T2",
+    "title": "SGK Tiếng Việt 5 - Tập 2",
+    "subject": "tieng_viet",
+    "grade": 5,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": 2,
+    "source_type": "pdf_toc",
+    "parse_status": "toc_verified_from_pdf_visual",
+    "rights_note": "Index/metadata only. Do not store full copyrighted page text unless licensed/approved.",
+    "source_file": "SGK TIẾNG VIỆT TẬP 2 - LỚP 5 (KẾT NỐI TRI THỨC).pdf"
+  },
+  {
+    "book_id": "KNTT_G5_ENGLISH_T1",
+    "title": "SGK Tiếng Anh 5 - Tập 1",
+    "subject": "tieng_anh",
+    "grade": 5,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": 1,
+    "source_type": "pdf_toc",
+    "parse_status": "toc_verified_from_pdf_visual",
+    "rights_note": "Index/metadata only. Do not store full copyrighted page text unless licensed/approved.",
+    "source_file": "SGK TIẾNG ANH TẬP 1 - LỚP 5 (KẾT NỐI TRI THỨC).pdf"
+  },
+  {
+    "book_id": "KNTT_G5_ENGLISH_T2",
+    "title": "SGK Tiếng Anh 5 - Tập 2",
+    "subject": "tieng_anh",
+    "grade": 5,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": 2,
+    "source_type": "pdf_toc",
+    "parse_status": "toc_verified_from_pdf_visual",
+    "rights_note": "Index/metadata only. Do not store full copyrighted page text unless licensed/approved.",
+    "source_file": "SGK TIẾNG ANH TẬP 2 - LỚP 5 (KẾT NỐI TRI THỨC).pdf"
+  },
+  {
+    "book_id": "KNTT_G5_HISTORY_GEO",
+    "title": "SGK Lịch sử và Địa lí 5",
+    "subject": "lich_su_dia_li",
+    "grade": 5,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": null,
+    "source_type": "pdf_toc",
+    "parse_status": "toc_verified_from_pdf_visual",
+    "rights_note": "Index/metadata only. Do not store full copyrighted page text unless licensed/approved.",
+    "source_file": "SGK LỊCH SỬ VÀ ĐỊA LÍ - LỚP 5 (KẾT NỐI TRI THỨC).pdf"
+  },
+  {
+    "book_id": "KNTT_G5_TECHNOLOGY",
+    "title": "SGK Công nghệ 5",
+    "subject": "cong_nghe",
+    "grade": 5,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": null,
+    "source_type": "pdf_toc",
+    "parse_status": "toc_verified_from_pdf_visual",
+    "rights_note": "Index/metadata only. Do not store full copyrighted page text unless licensed/approved.",
+    "source_file": "SGK CÔNG NGHỆ - LỚP 5 (KẾT NỐI TRI THỨC).pdf"
+  },
+  {
+    "book_id": "KNTT_G5_ETHICS",
+    "title": "SGK Đạo đức 5",
+    "subject": "dao_duc",
+    "grade": 5,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": null,
+    "source_type": "pdf_toc",
+    "parse_status": "toc_verified_from_pdf_visual",
+    "rights_note": "Index/metadata only. Do not store full copyrighted page text unless licensed/approved.",
+    "source_file": "SGK ĐẠO ĐỨC - LỚP 5 (KẾT NỐI TRI THỨC).pdf"
+  },
+  {
+    "book_id": "KNTT_G5_MUSIC",
+    "title": "SGK Âm nhạc 5",
+    "subject": "am_nhac",
+    "grade": 5,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": null,
+    "source_type": "pdf_toc",
+    "parse_status": "toc_verified_from_pdf_visual",
+    "rights_note": "Index/metadata only. Do not store full copyrighted page text unless licensed/approved.",
+    "source_file": "SGK ÂM NHẠC - LỚP 5 (KẾT NỐI TRI THỨC).pdf"
+  }
+]

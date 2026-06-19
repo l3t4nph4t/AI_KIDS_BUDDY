@@ -1,0 +1,400 @@
+/* =============================================================
+   vyvy-ui.css — Unified VyVy Design System
+   Shared tokens + component classes across root and Study Room
+   ============================================================= */
+
+/* ── 1. Unified Design Tokens ── */
+:root {
+  /* Core palette */
+  --vyvy-bg: #fff3e8;
+  --vyvy-card: #fffaf4;
+  --vyvy-cream: #fff8ef;
+  --vyvy-pink: #ff6f9b;
+  --vyvy-pink-2: #ff9fbd;
+  --vyvy-pink-dark: #d4567a;
+  --vyvy-mint: #9ee5d0;
+  --vyvy-sky: #8fd0ff;
+  --vyvy-lavender: #c9a5ff;
+  --vyvy-yellow: #ffd66b;
+  --vyvy-orange: #ffbd59;
+  --vyvy-brown: #4b2418;
+  --vyvy-muted: #8f6f63;
+
+  /* Radii */
+  --radius-xl: 36px;
+  --radius-lg: 32px;
+  --radius-md: 24px;
+  --radius-sm: 14px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-card: 0 12px 30px rgba(121,72,38,.12);
+  --shadow-phone: 0 24px 70px rgba(121,72,38,.20);
+  --shadow-soft: 0 16px 40px rgba(121,72,38,.12);
+  --shadow-sm: 0 2px 8px rgba(121,72,38,.07);
+  --shadow-md: 0 6px 20px rgba(121,72,38,.09);
+  --shadow-button: 0 8px 24px rgba(255,111,155,.35);
+  --shadow-book: 5px 5px 0 rgba(121,72,38,.10), 0 4px 16px rgba(121,72,38,.08);
+
+  /* Layout */
+  --bottom-nav-height: 88px;
+
+  /* Typography */
+  --vyvy-font: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  --vyvy-size-xs: 11px;
+  --vyvy-size-sm: 13px;
+  --vyvy-size-base: 15px;
+  --vyvy-size-md: 17px;
+  --vyvy-size-lg: 20px;
+  --vyvy-size-xl: 25px;
+
+  /* Transitions */
+  --vyvy-fast: 0.15s ease;
+  --vyvy-ease: 0.3s ease;
+}
+
+/* ── 2. Shared Card ── */
+.vyvy-card {
+  background: var(--vyvy-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  border: 1.5px solid rgba(255,159,189,.1);
+  color: var(--vyvy-brown);
+}
+
+/* ── 3. Shared Buttons ── */
+.vyvy-button,
+.vyvy-button-primary,
+.vyvy-button-secondary {
+  font: inherit;
+  border: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform var(--vyvy-fast), box-shadow var(--vyvy-fast);
+}
+
+.vyvy-button-primary {
+  min-height: 52px;
+  padding: 0 22px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ff7aa6 0%, #f45187 100%);
+  color: #fff;
+  font-weight: 800;
+  box-shadow: 0 12px 24px rgba(244,81,135,.26);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+.vyvy-button-primary:active {
+  transform: scale(.97);
+  box-shadow: 0 6px 14px rgba(244,81,135,.20);
+}
+
+.vyvy-button-secondary {
+  min-height: 52px;
+  padding: 0 22px;
+  border-radius: 999px;
+  background: #fffaf4;
+  color: #4b2418;
+  font-weight: 800;
+  border: 1px solid rgba(121,72,38,.12);
+  box-shadow: 0 8px 18px rgba(121,72,38,.08);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+.vyvy-button-secondary:active {
+  transform: scale(.97);
+}
+
+/* ── 4. Shared Status Chip ── */
+.vyvy-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 32px;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: rgba(255,250,244,.92);
+  box-shadow: 0 8px 20px rgba(121,72,38,.08);
+  white-space: nowrap;
+  font-weight: 800;
+  color: var(--vyvy-brown);
+}
+.vyvy-chip img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+.vyvy-chip-star {
+  background: linear-gradient(135deg, #fff9c4, #ffe082);
+  color: #E65100;
+}
+.vyvy-chip-streak {
+  background: linear-gradient(135deg, #ffe0ec, #ffb3d0);
+  color: #c2185b;
+}
+.vyvy-chip-level {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  color: #2E7D32;
+}
+
+/* ── 5. Shared Bottom Nav ── */
+.vyvy-bottom-nav {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--bottom-nav-height);
+  background: rgba(255,250,244,.96);
+  border-radius: 28px 28px 0 0;
+  box-shadow: 0 -10px 28px rgba(121,72,38,.10);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  padding: 8px 10px calc(8px + env(safe-area-inset-bottom, 0px));
+  z-index: 50;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.vyvy-nav-item {
+  min-width: 0;
+  height: 64px;
+  border-radius: 20px;
+  background: transparent;
+  color: var(--vyvy-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all var(--vyvy-fast);
+  font-family: var(--vyvy-font);
+  -webkit-tap-highlight-color: transparent;
+}
+.vyvy-nav-item.active {
+  color: var(--vyvy-pink);
+  background: rgba(255,111,155,.12);
+}
+.vyvy-nav-item:active {
+  background: rgba(255,111,155,.08);
+}
+
+/* ── 6. Shared Phone Shell ── */
+.vyvy-phone-shell {
+  width: 430px;
+  height: min(932px, calc(100svh - 48px));
+  max-height: calc(100svh - 48px);
+  border-radius: 34px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--vyvy-bg);
+  box-shadow: var(--shadow-phone);
+  position: relative;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── 7. Shared Asset Constraints ── */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.asset-avatar {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+.asset-decor {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+.asset-subject-book {
+  width: 62px;
+  height: 72px;
+  object-fit: contain;
+}
+.asset-vyvy {
+  width: 120px;
+  max-width: 34%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* ── 8. Shared Room Scene ── */
+.vyvy-room-scene {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #fef9f0 0%, #fff3e4 40%, #ffe8d0 100%);
+}
+
+/* ── 9. Shared Subject Book ── */
+.vyvy-subject-book {
+  flex-shrink: 0;
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all var(--vyvy-fast);
+}
+.vyvy-subject-book:active {
+  transform: scale(.94) translateY(2px);
+}
+
+/* ── 10. Shared Decor Card ── */
+.vyvy-decor-card {
+  flex-shrink: 0;
+  width: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all var(--vyvy-fast);
+}
+.vyvy-decor-card:active {
+  transform: scale(.94);
+}
+
+/* ── 11. Reduced Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* ── PA1A: Reading view layout ── */
+#learn-reading {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  position: relative;
+}
+#reading-pdf-wrap {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+#reading-pdf-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: var(--radius-md, 20px);
+}
+#reading-pdf-modal-btn {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill, 999px);
+  background: rgba(255,255,255,.92);
+  border: none;
+  font-weight: 800;
+  box-shadow: 0 2px 12px rgba(0,0,0,.15);
+  cursor: pointer;
+}
+#reading-text-fallback {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+  min-height: 0;
+}
+#reading-vyvy-corner {
+  position: absolute;
+  bottom: 86px;
+  right: 16px;
+  width: 72px;
+  z-index: 10;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+#reading-vyvy-corner img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+}
+#reading-vyvy-bubble {
+  background: rgba(255,255,255,.95);
+  border-radius: 14px 14px 4px 14px;
+  padding: 6px 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--vyvy-text, #4a2c2a);
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+  text-align: center;
+  max-width: 110px;
+}
+#reading-controls {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px 14px;
+  background: var(--vyvy-bg, #fff3e8);
+  border-top: 1px solid rgba(0,0,0,.06);
+  flex-shrink: 0;
+}
+.reading-audio-btn {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid var(--vyvy-pink, #ff6f9b);
+  border-radius: var(--radius-pill, 999px);
+  background: white;
+  font-weight: 800;
+  color: var(--vyvy-pink, #ff6f9b);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.reading-skip-btn {
+  padding: 12px 14px;
+  border-radius: var(--radius-pill, 999px);
+  border: none;
+  background: rgba(0,0,0,.07);
+  font-weight: 700;
+  color: var(--vyvy-muted, #8f6f63);
+  cursor: pointer;
+  white-space: nowrap;
+}
+#reading-controls .reading-start-btn {
+  flex: 2;
+  padding: 12px 18px;
+  border: none;
+  border-radius: var(--radius-pill, 999px);
+  background: linear-gradient(135deg, var(--vyvy-pink, #ff6f9b), #e8335c);
+  color: #fff;
+  font-weight: 900;
+  cursor: pointer;
+}
+#reading-controls .reading-start-btn:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+.vyvy-cta-pulse {
+  animation: cta-pulse 1.2s ease infinite;
+}
+@keyframes cta-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,111,155,.45); }
+  50%       { box-shadow: 0 0 0 10px rgba(255,111,155,0); }
+}

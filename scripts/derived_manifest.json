@@ -1,0 +1,142 @@
+[
+  {
+    "id": "vyvy_idle",
+    "type": "vyvy_sprite",
+    "source_raw": "asset/reference/642ebb9e-b4f7-4738-b835-10a3fe26dcaa.png",
+    "derived_path": "assets/vyvy/derived/vyvy_idle.png",
+    "recommended_screen": "home",
+    "notes": "Cropped from 642ebb9e, type=character_center",
+    "quality": "good",
+    "size_bytes": 127550
+  },
+  {
+    "id": "vyvy_happy_clap",
+    "type": "vyvy_sprite",
+    "source_raw": "asset/reference/290280e8-9ada-432a-bcc6-55d60748e074.png",
+    "derived_path": "assets/vyvy/derived/vyvy_happy_clap.png",
+    "recommended_screen": "practice",
+    "notes": "Cropped from 290280e8, type=character_center",
+    "quality": "good",
+    "size_bytes": 127608
+  },
+  {
+    "id": "vyvy_thinking",
+    "type": "vyvy_sprite",
+    "source_raw": "asset/reference/c9abdefc-7eb6-44f9-96db-13b9d455f0d6.png",
+    "derived_path": "assets/vyvy/derived/vyvy_thinking.png",
+    "recommended_screen": "quiz",
+    "notes": "Cropped from c9abdefc, type=character_top",
+    "quality": "good",
+    "size_bytes": 130682
+  },
+  {
+    "id": "vyvy_supportive",
+    "type": "vyvy_sprite",
+    "source_raw": "asset/reference/5bc5cf35-53a4-43f0-b1ff-1a1712b22921.png",
+    "derived_path": "assets/vyvy/derived/vyvy_supportive.png",
+    "recommended_screen": "practice",
+    "notes": "Cropped from 5bc5cf35, type=character_center",
+    "quality": "usable",
+    "size_bytes": 126493
+  },
+  {
+    "id": "vyvy_celebrate",
+    "type": "vyvy_sprite",
+    "source_raw": "asset/reference/a8c62348-3df9-4c42-8179-c114408da249.png",
+    "derived_path": "assets/vyvy/derived/vyvy_celebrate.png",
+    "recommended_screen": "reward",
+    "notes": "Cropped from a8c62348, type=character_center",
+    "quality": "usable",
+    "size_bytes": 125220
+  },
+  {
+    "id": "vyvy_reading",
+    "type": "vyvy_sprite",
+    "source_raw": "asset/reference/8937d96a-312c-498a-be2f-c82bb5e11578.png",
+    "derived_path": "assets/vyvy/derived/vyvy_reading.png",
+    "recommended_screen": "reading",
+    "notes": "Cropped from 8937d96a, type=character_center",
+    "quality": "usable",
+    "size_bytes": 115934
+  },
+  {
+    "id": "star_coin",
+    "type": "decoration",
+    "source_raw": "asset/reference/6f03c145-dc88-4d24-a5ab-3c4ce1a4bf94.png",
+    "derived_path": "assets/vyvy/derived/star_coin.png",
+    "recommended_screen": "home",
+    "notes": "Cropped from 6f03c145, type=object_grid",
+    "quality": "usable",
+    "size_bytes": 37475
+  },
+  {
+    "id": "desk_lamp",
+    "type": "decoration",
+    "source_raw": "asset/reference/6c022d4e-8878-40c8-a70e-f1675c878840.png",
+    "derived_path": "assets/vyvy/derived/desk_lamp.png",
+    "recommended_screen": "home",
+    "notes": "Cropped from 6c022d4e, type=object_grid",
+    "quality": "usable",
+    "size_bytes": 38934
+  },
+  {
+    "id": "plant",
+    "type": "decoration",
+    "source_raw": "asset/reference/adf8d50f-6511-45d9-a3a3-4e5850be8ec8.png",
+    "derived_path": "assets/vyvy/derived/plant.png",
+    "recommended_screen": "home",
+    "notes": "Cropped from adf8d50f, type=object_grid",
+    "quality": "usable",
+    "size_bytes": 36279
+  },
+  {
+    "id": "rug",
+    "type": "decoration",
+    "source_raw": "asset/reference/1f8767f7-4657-46c8-aee1-8dd1ddf359ba.png",
+    "derived_path": "assets/vyvy/derived/rug.png",
+    "recommended_screen": "home",
+    "notes": "Cropped from 1f8767f7, type=object_grid",
+    "quality": "usable",
+    "size_bytes": 35797
+  },
+  {
+    "id": "puppy_plush",
+    "type": "decoration",
+    "source_raw": "asset/reference/bec2ce62-6086-415e-9d7e-c4098c3068df.png",
+    "derived_path": "assets/vyvy/derived/puppy_plush.png",
+    "recommended_screen": "home",
+    "notes": "Cropped from bec2ce62, type=object_grid",
+    "quality": "usable",
+    "size_bytes": 37002
+  },
+  {
+    "id": "bookshelf",
+    "type": "decoration",
+    "source_raw": "asset/reference/7eef0500-df01-4ff3-b8b9-0bc9e8f0ed57.png",
+    "derived_path": "assets/vyvy/derived/bookshelf.png",
+    "recommended_screen": "home",
+    "notes": "Cropped from 7eef0500, type=object_grid",
+    "quality": "usable",
+    "size_bytes": 32644
+  },
+  {
+    "id": "trophy",
+    "type": "decoration",
+    "source_raw": "asset/reference/00d61f36-eca5-4d5a-b3c7-0b96225ade27.png",
+    "derived_path": "assets/vyvy/derived/trophy.png",
+    "recommended_screen": "home",
+    "notes": "Cropped from 00d61f36, type=object_grid",
+    "quality": "usable",
+    "size_bytes": 32762
+  },
+  {
+    "id": "treasure_chest",
+    "type": "decoration",
+    "source_raw": "asset/reference/43d3abf5-d584-4605-aa75-096fc81a35c6.png",
+    "derived_path": "assets/vyvy/derived/treasure_chest.png",
+    "recommended_screen": "home",
+    "notes": "Cropped from 43d3abf5, type=object_grid",
+    "quality": "usable",
+    "size_bytes": 30011
+  }
+]

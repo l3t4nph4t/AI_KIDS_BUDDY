@@ -1,0 +1,19 @@
+{
+  "name": "ai-kids-buddy",
+  "version": "1.0.0",
+  "description": "Personal supervised child app with AI buddy",
+  "main": "index.js",
+  "scripts": {
+    "dev": "echo 'Start development server'",
+    "build": "echo 'Build project'",
+    "capacitor:init": "echo 'Initialize Capacitor'",
+    "capacitor:add": "echo 'Add platform'"
+  },
+  "keywords": ["ai", "kids", "buddy", "pwa", "capacitor"],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "capacitor": "^5.0.0"
+  },
+  "devDependencies": {}
+}

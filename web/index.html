@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#FF8FAB">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="VyVy — bạn AI của bạn. Nói chuyện, kể chuyện, chơi đố vui và học nhẹ cùng VyVy">
+    <title>VyVy — bạn AI của bạn</title>
+    <link rel="stylesheet" href="style.css?v=13">
+    <link rel="stylesheet" href="theme.css?v=1">
+    <link rel="stylesheet" href="vyvy-ui.css?v=1">
+    <style id="ui-bugfix-overrides">
+        #parent-panel.parent-panel {
+            position: fixed !important;
+            top: 80px !important;
+            bottom: auto !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            width: min(640px, calc(100vw - 24px)) !important;
+            max-height: 80vh !important;
+            overflow-y: auto !important;
+            z-index: 200 !important;
+        }
+        #parent-overlay.parent-overlay {
+            z-index: 190 !important;
+        }
+        #decor-shop-panel.open,
+        #decor-shop-panel.open.hidden {
+            display: flex !important;
+        }
+        @media (max-width: 639px) {
+            #decor-shop-panel.open,
+            #decor-shop-panel.open.hidden {
+                left: 0 !important;
+                right: 0 !important;
+                width: 100vw !important;
+                max-width: 100vw !important;
+                transform: none !important;
+                border-radius: 22px 22px 0 0 !important;
+            }
+        }
+    </style>
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+<div id="study-decor-layer">
+  <!-- home background decoration slots -->
+  <div class="decor-item home-item" data-slot="wall-poster" data-bg="home"></div>
+  <div class="decor-item home-item" data-slot="wall-clock" data-bg="home"></div>
+  <div class="decor-item home-item" data-slot="bookshelf" data-bg="home"></div>
+  <div class="decor-item home-item" data-slot="whiteboard" data-bg="home"></div>
+  <div class="decor-item home-item" data-slot="subject-poster" data-bg="home"></div>
+  <div class="decor-item home-item" data-slot="desk-lamp" data-bg="home"></div>
+  <div class="decor-item home-item" data-slot="pencil-box" data-bg="home"></div>
+  <div class="decor-item home-item" data-slot="water-cup" data-bg="home"></div>
+  <div class="decor-item home-item" data-slot="desk-plant" data-bg="home"></div>
+  <div class="decor-item home-item" data-slot="floor-rug" data-bg="home"></div>
+  <div class="decor-item home-item" data-slot="chair" data-bg="home"></div>
+  <div class="decor-item home-item" data-slot="backpack" data-bg="home"></div>
+  <div class="decor-item home-item" data-slot="pet" data-bg="home"></div>
+  <div class="decor-item home-item" data-slot="toy-basket" data-bg="home"></div>
+  <div class="decor-item home-item" data-slot="curtain" data-bg="home"></div>
+  <div class="decor-item home-item" data-slot="window-scene" data-bg="home"></div>
+  <div class="decor-item home-item" data-slot="window-hang" data-bg="home"></div>
+  <!-- learn background -->
+  <div class="decor-item learn-item" data-slot="learn-bookmark" data-bg="learn"></div>
+  <div class="decor-item learn-item" data-slot="learn-pencil" data-bg="learn"></div>
+  <div class="decor-item learn-item" data-slot="learn-lamp" data-bg="learn"></div>
+  <!-- practice background -->
+  <div class="decor-item practice-item" data-slot="practice-notebook" data-bg="practice"></div>
+  <div class="decor-item practice-item" data-slot="practice-eraser" data-bg="practice"></div>
+  <div class="decor-item practice-item" data-slot="practice-sticker" data-bg="practice"></div>
+  <!-- games background -->
+  <div class="decor-item games-item" data-slot="games-board" data-bg="games"></div>
+  <div class="decor-item games-item" data-slot="games-puzzle" data-bg="games"></div>
+  <div class="decor-item games-item" data-slot="games-cushion" data-bg="games"></div>
+  <!-- music background -->
+  <div class="decor-item music-item" data-slot="music-instrument" data-bg="music"></div>
+  <div class="decor-item music-item" data-slot="music-speaker" data-bg="music"></div>
+  <div class="decor-item music-item" data-slot="music-headphone" data-bg="music"></div>
+  <!-- drawing background -->
+  <div class="decor-item drawing-item" data-slot="drawing-easel" data-bg="drawing"></div>
+  <div class="decor-item drawing-item" data-slot="drawing-paint" data-bg="drawing"></div>
+  <div class="decor-item drawing-item" data-slot="drawing-brush" data-bg="drawing"></div>
+  <!-- reading background -->
+  <div class="decor-item reading-item" data-slot="reading-lamp" data-bg="reading"></div>
+  <div class="decor-item reading-item" data-slot="reading-pillow" data-bg="reading"></div>
+  <div class="decor-item reading-item" data-slot="reading-mobile" data-bg="reading"></div>
+  <div class="decor-item reading-item" data-slot="reading-constellation" data-bg="reading"></div>
+</div>
+    <div id="app" class="app home-state" data-bg="home">
+        <!-- Background scene overlay (decorative, CSS-driven) -->
+        <div class="bg-scene" aria-hidden="true"></div>
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button id="back-btn" class="header-btn back-header-btn hidden" title="Quay lại" aria-label="Quay lại">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                </button>
+                <span class="header-icon">🌸</span>
+                <div>
+                    <h1 id="header-title" class="header-title">VyVy</h1>
+                    <p id="header-sub" class="header-sub">bạn AI của bạn</p>
+                </div>
+            </div>
+            <button id="parent-settings-btn" class="header-btn" title="Cài đặt cho VyVy" aria-label="Cài đặt">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.49.49 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.49.49 0 00-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6A3.6 3.6 0 1115.6 12 3.6 3.6 0 0112 15.6z"/>
+                </svg>
+            </button>
+        </header>
+
+        <!-- Home Content -->
+        <div class="home-content">
+        <!-- Avatar Area (compact) -->
+        <div class="avatar-area">
+            <div id="vyvy-avatar" class="vyvy-avatar idle">
+                <img class="vyvy-home-img" src="/static/assets/vyvy/vyvy.png" alt="VyVy">
+                <div id="vyvy-particles" class="vyvy-particles"></div>
+            </div>
+            <p id="vyvy-status" class="vyvy-status">Học 1 bài để nhận sao nhé!</p>
+            <button class="home-talk-btn" id="home-talk-btn" type="button" aria-label="Trò chuyện với VyVy">
+                <span class="home-talk-icon">💬</span>
+                <span class="home-talk-text">Trò chuyện với VyVy</span>
+            </button>
+            <!-- Star Balance & Avatar Shop Button -->
+            <div class="star-balance-bar">
+                <div class="star-balance" id="star-balance">
+                    <span class="star-icon">⭐</span>
+                    <span class="star-count" id="star-count">0</span>
+                </div>
+                <button class="avatar-shop-btn" id="avatar-shop-btn" title="Đổi avatar">
+                    <span class="shop-icon">🎨</span>
+                    <span class="shop-text">Đổi avatar</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mission CTA (compact) -->
+        <div class="mission-cta" id="mission-cta">
+            <div class="mission-cta-body">
+                <div class="mission-heading">Nhiệm vụ hôm nay</div>
+                <div class="mission-subtitle">Hoàn thành 2 bài học để nhận sao</div>
+                <div class="mission-progress-row">
+                    <div class="mission-progress-track" aria-hidden="true">
+                        <span class="mission-progress-fill" style="width:50%"></span>
+                    </div>
+                    <span class="mission-progress-count">1/2</span>
+                </div>
+                <div class="mission-loop-row" aria-label="Vòng thưởng học tập">
+                    <span class="mission-loop-step">📚 Học bài</span>
+                    <span class="mission-loop-arrow">→</span>
+                    <span class="mission-loop-step">⭐ + Sao</span>
+                    <span class="mission-loop-arrow">→</span>
+                    <span class="mission-loop-step">🏠 Đổi decor</span>
+                </div>
+            </div>
+            <button class="mission-start-btn" id="mission-begin-btn" type="button">Bắt đầu</button>
+        </div>
+
+        <!-- Room Carousel -->
+        <div class="room-carousel-wrap">
+            <div class="room-carousel-head">
+                <span class="room-carousel-title">Mở phòng sau khi học</span>
+                <span class="room-carousel-sub">Mini game, âm nhạc và decor giữ chân mỗi ngày</span>
+            </div>
+            <div class="room-carousel" id="room-carousel" role="list" aria-label="Chọn phòng">
+                <button class="room-card is-active" type="button"
+                        data-room-id="entertainment"
+                        aria-label="Giải Trí" aria-pressed="true">
+                    <img src="/static/ui/nav/room_giai_tri.png" alt="Giải Trí" loading="eager">
+                </button>
+                <button class="room-card is-next" type="button"
+                        data-room-id="art"
+                        aria-label="Nghệ Thuật" aria-pressed="false">
+                    <img src="/static/ui/nav/room_nghe_thuat.png" alt="Nghệ Thuật" loading="eager">
+                </button>
+                <button class="room-card" type="button"
+                        data-room-id="music"
+                        aria-label="Âm Nhạc" aria-pressed="false">
+                    <img src="/static/ui/nav/room_am_nhac.png" alt="Âm Nhạc" loading="eager">
+                </button>
+                <button class="room-card" type="button"
+                        data-room-id="sleep"
+                        aria-label="Phòng Ngủ" aria-pressed="false">
+                    <img src="/static/ui/nav/room_phong_ngu.png" alt="Phòng Ngủ" loading="eager">
+                </button>
+                <!-- TODO: Add the 5th room card when a matching room asset is available. -->
+            </div>
+            <div class="room-carousel-controls" aria-label="Chuyển phòng">
+                <button id="room-prev-btn" class="room-carousel-arrow" type="button" aria-label="Phòng trước">‹</button>
+                <div id="room-carousel-dots" class="room-carousel-dots" aria-hidden="true"></div>
+                <button id="room-next-btn" class="room-carousel-arrow" type="button" aria-label="Phòng sau">›</button>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div id="chat-area" class="chat-area" aria-label="Trò chuyện với VyVy">
+            <div id="home-chat-drawer-head" class="home-chat-drawer-head">
+                <div>
+                    <strong>Trò chuyện với VyVy</strong>
+                    <span>Nhắn hoặc bấm micro để nói</span>
+                </div>
+                <button id="home-chat-close" class="home-chat-close" type="button" aria-label="Thu nhỏ trò chuyện">×</button>
+            </div>
+            <div id="chat-messages" class="chat-messages"></div>
+        </div>
+
+        <!-- Quick Activity Buttons — Secondary -->
+        <div id="quick-buttons" class="quick-buttons hidden">
+            <div class="quick-group">
+                <span class="quick-group-label">Nói chuyện</span>
+                <div class="quick-group-btns">
+                    <button class="quick-btn" data-action="talk"><span class="quick-emoji">💬</span><span>Nói chuyện</span></button>
+                    <button class="quick-btn" data-action="story"><span class="quick-emoji">📖</span><span>Kể chuyện</span></button>
+                    <button class="quick-btn" data-action="quiz"><span class="quick-emoji">🧩</span><span>Đố vui</span></button>
+                    <button class="quick-btn" data-action="math"><span class="quick-emoji">🔢</span><span>Toán vui</span></button>
+                    <button class="quick-btn" data-action="english"><span class="quick-emoji">🔤</span><span>Tiếng Anh</span></button>
+                </div>
+            </div>
+            <div class="quick-group">
+                <span class="quick-group-label">Giải trí</span>
+                <div class="quick-group-btns">
+                    <button class="quick-btn" data-action="imagination"><span class="quick-emoji">🌈</span><span>Tưởng tượng</span></button>
+                    <button class="quick-btn" data-action="feelings"><span class="quick-emoji">💗</span><span>Cảm xúc</span></button>
+                    <button class="quick-btn" data-action="games" id="games-btn"><span class="quick-emoji">🎮</span><span>Trò chơi</span></button>
+                    <button class="quick-btn" data-action="music" id="music-btn"><span class="quick-emoji">🎵</span><span>Nhạc</span></button>
+                    <button class="quick-btn" data-action="drawing" id="drawing-btn"><span class="quick-emoji">🎨</span><span>Vẽ</span></button>
+                </div>
+            </div>
+        </div>
+
+        </div><!-- end home-content -->
+
+        <!-- Primary Bottom Navigation -->
+        <nav id="bottom-nav" class="bottom-nav" aria-label="Điều hướng chính">
+            <div class="bottom-nav-bg" aria-hidden="true"></div>
+            <button class="bottom-nav-item nav-study" type="button" data-bottom-nav="home" aria-label="Bàn học">
+                <img class="nav-img nav-img-idle" src="/static/ui/nav/nav_study_corner_idle.png" alt="" aria-hidden="true">
+                <img class="nav-img nav-img-active" src="/static/ui/nav/nav_study_corner_active.png" alt="" aria-hidden="true">
+            </button>
+            <button class="bottom-nav-item nav-learning" type="button" data-bottom-nav="learning" aria-label="Học tập">
+                <img class="nav-img nav-img-idle" src="/static/ui/nav/nav_learning_idle.png" alt="" aria-hidden="true">
+                <img class="nav-img nav-img-active" src="/static/ui/nav/nav_learning_active.png" alt="" aria-hidden="true">
+            </button>
+            <button class="bottom-nav-item nav-talk" type="button" data-bottom-nav="chat" aria-label="Trò chuyện với VyVy">
+                <img class="nav-img nav-img-idle" src="/static/ui/nav/nav_chat_idle.png" alt="" aria-hidden="true">
+                <img class="nav-img nav-img-active" src="/static/ui/nav/nav_chat_active.png" alt="" aria-hidden="true">
+            </button>
+            <button class="bottom-nav-item nav-rewards" type="button" data-bottom-nav="rewards" aria-label="Đổi quà">
+                <img class="nav-img nav-img-idle" src="/static/ui/nav/nav_achievement_idle.png" alt="" aria-hidden="true">
+                <img class="nav-img nav-img-active" src="/static/ui/nav/nav_achievement_active.png" alt="" aria-hidden="true">
+            </button>
+            <button class="bottom-nav-item nav-settings" type="button" data-bottom-nav="settings" aria-label="Cài đặt">
+                <img class="nav-img nav-img-idle" src="/static/ui/nav/nav_settings_idle.png" alt="" aria-hidden="true">
+                <img class="nav-img nav-img-active" src="/static/ui/nav/nav_settings_active.png" alt="" aria-hidden="true">
+            </button>
+        </nav>
+
+        <!-- View Containers (for app-shell views) -->
+        <div id="games-view" class="view-container">
+            <div class="view-content" id="games-view-content"></div>
+        </div>
+        <div id="music-view" class="view-container">
+            <div class="view-content" id="music-view-content"></div>
+        </div>
+        <div id="drawing-view" class="view-container">
+            <div class="view-content" id="drawing-view-content"></div>
+        </div>
+        <div id="chat-view" class="view-container">
+            <div class="chat-view-container" id="chat-view-content"></div>
+        </div>
+        <div id="learning-view" class="view-container">
+            <div class="view-content" id="learning-view-content"></div>
+        </div>
+
+        <!-- Games Panel -->
+        <div id="games-overlay" class="modal-overlay hidden"></div>
+        <div id="games-panel" class="feature-panel hidden">
+            <div class="panel-header">
+                <h2>🎮 Trò chơi vui</h2>
+                <button class="close-panel-btn" data-close="games">&times;</button>
+            </div>
+            <div id="games-menu" class="games-menu">
+                <button class="game-card" data-game="catch">
+                    <span class="game-icon">⚽</span>
+                    <span class="game-name">Bắt bóng</span>
+                    <span class="game-desc">Bắt thật nhiều bóng!</span>
+                </button>
+                <button class="game-card" data-game="memory">
+                    <span class="game-icon">🧠</span>
+                    <span class="game-name">Ghép đôi</span>
+                    <span class="game-desc">Tìm cặp giống nhau!</span>
+                </button>
+                <button class="game-card" data-game="count">
+                    <span class="game-icon">🔢</span>
+                    <span class="game-name">Đếm sao</span>
+                    <span class="game-desc">Đếm thật nhanh!</span>
+                </button>
+                <button class="game-card" data-game="color">
+                    <span class="game-icon">🎯</span>
+                    <span class="game-name">Chọn màu</span>
+                    <span class="game-desc">Chọn đúng màu!</span>
+                </button>
+                <button class="game-card" data-game="puzzle">
+                    <span class="game-icon">🧩</span>
+                    <span class="game-name">Xếp hình</span>
+                    <span class="game-desc">Xếp hình đúng chỗ!</span>
+                </button>
+                <button class="game-card" data-game="whack">
+                    <span class="game-icon">🔨</span>
+                    <span class="game-name">Đập chuột</span>
+                    <span class="game-desc">Đập thật nhanh!</span>
+                </button>
+                <button class="game-card" data-game="wordscramble">
+                    <span class="game-icon">✏️</span>
+                    <span class="game-name">Xếp chữ</span>
+                    <span class="game-desc">Ghép chữ thành từ!</span>
+                </button>
+            </div>
+            <div id="game-area" class="game-area hidden">
+                <div id="game-header" class="game-header">
+                    <button id="game-back" class="game-back-btn">← Quay lại</button>
+                    <div id="game-score" class="game-score">Điểm: 0</div>
+                    <div id="game-timer" class="game-timer">⏰ 30s</div>
+                </div>
+                <canvas id="game-canvas" class="game-canvas"></canvas>
+                <div id="game-controls" class="game-controls"></div>
+            </div>
+        </div>
+
+        <!-- Music Panel -->
+        <div id="music-overlay" class="modal-overlay hidden"></div>
+        <div id="music-panel" class="feature-panel hidden">
+            <div class="panel-header">
+                <h2>🎵 Nhạc thiếu nhi</h2>
+                <button class="close-panel-btn" data-close="music">&times;</button>
+            </div>
+            <div class="music-player">
+                <div id="music-visualizer" class="music-visualizer">
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                    <div class="viz-bar"></div>
+                </div>
+                <div id="now-playing" class="now-playing">Chọn bài hát để nghe nhé!</div>
+                <div class="music-controls">
+                    <button id="music-prev" class="music-ctrl-btn">⏮</button>
+                    <button id="music-play" class="music-play-btn">▶</button>
+                    <button id="music-next" class="music-ctrl-btn">⏭</button>
+                </div>
+                <div class="music-volume">
+                    <span>🔊</span>
+                    <input type="range" id="volume-slider" min="0" max="100" value="70" class="volume-slider">
+                </div>
+            </div>
+            <div id="music-list" class="music-list"></div>
+        </div>
+
+        <!-- Drawing Panel -->
+        <div id="drawing-overlay" class="modal-overlay hidden"></div>
+        <div id="drawing-panel" class="feature-panel hidden">
+            <div class="panel-header">
+                <h2>🎨 Vẽ tranh với VyVy</h2>
+                <button class="close-panel-btn" data-close="drawing">&times;</button>
+            </div>
+            <div class="drawing-tools">
+                <div class="tool-group">
+                    <label>Màu:</label>
+                    <div id="color-palette" class="color-palette">
+                        <button class="color-btn active" data-color="#FF0000" style="background:#FF0000"></button>
+                        <button class="color-btn" data-color="#FF9800" style="background:#FF9800"></button>
+                        <button class="color-btn" data-color="#FFEB3B" style="background:#FFEB3B"></button>
+                        <button class="color-btn" data-color="#4CAF50" style="background:#4CAF50"></button>
+                        <button class="color-btn" data-color="#2196F3" style="background:#2196F3"></button>
+                        <button class="color-btn" data-color="#9C27B0" style="background:#9C27B0"></button>
+                        <button class="color-btn" data-color="#FF69B4" style="background:#FF69B4"></button>
+                        <button class="color-btn" data-color="#000000" style="background:#000000"></button>
+                        <button class="color-btn" data-color="#FFFFFF" style="background:#FFFFFF; border:1px solid #ccc"></button>
+                        <button class="color-btn" data-color="#795548" style="background:#795548"></button>
+                    </div>
+                </div>
+                <div class="tool-group">
+                    <label>Cọ vẽ:</label>
+                    <div id="brush-sizes" class="brush-sizes">
+                        <button class="brush-btn active" data-size="3"><span style="width:6px;height:6px"></span></button>
+                        <button class="brush-btn" data-size="8"><span style="width:10px;height:10px"></span></button>
+                        <button class="brush-btn" data-size="15"><span style="width:16px;height:16px"></span></button>
+                        <button class="brush-btn" data-size="25"><span style="width:22px;height:22px"></span></button>
+                    </div>
+                </div>
+                <div class="tool-group">
+                    <label>Công cụ:</label>
+                    <div class="draw-tools">
+                        <button id="draw-pen" class="draw-tool-btn active" title="Cọ vẽ">✏️</button>
+                        <button id="draw-eraser" class="draw-tool-btn" title="Tẩy">🧹</button>
+                        <button id="draw-fill" class="draw-tool-btn" title="Tô màu">🪣</button>
+                        <button id="draw-stamp" class="draw-tool-btn" title="Hình dán">⭐</button>
+                    </div>
+                </div>
+                <div class="tool-group stamp-selector hidden" id="stamp-selector">
+                    <label>Chọn hình:</label>
+                    <div class="stamp-options">
+                        <button class="stamp-opt active" data-stamp="⭐">⭐</button>
+                        <button class="stamp-opt" data-stamp="❤️">❤️</button>
+                        <button class="stamp-opt" data-stamp="🌸">🌸</button>
+                        <button class="stamp-opt" data-stamp="🦋">🦋</button>
+                        <button class="stamp-opt" data-stamp="🌈">🌈</button>
+                        <button class="stamp-opt" data-stamp="🐱">🐱</button>
+                        <button class="stamp-opt" data-stamp="🐶">🐶</button>
+                        <button class="stamp-opt" data-stamp="🦄">🦄</button>
+                    </div>
+                </div>
+                <div class="drawing-actions">
+                    <button id="draw-undo" class="action-btn" title="Hoàn tác">↩️ Hoàn tác</button>
+                    <button id="draw-clear" class="action-btn danger" title="Xóa tất cả">🗑️ Xóa</button>
+                    <button id="draw-gallery" class="action-btn" title="Gallery" style="background:#E3F2FD;color:#1565C0">🖼️ Gallery</button>
+                    <button id="draw-save" class="action-btn success" title="Lưu tranh">💾 Lưu tranh</button>
+                </div>
+            </div>
+            <canvas id="drawing-canvas" class="drawing-canvas"></canvas>
+        </div>
+
+        <!-- Gallery Panel -->
+        <div id="gallery-overlay" class="modal-overlay hidden"></div>
+        <div id="gallery-panel" class="feature-panel hidden">
+            <div class="panel-header">
+                <h2>🖼️ Tranh của bạn</h2>
+                <button class="close-panel-btn" data-close="gallery">&times;</button>
+            </div>
+            <div id="gallery-grid" class="gallery-grid"></div>
+            <div id="gallery-empty" class="gallery-empty hidden">
+                <div class="gallery-empty-icon">🎨</div>
+                <p>Bạn chưa có tranh nào. Vẽ tranh đi!</p>
+            </div>
+        </div>
+
+        <!-- Learning Panel -->
+        <div id="learn-overlay" class="modal-overlay hidden"></div>
+        <div id="learn-panel" class="feature-panel study-shell hidden">
+            <div class="panel-header study-topbar">
+                <button id="study-home-btn" class="study-pill-btn" type="button">🏠 Trang chủ</button>
+                <h2 id="learn-panel-title">Học tập</h2>
+                <div class="study-hud" aria-label="Thông tin học tập">
+                    <span class="study-hud-chip">⭐ <b id="study-hud-stars">0</b></span>
+                    <span class="study-hud-chip">🔥 Chuỗi 1</span>
+                    <span class="study-hud-chip">Cấp 2</span>
+                    <span class="study-hud-avatar"><img src="/static/assets/study/vyvy_study_celebrate.webp" alt="VyVy"></span>
+                </div>
+                <button class="close-panel-btn" data-close="learn">&times;</button>
+            </div>
+            <div class="study-picker-hero" id="study-picker-hero">
+                <div class="study-picker-card">
+                    <div class="study-picker-heading">
+                        <h3>Hôm nay học gì? ✨</h3>
+                        <p>Chọn lớp, môn và bài để bắt đầu hành trình học tập nhé!</p>
+                    </div>
+            <!-- Grade Selector -->
+            <div id="learn-grade-bar" class="learn-grade-bar">
+                <div class="study-step-label"><span>1</span> Chọn lớp</div>
+                <div id="learn-grade-buttons" class="learn-grade-buttons"></div>
+            </div>
+            <!-- Subject Selection -->
+            <div id="learn-subjects" class="learn-subjects">
+                <div class="learn-vyvy-helper" aria-label="VyVy hướng dẫn học tập">
+                    <img src="/static/assets/study/vyvy_study_pointing.webp" alt="VyVy">
+                    <div>
+                        <strong>Chọn môn, VyVy học cùng bạn</strong>
+                        <span>SGK trước, VyVy đọc và giải thích, rồi luyện tập nhận sao.</span>
+                    </div>
+                </div>
+                <p id="learn-intro" class="learn-intro">Hôm nay bạn muốn học môn gì?</p>
+                <div class="study-step-label"><span>2</span> Chọn môn học</div>
+                <div id="subject-cards" class="subject-cards"></div>
+            </div>
+            <!-- Lesson List (grouped by book/chapter) -->
+            <div id="learn-lesson-list" class="learn-lesson-list hidden">
+                <div class="lesson-list-header">
+                    <button id="lesson-list-back" class="learn-back-btn">&larr; Chọn môn</button>
+                    <div id="lesson-list-title" class="lesson-list-title"></div>
+                </div>
+                <div class="study-lesson-layout">
+                    <div class="study-lesson-column">
+                        <div class="study-step-label"><span>3</span> Chọn bài học</div>
+                        <div id="lesson-list-content" class="lesson-list-content"></div>
+                    </div>
+                    <aside class="study-vyvy-card">
+                        <img src="/static/assets/study/vyvy_study_reading.webp" alt="VyVy">
+                        <div>
+                            <strong>VyVy nhắc nhỏ</strong>
+                            <p>Chọn một bài, xem SGK gốc, nghe VyVy đọc rồi luyện tập để nhận sao.</p>
+                        </div>
+                    </aside>
+                </div>
+                <div class="study-picker-footer">
+                    <button id="study-start-selected" class="study-start-btn" type="button" disabled>
+                        <span>Bắt đầu học</span><span aria-hidden="true">▶</span>
+                    </button>
+                </div>
+            </div>
+                </div>
+                <div class="study-reward-strip" aria-label="Phần thưởng học tập">
+                    <span><img src="/static/assets/study/study_star_reward.webp" alt=""> Học để nhận sao</span>
+                    <span><img src="/static/assets/study/study_streak_fire.webp" alt=""> Duy trì chuỗi ngày</span>
+                    <span><img src="/static/assets/study/study_level_badge.webp" alt=""> Lên cấp mỗi ngày</span>
+                    <span><img src="/static/assets/study/study_sgk_book.webp" alt=""> Học cùng SGK</span>
+                </div>
+            </div>
+            <!-- Learning Session -->
+            <div id="learn-session" class="learn-session hidden">
+                <div id="learn-session-header" class="learn-session-header">
+                    <button id="learn-back-btn" class="learn-back-btn">&larr; Chọn môn khác</button>
+                    <div id="learn-session-title" class="learn-session-title"></div>
+                </div>
+                <div id="learn-session-area" class="learn-session-area">
+                    <div id="learn-progress-bar" class="learn-progress-bar hidden">
+                        <div class="learn-progress-track">
+                            <div id="learn-progress-fill" class="learn-progress-fill" style="width:0%"></div>
+                        </div>
+                        <span id="learn-progress-text" class="learn-progress-text">Câu 0/0</span>
+                    </div>
+                    <div id="learn-message" class="learn-message"></div>
+                    <div id="learn-input-area" class="learn-input-area hidden">
+                        <input type="text" id="learn-answer-input" class="learn-answer-input" placeholder="Nhập câu trả lời..." autocomplete="off">
+                        <button id="learn-answer-btn" class="learn-answer-btn">Gửi</button>
+                    </div>
+                    <div id="learn-actions" class="learn-actions hidden">
+                        <button id="learn-next-btn" class="learn-next-btn">Tiếp tục &rarr;</button>
+                    </div>
+                    <div id="learn-stars" class="learn-stars"></div>
+                </div>
+            </div>
+            <!-- Lesson Reading Screen — PA1A: PDF anchor + VyVy Voice -->
+            <div id="learn-reading" class="learn-reading hidden">
+                <div class="reading-header reading-pdf-topbar">
+                    <button id="reading-back-btn" class="learn-back-btn">← Quay lại</button>
+                    <select id="reading-subject-chip" class="reading-source-badge reading-topbar-select" aria-label="Chọn môn học"></select>
+                    <select id="reading-lesson-chip" class="reading-source-badge reading-topbar-select reading-lesson-select" aria-label="Chọn bài học"></select>
+                    <div id="reading-title" class="reading-title"></div>
+                    <div class="study-hud reading-hud" aria-label="Thông tin học tập">
+                        <span class="study-hud-chip">⭐ <b id="reader-hud-stars">0</b></span>
+                        <span class="study-hud-chip">🔥 Chuỗi 1</span>
+                        <span class="study-hud-chip">Cấp 2</span>
+                        <span class="study-hud-avatar"><img src="/static/assets/vyvy/vyvy.png" alt="VyVy"></span>
+                    </div>
+                </div>
+
+                <!-- PDF inline — priority 1 -->
+                <div class="reading-pdf-main">
+                    <section class="study-pdf-panel">
+                        <div class="study-pdf-toolbar" aria-label="Thanh công cụ sách">
+                            <button id="study-pdf-prev" type="button" aria-label="Trang trước">‹</button>
+                            <span id="study-page-counter">Trang SGK</span>
+                            <button id="study-pdf-next" type="button" aria-label="Trang sau">›</button>
+                            <button id="study-pdf-zoom-out" type="button" aria-label="Thu nhỏ">−</button>
+                            <span id="study-pdf-zoom-label">100%</span>
+                            <button id="study-pdf-zoom-in" type="button" aria-label="Phóng to">+</button>
+                            <button id="study-pdf-crop-toggle" class="study-pdf-toggle" type="button" aria-pressed="false">Cắt lề: Tắt</button>
+                        </div>
+                        <div id="study-pdf-canvas-reader" class="study-pdf-canvas-reader" hidden>
+                            <div id="study-pdf-reader-status" class="study-pdf-reader-status" role="status" aria-live="polite">Đang mở SGK...</div>
+                            <div id="study-pdf-spread" class="study-pdf-spread" aria-label="Trang sách"></div>
+                        </div>
+                        <div id="reading-pdf-wrap" style="display:none">
+                            <iframe id="reading-pdf-frame" src="" allowfullscreen title="Sách giáo khoa"></iframe>
+                            <button id="reading-pdf-modal-btn" style="display:none">📄 Mở sách to hơn</button>
+                        </div>
+                        <div class="study-reading-page-pill">Đang học từ SGK gốc</div>
+                        <div id="reading-controls" class="reading-pdf-controls">
+                            <button id="reading-audio-btn" class="reading-audio-btn">▶ VyVy đọc bài</button>
+                            <button id="reading-explanation-btn" class="reading-skip-btn hidden" type="button" aria-expanded="false" style="flex:0 1 116px">Giải thích</button>
+                            <button id="reading-start-practice" class="reading-start-btn" disabled title="Nghe hoặc xem xong để luyện tập">Luyện tập →</button>
+                            <button id="reading-skip-audio" class="reading-skip-btn reading-skip-audio" onclick="_pa1_skipAudio()">Bỏ qua</button>
+                        </div>
+                    </section>
+
+                <!-- Text fallback — all old IDs preserved for JS compatibility -->
+                <div id="reading-text-fallback" style="display:none">
+                    <div class="reading-scroll">
+                        <div class="reading-section reading-objective">
+                            <div class="reading-section-icon">🎯</div>
+                            <h3>Mục tiêu hôm nay</h3>
+                            <p id="reading-objective-text"></p>
+                        </div>
+                        <div class="reading-section reading-explanation">
+                            <div class="reading-section-icon">💡</div>
+                            <h3 id="reading-explanation-label">VyVy giải thích</h3>
+                            <p id="reading-explanation-text"></p>
+                        </div>
+                        <div class="reading-section reading-examples">
+                            <div class="reading-section-icon">📝</div>
+                            <h3>Ví dụ</h3>
+                            <div id="reading-examples-list"></div>
+                        </div>
+                        <div class="reading-section reading-remember">
+                            <div class="reading-section-icon">🧠</div>
+                            <h3>Ghi nhớ</h3>
+                            <p id="reading-remember-text"></p>
+                        </div>
+                        <div class="reading-section reading-parent">
+                            <div class="reading-section-icon">👨‍👩‍👧</div>
+                            <h3>Gợi ý cho bố mẹ</h3>
+                            <p id="reading-parent-text"></p>
+                        </div>
+                    </div>
+                    <!-- Legacy buttons kept for existing JS wiring -->
+                    <button id="reading-listen-btn" class="reading-listen-btn" style="display:none">🔊 Nghe đọc</button>
+                    <button id="reading-pdf-btn" class="reading-pdf-btn hidden">📖 Xem sách gốc</button>
+                </div>
+
+                    <aside class="study-side-rail">
+                        <section class="study-rail-card study-rail-vyvy">
+                            <img src="/static/assets/vyvy/vyvy.png" alt="VyVy">
+                            <strong>VyVy đồng hành</strong>
+                            <p>Cùng nhau đọc thật nhẹ nhàng nhé! VyVy ở đây hỗ trợ bạn mỗi lúc.</p>
+                        </section>
+                        <section class="study-rail-card">
+                            <strong>Tiến độ bài học</strong>
+                            <div class="study-progress-line"><span></span></div>
+                            <p id="study-reader-progress">Đọc SGK • Giải thích • Luyện tập</p>
+                            <ul>
+                                <li>Đọc hiểu văn bản</li>
+                                <li>Từ ngữ - Giải nghĩa</li>
+                                <li>Luyện tập</li>
+                            </ul>
+                        </section>
+                        <section class="study-rail-card">
+                            <strong>Từ ngữ - Giải nghĩa</strong>
+                            <p id="study-glossary-preview">Bấm “Giải thích” để VyVy mở phần hỗ trợ nhanh.</p>
+                        </section>
+                    </aside>
+                </div>
+
+                <div id="reading-vyvy-corner">
+                    <img id="reading-vyvy-img" src="/static/assets/vyvy/vyvy.png" alt="VyVy" />
+                    <div id="reading-vyvy-bubble" class="vyvy-bubble hidden"></div>
+                </div>
+
+                <div id="reading-explanation-panel" class="hidden" aria-live="polite" style="position:fixed;left:12px;right:12px;bottom:84px;z-index:230;max-height:min(45dvh,360px);overflow:auto;background:rgba(255,255,255,.97);border:1px solid rgba(95,55,28,.14);border-radius:18px;padding:12px;box-shadow:0 14px 34px rgba(95,55,28,.22);">
+                    <div class="reading-explanation-panel-head">
+                        <strong>VyVy giải thích</strong>
+                        <span>AI biên soạn từ nội dung bài học</span>
+                    </div>
+                    <div id="reading-explanation-content"></div>
+                </div>
+
+                <!-- Adjacent unit navigation -->
+                <div class="reading-nav" id="reading-nav">
+                    <button id="reading-prev-btn" class="reading-nav-btn hidden">← Bài trước</button>
+                    <button id="reading-next-btn" class="reading-nav-btn hidden">Bài sau →</button>
+                </div>
+
+            </div>
+            <!-- Progress Display -->
+            <div id="learn-progress" class="learn-progress">
+                <h3>Tiến độ học</h3>
+                <div id="learn-progress-list" class="learn-progress-list"></div>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div id="input-area" class="input-area">
+            <input type="text" id="chat-input" class="chat-input" placeholder="Nhắn cho bạn AI..." autocomplete="off" enterkeyhint="send">
+            <button id="send-btn" class="send-btn" title="Gửi" aria-label="Gửi">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                </svg>
+            </button>
+            <button id="live-call-btn" class="live-call-btn" title="Gọi VyVy" aria-label="Gọi VyVy">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                </svg>
+            </button>
+            <button id="end-call-btn" class="end-call-btn hidden" title="Kết thúc" aria-label="Kết thúc cuộc gọi">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                    <path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08a.956.956 0 01-.29-.7c0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71s-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.1-.7-.28a11.27 11.27 0 00-2.67-1.85.996.996 0 01-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Live Call Status -->
+        <div id="live-call-status" class="live-call-status hidden">
+            <span id="call-status-text">Đang nghe...</span>
+            <button id="stop-call-btn" class="stop-call-btn">Kết thúc</button>
+        </div>
+
+        <!-- Toast Container -->
+        <div id="toast-container" class="toast-container"></div>
+
+        <!-- Onboarding Overlay -->
+        <div id="onboarding-overlay" class="onboarding-overlay hidden">
+            <div class="onboarding-card">
+                <div id="onboarding-step1" class="onboarding-step">
+                    <div class="onboarding-icon">🌸</div>
+                    <h2 class="onboarding-title">Chào bạn!</h2>
+                    <p class="onboarding-desc">Mình là <strong id="onboarding-bot-name">VyVy</strong>, bạn AI của bạn. Bạn tên gì?</p>
+                    <input type="text" id="onboarding-name" class="onboarding-input" placeholder="Tên bạn...">
+                    <button id="onboarding-next1" class="onboarding-btn">Tiếp theo →</button>
+                </div>
+                <div id="onboarding-step-bot-name" class="onboarding-step hidden">
+                    <div class="onboarding-icon">🤖</div>
+                    <h2 class="onboarding-title">Đặt tên cho bạn AI</h2>
+                    <p class="onboarding-desc">Bạn muốn gọi mình là gì?</p>
+                    <input type="text" id="onboarding-bot-name-input" class="onboarding-input" placeholder="VyVy" maxlength="20">
+                    <button id="onboarding-next-bot-name" class="onboarding-btn">Tiếp theo →</button>
+                </div>
+                <div id="onboarding-step2" class="onboarding-step hidden">
+                    <div class="onboarding-icon">🎂</div>
+                    <h2 class="onboarding-title">Bạn bao nhiêu tuổi?</h2>
+                    <div class="onboarding-ages" id="onboarding-ages"></div>
+                    <button id="onboarding-next2" class="onboarding-btn">Tiếp theo →</button>
+                </div>
+                <div id="onboarding-step3" class="onboarding-step hidden">
+                    <div class="onboarding-icon">🔒</div>
+                    <h2 class="onboarding-title">Tạo mã PIN</h2>
+                    <p class="onboarding-desc">Phụ huynh tạo mã PIN (4+ số) để bảo vệ cài đặt.</p>
+                    <input type="password" id="onboarding-pin" class="onboarding-input" maxlength="8" placeholder="----">
+                    <button id="onboarding-finish" class="onboarding-btn onboarding-btn-primary">Bắt đầu học! 🚀</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parent Settings Panel -->
+        <div id="parent-overlay" class="parent-overlay hidden"></div>
+        <div id="parent-panel" class="parent-panel hidden">
+            <div class="parent-panel-header">
+                <h2>Cài đặt cho VyVy</h2>
+                <button id="close-settings" class="close-panel-btn" aria-label="Đóng">&times;</button>
+            </div>
+            <div id="pin-gate" class="pin-gate">
+                <p class="pin-label">Nhập mã PIN phụ huynh:</p>
+                <input type="text" id="pin-input" class="pin-input" inputmode="numeric" autocomplete="one-time-code" name="parent_pin_code" aria-label="Mã PIN phụ huynh" maxlength="8" placeholder="----">
+                <button id="pin-submit" class="pin-submit-btn">Xác nhận</button>
+                <p id="pin-error" class="pin-error hidden"></p>
+            </div>
+            <div id="settings-content" class="settings-content hidden">
+                <div class="setting-group">
+                    <label for="setting-nickname">Tên bạn:</label>
+                    <input type="text" id="setting-nickname" placeholder="Tên bạn">
+                </div>
+                <div class="setting-group">
+                    <label for="setting-bot-name">Tên bạn AI:</label>
+                    <input type="text" id="setting-bot-name" placeholder="VyVy" maxlength="20">
+                </div>
+                <div class="setting-group">
+                    <label for="setting-age">Tuổi:</label>
+                    <select id="setting-age">
+                        <option value="5">5 tuổi</option>
+                        <option value="6">6 tuổi</option>
+                        <option value="7">7 tuổi</option>
+                        <option value="8" selected>8 tuổi</option>
+                        <option value="9">9 tuổi</option>
+                        <option value="10">10 tuổi</option>
+                        <option value="11">11 tuổi</option>
+                        <option value="12">12 tuổi</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label>Chế độ học/play:</label>
+                    <div class="mode-toggle">
+                        <button class="mode-btn" data-mode="light">Nhẹ nhàng</button>
+                        <button class="mode-btn active" data-mode="balanced">Cân bằng</button>
+                        <button class="mode-btn" data-mode="focused">Tập trung</button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label>Mục tiêu học tập:</label>
+                    <input type="text" id="setting-goal" placeholder="VD: Học tiếng Anh, làm toán vui...">
+                </div>
+                <div class="setting-group">
+                    <label>Giao diện:</label>
+                    <div class="mode-toggle">
+                        <button class="mode-btn active" data-theme="light" id="theme-light-btn">Sáng</button>
+                        <button class="mode-btn" data-theme="dark" id="theme-dark-btn">Tối</button>
+                        <button class="mode-btn" data-theme="auto" id="theme-auto-btn">Tự động</button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label>Giới hạn thời gian/ngày (phút):</label>
+                    <input type="number" id="setting-time-limit" class="setting-number-input" min="10" max="240" value="60">
+                </div>
+                <div class="danger-zone">
+                    <div class="danger-zone-label">Khu vực nguy hiểm</div>
+                    <div class="setting-group">
+                        <button id="reset-memory-btn" class="danger-btn">⚠️ Xóa bộ nhớ VyVy</button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <button id="daily-summary-btn" class="summary-btn">Tóm tắt hôm nay</button>
+                </div>
+                <div id="summary-display" class="summary-display hidden"></div>
+                <div class="setting-group">
+                    <button id="learning-history-btn" class="summary-btn" style="background:#E3F2FD;color:#1565C0;border-color:#90CAF9">Lịch sử học tập</button>
+                </div>
+                <div id="learning-history-display" class="summary-display hidden"></div>
+                <div class="setting-group">
+                    <button id="weekly-report-btn" class="summary-btn" style="background:#FFF3E0;color:#E65100;border-color:#FFB74D">Báo cáo tuần</button>
+                </div>
+                <div id="weekly-report-display" class="summary-display hidden"></div>
+                <div class="setting-group mic-mode-group">
+                    <label>Cách nói chuyện với VyVy:</label>
+                    <div class="mic-mode-toggle">
+                        <button class="mic-mode-btn active" data-mic-mode="ptt" id="mic-ptt-btn">Bấm để nói</button>
+                        <button class="mic-mode-btn" data-mic-mode="hold" id="mic-hold-btn">Giữ để nói</button>
+                        <button class="mic-mode-btn" data-mic-mode="live_call" id="mic-live-btn">Nói liên tục</button>
+                    </div>
+                    <p class="mic-mode-desc" id="mic-mode-desc">Bấm nút micro, nói xong bấm lại để gửi.</p>
+                </div>
+                <div class="setting-group voice-settings-group">
+                    <label>Giọng nói tiếng Việt:</label>
+                    <div class="mode-toggle">
+                        <button class="mode-btn active" data-voice-gender="female" id="voice-female-btn">♀ Nữ</button>
+                        <button class="mode-btn" data-voice-gender="male" id="voice-male-btn">♂ Nam</button>
+                    </div>
+                    <label style="margin-top:8px">Phong cách:</label>
+                    <div class="voice-preset-group">
+                        <button class="voice-preset-btn active" data-preset="ban-nho" id="preset-ban-nho">Bạn nhỏ</button>
+                        <button class="voice-preset-btn" data-preset="vui-tuoi" id="preset-vui-tuoi">Vui tươi</button>
+                        <button class="voice-preset-btn" data-preset="binh-thuong" id="preset-binh-thuong">Bình thường</button>
+                    </div>
+                    <p class="mic-mode-desc" id="voice-preset-desc">Giọng cao, nhanh nhẹn như bạn nhỏ.</p>
+                    <div id="voice-status" class="voice-status">
+                        <div class="voice-status-row"><span class="voice-label">Giọng server:</span> <span id="voice-name-display">edge-tts</span></div>
+                        <div class="voice-status-row"><span class="voice-label">Ngôn ngữ:</span> <span id="voice-lang-display">vi-VN</span></div>
+                    </div>
+                    <button id="test-voice-btn" class="test-voice-btn">Test giọng nói</button>
+                </div>
+                <button id="save-settings-btn" class="save-btn">Lưu cài đặt</button>
+            </div>
+        </div>
+
+        <!-- Avatar Shop Panel -->
+        <div id="avatar-shop-overlay" class="modal-overlay hidden"></div>
+        <div id="avatar-shop-panel" class="feature-panel hidden">
+            <div class="panel-header">
+                <h2>🎨 Đổi avatar</h2>
+                <button class="close-panel-btn" data-close="avatar-shop">&times;</button>
+            </div>
+            <div class="avatar-shop-balance">
+                <span class="shop-balance-label">Sao của bạn:</span>
+                <span class="shop-balance-stars" id="shop-balance-stars">⭐ 0</span>
+            </div>
+            <div class="avatar-shop-grid" id="avatar-shop-grid">
+                <!-- Avatar items will be inserted here by JS -->
+            </div>
+            <div id="avatar-shop-preview" class="avatar-shop-preview hidden">
+                <div class="preview-avatar" id="preview-avatar"></div>
+                <p class="preview-name" id="preview-name"></p>
+                <p class="preview-cost" id="preview-cost"></p>
+                <button class="preview-buy-btn" id="preview-buy-btn">Đổi avatar</button>
+            </div>
+        </div>
+
+        <!-- Decor Shop Panel -->
+        <div id="decor-shop-overlay" class="modal-overlay hidden"></div>
+        <div id="decor-shop-panel" class="hidden">
+          <div class="decor-shop-handle"></div>
+          <div class="decor-shop-header">
+            <div class="decor-shop-title">
+              <span>🏠</span>
+              <h2>Trang trí Góc học tập</h2>
+            </div>
+            <div class="decor-shop-stars">
+              <span>⭐</span>
+              <span id="decor-shop-star-count">0</span>
+            </div>
+            <button id="decor-shop-close" class="close-panel-btn">&times;</button>
+          </div>
+          <div class="decor-shop-tabs" id="decor-shop-tabs">
+            <button class="decor-tab active" data-bg="home">🏠 Phòng học</button>
+            <button class="decor-tab" data-bg="learn">📚 Bàn học</button>
+            <button class="decor-tab" data-bg="practice">✏️ Vở bài tập</button>
+            <button class="decor-tab" data-bg="games">🎮 Góc chơi</button>
+            <button class="decor-tab" data-bg="music">🎵 Phòng nhạc</button>
+            <button class="decor-tab" data-bg="drawing">🎨 Góc vẽ</button>
+            <button class="decor-tab" data-bg="reading">📖 Góc đọc</button>
+            <button class="decor-tab" data-bg="all">👗 VyVy</button>
+          </div>
+          <div class="decor-shop-grid" id="decor-shop-grid"></div>
+        </div>
+
+        <!-- Level Up Overlay -->
+        <div id="level-up-overlay" class="hidden">
+          <div class="level-up-card">
+            <div class="level-up-badge" id="level-up-badge">⭐</div>
+            <h2 class="level-up-title">VyVy lên cấp!</h2>
+            <p class="level-up-desc" id="level-up-desc">VyVy đạt Cấp 2 — Năng động!</p>
+            <button class="level-up-btn" id="level-up-close">Tuyệt vời! 🎉</button>
+          </div>
+        </div>
+    </div>
+
+    <script src="content.js?v=3"></script>
+    <script src="decor.js?v=1"></script>
+    <script src="script.js?v=7"></script>
+</body>
+</html>

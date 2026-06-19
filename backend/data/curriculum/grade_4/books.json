@@ -1,0 +1,86 @@
+[
+  {
+    "book_id": "KNTT_G4_MATH_T1",
+    "title": "SGK Toán 4 - Tập 1",
+    "subject": "toan",
+    "grade": 4,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": 1,
+    "source_type": "pdf_toc",
+    "parse_status": "toc_verified_from_uploaded_pdf",
+    "rights_note": "Index/metadata only. Do not store full copyrighted page text unless licensed/approved.",
+    "source_file": "SGK TOÁN TẬP 1 - LỚP 4 (KẾT NỐI TRI THỨC).pdf"
+  },
+  {
+    "book_id": "KNTT_G4_MATH_T2",
+    "title": "SGK Toán 4 - Tập 2",
+    "subject": "toan",
+    "grade": 4,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": 2,
+    "source_type": "pdf_toc",
+    "parse_status": "toc_verified_from_uploaded_pdf",
+    "rights_note": "Index/metadata only. Do not store full copyrighted page text unless licensed/approved.",
+    "source_file": "SGK TOÁN TẬP 2 - LỚP 4 (KẾT NỐI TRI THỨC).pdf"
+  },
+  {
+    "book_id": "KNTT_G4_VIETNAMESE_T1",
+    "title": "SGK Tiếng Việt 4 - Tập 1",
+    "subject": "tieng_viet",
+    "grade": 4,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": 1,
+    "source_type": "pdf_toc",
+    "parse_status": "toc_verified_from_uploaded_pdf",
+    "rights_note": "Index/metadata only. Do not store full copyrighted page text unless licensed/approved.",
+    "source_file": "SGK TIẾNG VIỆT TẬP 1 - LỚP 4 (KẾT NỐI TRI THỨC).pdf"
+  },
+  {
+    "book_id": "KNTT_G4_VIETNAMESE_T2",
+    "title": "SGK Tiếng Việt 4 - Tập 2",
+    "subject": "tieng_viet",
+    "grade": 4,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": 2,
+    "source_type": "pdf_toc",
+    "parse_status": "toc_verified_from_uploaded_pdf",
+    "rights_note": "Index/metadata only. Do not store full copyrighted page text unless licensed/approved.",
+    "source_file": "SGK TIẾNG VIỆT TẬP 2 - LỚP 4 (KẾT NỐI TRI THỨC).pdf"
+  },
+  {
+    "book_id": "KNTT_G4_SCIENCE",
+    "title": "SGK Khoa học 4",
+    "subject": "khoa_hoc",
+    "grade": 4,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": null,
+    "source_type": "pdf_toc",
+    "parse_status": "toc_verified_from_uploaded_pdf",
+    "rights_note": "Index/metadata only. Do not store full copyrighted page text unless licensed/approved.",
+    "source_file": "SGK KHOA HỌC - LỚP 4 (KẾT NỐI TRI THỨC).pdf"
+  },
+  {
+    "book_id": "KNTT_G4_HISTORY_GEO",
+    "title": "SGK Lịch sử và Địa lí 4",
+    "subject": "lich_su_dia_li",
+    "grade": 4,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": null,
+    "source_type": "pdf_toc",
+    "parse_status": "toc_verified_from_uploaded_pdf",
+    "rights_note": "Index/metadata only. Do not store full copyrighted page text unless licensed/approved.",
+    "source_file": "SGK LỊCH SỬ VÀ ĐỊA LÍ - LỚP 4 (KẾT NỐI TRI THỨC).pdf"
+  },
+  {
+    "book_id": "KNTT_G4_MUSIC",
+    "title": "SGK Âm nhạc 4",
+    "subject": "am_nhac",
+    "grade": 4,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": null,
+    "source_type": "pdf_toc",
+    "parse_status": "toc_verified_from_uploaded_pdf",
+    "rights_note": "Index/metadata only. Do not store full copyrighted page text unless licensed/approved.",
+    "source_file": "SGK ÂM NHẠC - LỚP 4 (KẾT NỐI TRI THỨC).pdf"
+  }
+]

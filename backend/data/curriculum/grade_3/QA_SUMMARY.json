@@ -1,0 +1,29 @@
+{
+  "total_books": 12,
+  "total_lessons": 365,
+  "lessons_by_book": {
+    "KNTT_G3_MATH_T1": 44,
+    "KNTT_G3_MATH_T2": 37,
+    "KNTT_G3_VIETNAMESE_T1": 34,
+    "KNTT_G3_VIETNAMESE_T2": 32,
+    "KNTT_G3_ENGLISH_T1": 37,
+    "KNTT_G3_ENGLISH_T2": 34,
+    "KNTT_G3_TNXH": 30,
+    "KNTT_G3_INFORMATICS": 16,
+    "KNTT_G3_MUSIC": 35,
+    "KNTT_G3_ART": 10,
+    "KNTT_G3_PE": 21,
+    "KNTT_G3_EXPERIENTIAL": 35
+  },
+  "duplicate_lesson_ids": 0,
+  "page_range_errors": [],
+  "same_page_splits": [
+    [
+      "KNTT_G3_MUSIC",
+      "KNTT_G3_MUSIC_L015",
+      30,
+      "KNTT_G3_MUSIC_L016",
+      30
+    ]
+  ]
+}

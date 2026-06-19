@@ -1,0 +1,2376 @@
+/* =============================================================
+   theme.css — AI Kids Buddy Study Corner Themes
+   7 background themes + decoration system + VyVy outfit layers
+   + shop panel + level-up overlay + exercise UI
+   ALL sizes use clamp() or viewport units — no fixed px fonts
+   ============================================================= */
+
+/* ─────────────────────────────────────────────
+   0. RESET & BASE
+───────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* ─────────────────────────────────────────────
+   1. ROOT TOKENS (extend from style.css)
+───────────────────────────────────────────── */
+
+:root {
+  /* colors already in style.css — re-declared here for
+     completeness so theme.css is self-sufficient if needed */
+  --pink:   #FF8FAB;
+  --purple: #C9A0FF;
+  --yellow: #FFE082;
+  --green:  #A5D6A7;
+  --blue:   #90CAF9;
+  --bg:     #FFF8EC;
+  --text:   #263238;
+  --radius: 22px;
+  --touch:  clamp(44px, 8vw, 56px);
+
+  /* theme-specific tokens */
+  --scene-transition: 0.6s ease;
+  --decor-base-size:  clamp(24px, 5vmin, 64px);
+  --decor-sm:         clamp(20px, 3.5vmin, 48px);
+  --decor-lg:         clamp(32px, 7vmin, 80px);
+  --decor-xl:         clamp(40px, 9vmin, 96px);
+  --panel-radius-top: clamp(16px, 4vw, 28px);
+  --shop-item-min:    clamp(80px, 18vw, 120px);
+  --gap-sm:           clamp(6px,  1.5vw, 12px);
+  --gap-md:           clamp(10px, 2vw,  18px);
+  --gap-lg:           clamp(16px, 3vw,  28px);
+
+  /* typography scale */
+  --fs-xs:   clamp(11px, 2vw,   13px);
+  --fs-sm:   clamp(12px, 2.5vw, 15px);
+  --fs-base:  clamp(14px, 3vw,  17px);
+  --fs-md:   clamp(15px, 3.5vw, 20px);
+  --fs-lg:   clamp(17px, 4vw,   24px);
+  --fs-xl:   clamp(20px, 5vw,   32px);
+  --fs-2xl:  clamp(26px, 6vw,   42px);
+  --fs-3xl:  clamp(32px, 8vw,   56px);
+}
+
+/* ─────────────────────────────────────────────
+   2. APP SHELL — transition base
+───────────────────────────────────────────── */
+
+#app {
+  transition:
+    background var(--scene-transition),
+    background-image var(--scene-transition);
+  position: relative;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* ─────────────────────────────────────────────
+   3. BACKGROUND RENDERING — ::before pseudo room
+───────────────────────────────────────────── */
+
+/* Shared before setup */
+#app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  transition: all var(--scene-transition);
+}
+
+/* ── 3A. HOME — Morning study corner ── */
+
+#app[data-bg="home"]::before {
+  background:
+    /* wood floor planks */
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 60px,
+      rgba(160, 120, 80, 0.08) 60px,
+      rgba(160, 120, 80, 0.08) 62px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 200px,
+      rgba(160, 120, 80, 0.05) 200px,
+      rgba(160, 120, 80, 0.05) 202px
+    ),
+    /* wall and floor split */
+    linear-gradient(
+      180deg,
+      #FFF5E6 0%,
+      #FFE8CC 38%,
+      #FFE0B2 40%,
+      #D7CCC8 41%,
+      #C8B8B0 70%,
+      #BCAAA4 100%
+    );
+}
+
+/* ── 3B. LEARN — Open book / reading desk ── */
+
+#app[data-bg="learn"]::before {
+  background:
+    /* window light rays */
+    repeating-linear-gradient(
+      75deg,
+      transparent 0px,
+      transparent 80px,
+      rgba(255, 255, 255, 0.04) 80px,
+      rgba(255, 255, 255, 0.04) 100px
+    ),
+    linear-gradient(
+      180deg,
+      #E3F2FD 0%,
+      #BBDEFB 28%,
+      #B3D9F7 30%,
+      #FFF8E1 31%,
+      #FFF8E1 42%,
+      #FFF3E0 100%
+    );
+}
+
+/* ── 3C. PRACTICE — Exercise notebook desk ── */
+
+#app[data-bg="practice"]::before {
+  background:
+    /* notebook ruled lines on floor area */
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 28px,
+      rgba(100, 149, 237, 0.12) 28px,
+      rgba(100, 149, 237, 0.12) 30px
+    ),
+    /* margin line */
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 14%,
+      rgba(255, 100, 100, 0.12) 14%,
+      rgba(255, 100, 100, 0.12) 14.5%,
+      transparent 14.5%
+    ),
+    linear-gradient(
+      180deg,
+      #FFFDE7 0%,
+      #FFFACD 40%,
+      #FFF9C4 70%,
+      #FFFDE7 100%
+    );
+}
+
+/* ── 3D. GAMES — Play corner evening ── */
+
+#app[data-bg="games"]::before {
+  background:
+    /* star field sparkles */
+    radial-gradient(
+      ellipse at 15% 20%,
+      rgba(255, 255, 200, 0.15) 0%,
+      transparent 30%
+    ),
+    radial-gradient(
+      ellipse at 80% 15%,
+      rgba(200, 200, 255, 0.12) 0%,
+      transparent 25%
+    ),
+    radial-gradient(
+      ellipse at 50% 50%,
+      rgba(100, 60, 180, 0.3) 0%,
+      transparent 60%
+    ),
+    linear-gradient(
+      180deg,
+      #1A237E 0%,
+      #283593 30%,
+      #311B92 40%,
+      #C62828 41%,
+      #B71C1C 75%,
+      #8B0000 100%
+    );
+}
+
+/* ── 3E. MUSIC — Music room ── */
+
+#app[data-bg="music"]::before {
+  background:
+    /* subtle staff lines */
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 18px,
+      rgba(255, 255, 255, 0.05) 18px,
+      rgba(255, 255, 255, 0.05) 19px
+    ),
+    radial-gradient(
+      ellipse at 30% 40%,
+      rgba(171, 71, 188, 0.4) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      180deg,
+      #4A148C 0%,
+      #6A1B9A 30%,
+      #7B1FA2 50%,
+      #880E4F 80%,
+      #6A0036 100%
+    );
+}
+
+/* ── 3F. DRAWING — Art studio ── */
+
+#app[data-bg="drawing"]::before {
+  background:
+    /* subtle canvas texture */
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px,
+      transparent 15px,
+      rgba(180, 140, 100, 0.04) 15px,
+      rgba(180, 140, 100, 0.04) 16px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px,
+      transparent 15px,
+      rgba(180, 140, 100, 0.04) 15px,
+      rgba(180, 140, 100, 0.04) 16px
+    ),
+    radial-gradient(
+      ellipse at 70% 30%,
+      rgba(255, 200, 120, 0.25) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      180deg,
+      #F3E5F5 0%,
+      #EDE7F6 25%,
+      #E8F5E9 50%,
+      #F1F8E9 75%,
+      #FFF3E0 100%
+    );
+}
+
+/* ── 3G. READING — Bedtime reading nook ── */
+
+#app[data-bg="reading"]::before {
+  background:
+    /* moonlight glow */
+    radial-gradient(
+      ellipse at 75% 10%,
+      rgba(200, 220, 255, 0.25) 0%,
+      transparent 40%
+    ),
+    /* warm lamp light */
+    radial-gradient(
+      ellipse at 30% 60%,
+      rgba(255, 200, 100, 0.2) 0%,
+      transparent 45%
+    ),
+    linear-gradient(
+      180deg,
+      #0D1B2A 0%,
+      #162234 30%,
+      #1B2A3B 60%,
+      #241640 80%,
+      #2C1654 100%
+    );
+}
+
+/* ─────────────────────────────────────────────
+   4. BG-SCENE — decorative overlays per theme
+───────────────────────────────────────────── */
+
+.bg-scene {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  transition: opacity var(--scene-transition);
+}
+
+/* HOME scene — morning sun and window light */
+#app[data-bg="home"] .bg-scene::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  right: -5%;
+  width: clamp(120px, 30vw, 280px);
+  height: clamp(120px, 30vw, 280px);
+  background: radial-gradient(
+    circle,
+    rgba(255, 236, 153, 0.6) 0%,
+    rgba(255, 213, 79, 0.2) 50%,
+    transparent 70%
+  );
+  border-radius: 50%;
+}
+
+#app[data-bg="home"] .bg-scene::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 41%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 220, 150, 0.15) 0%,
+    transparent 40%,
+    rgba(255, 220, 150, 0.1) 100%
+  );
+}
+
+/* LEARN scene — soft reading light */
+#app[data-bg="learn"] .bg-scene::before {
+  content: '';
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(80px, 20vw, 200px);
+  height: clamp(80px, 20vw, 200px);
+  background: radial-gradient(
+    circle,
+    rgba(255, 253, 200, 0.5) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+}
+
+/* PRACTICE scene — pencil grid dots */
+#app[data-bg="practice"] .bg-scene::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle,
+    rgba(100, 149, 237, 0.18) 1px,
+    transparent 1px
+  );
+  background-size: clamp(20px, 3vw, 32px) clamp(20px, 3vw, 32px);
+}
+
+/* GAMES scene — floating stars */
+#app[data-bg="games"] .bg-scene::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.8) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255, 255, 200, 0.6) 1.5px, transparent 1.5px),
+    radial-gradient(circle, rgba(200, 200, 255, 0.7) 1px, transparent 1px);
+  background-size: 80px 80px, 120px 120px, 100px 100px;
+  background-position: 10px 10px, 50px 40px, 30px 70px;
+}
+
+/* MUSIC scene — musical notes floating */
+#app[data-bg="music"] .bg-scene::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* DRAWING scene — color splash */
+#app[data-bg="drawing"] .bg-scene::before {
+  content: '';
+  position: absolute;
+  bottom: 20%;
+  left: -5%;
+  width: clamp(80px, 20vw, 200px);
+  height: clamp(80px, 20vw, 200px);
+  background: radial-gradient(
+    circle,
+    rgba(255, 143, 171, 0.25) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+}
+
+#app[data-bg="drawing"] .bg-scene::after {
+  content: '';
+  position: absolute;
+  top: 15%;
+  right: -3%;
+  width: clamp(60px, 15vw, 160px);
+  height: clamp(60px, 15vw, 160px);
+  background: radial-gradient(
+    circle,
+    rgba(144, 202, 249, 0.3) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+}
+
+/* READING scene — moonlight */
+#app[data-bg="reading"] .bg-scene::before {
+  content: '';
+  position: absolute;
+  top: -5%;
+  right: 15%;
+  width: clamp(60px, 15vw, 160px);
+  height: clamp(60px, 15vw, 160px);
+  background: radial-gradient(
+    circle,
+    rgba(220, 230, 255, 0.7) 0%,
+    rgba(200, 220, 255, 0.3) 50%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  box-shadow: 0 0 clamp(20px, 5vw, 60px) clamp(10px, 3vw, 30px) rgba(200, 220, 255, 0.2);
+}
+
+/* ─────────────────────────────────────────────
+   5. STUDY DECOR LAYER
+───────────────────────────────────────────── */
+
+#study-decor-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* ─────────────────────────────────────────────
+   6. DECOR ITEM BASE
+───────────────────────────────────────────── */
+
+.decor-item {
+  position: absolute;
+  font-size: var(--decor-base-size);
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    opacity 0.3s ease,
+    filter 0.3s ease,
+    transform 0.3s ease;
+  user-select: none;
+  /* pointer-events off by default since layer is pointer-events:none */
+}
+
+/* ─────────────────────────────────────────────
+   7. ITEM LEVELS
+───────────────────────────────────────────── */
+
+.decor-item[data-level="1"] {
+  opacity: 0.7;
+  filter: grayscale(0.3);
+}
+
+.decor-item[data-level="2"] {
+  opacity: 0.85;
+}
+
+.decor-item[data-level="3"] {
+  opacity: 1;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+}
+
+/* ─────────────────────────────────────────────
+   8. HOME BACKGROUND — 18 DECORATION SLOTS
+───────────────────────────────────────────── */
+
+/* Wall area items */
+.decor-item[data-slot="wall-poster"] {
+  left: 5%;
+  top: 8%;
+  font-size: clamp(28px, 6vmin, 72px);
+  width: clamp(40px, 9vmin, 90px);
+  height: clamp(40px, 9vmin, 90px);
+}
+
+.decor-item[data-slot="wall-clock"] {
+  left: 20%;
+  top: 6%;
+  font-size: clamp(26px, 5.5vmin, 68px);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(36px, 8vmin, 80px);
+}
+
+.decor-item[data-slot="bookshelf"] {
+  right: 4%;
+  top: 10%;
+  font-size: var(--decor-xl);
+  width: clamp(44px, 10vmin, 100px);
+  height: clamp(80px, 18vmin, 180px);
+  flex-direction: column;
+}
+
+.decor-item[data-slot="wall-color"] {
+  /* This slot changes a color overlay on the wall area */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 40%;
+  font-size: 0; /* invisible — changes tint via background */
+  border-radius: 0;
+  z-index: -1;
+  opacity: 0.08;
+  transition: background 0.4s ease;
+}
+
+.decor-item[data-slot="whiteboard"] {
+  left: 35%;
+  top: 5%;
+  font-size: clamp(30px, 6.5vmin, 76px);
+  width: clamp(50px, 11vmin, 110px);
+  height: clamp(38px, 8vmin, 84px);
+}
+
+.decor-item[data-slot="subject-poster"] {
+  left: 50%;
+  top: 5%;
+  transform: translateX(-50%);
+  font-size: clamp(28px, 6vmin, 72px);
+  width: clamp(40px, 9vmin, 90px);
+  height: clamp(40px, 9vmin, 90px);
+}
+
+/* Desk area items */
+.decor-item[data-slot="desk-lamp"] {
+  left: 12%;
+  top: 38%;
+  font-size: var(--decor-lg);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(50px, 11vmin, 110px);
+}
+
+.decor-item[data-slot="pencil-box"] {
+  left: 22%;
+  top: 40%;
+  font-size: var(--decor-base-size);
+  width: clamp(32px, 7vmin, 70px);
+  height: clamp(28px, 6vmin, 60px);
+}
+
+.decor-item[data-slot="water-cup"] {
+  left: 30%;
+  top: 42%;
+  font-size: clamp(22px, 4.5vmin, 56px);
+  width: clamp(28px, 6vmin, 60px);
+  height: clamp(32px, 7vmin, 70px);
+}
+
+.decor-item[data-slot="desk-plant"] {
+  right: 18%;
+  top: 36%;
+  font-size: var(--decor-lg);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+/* Floor area items */
+.decor-item[data-slot="floor-rug"] {
+  left: 50%;
+  bottom: 8%;
+  transform: translateX(-50%);
+  font-size: var(--decor-xl);
+  width: clamp(80px, 22vmin, 220px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+.decor-item[data-slot="chair"] {
+  left: 42%;
+  bottom: 6%;
+  font-size: var(--decor-xl);
+  width: clamp(44px, 10vmin, 100px);
+  height: clamp(56px, 13vmin, 130px);
+}
+
+.decor-item[data-slot="backpack"] {
+  right: 10%;
+  bottom: 10%;
+  font-size: var(--decor-lg);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+.decor-item[data-slot="pet"] {
+  left: 8%;
+  bottom: 12%;
+  font-size: var(--decor-lg);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(36px, 8vmin, 80px);
+}
+
+.decor-item[data-slot="toy-basket"] {
+  right: 6%;
+  bottom: 8%;
+  font-size: var(--decor-base-size);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(32px, 7vmin, 70px);
+}
+
+/* Window / wall edge items */
+.decor-item[data-slot="curtain"] {
+  left: 0;
+  top: 0;
+  height: 80%;
+  font-size: clamp(32px, 8vmin, 88px);
+  width: clamp(24px, 5vw, 56px);
+  align-items: flex-start;
+  padding-top: clamp(4px, 1vw, 8px);
+}
+
+.decor-item[data-slot="window-scene"] {
+  right: 15%;
+  top: 5%;
+  font-size: clamp(32px, 7vmin, 84px);
+  width: clamp(44px, 10vmin, 100px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+.decor-item[data-slot="window-hang"] {
+  right: 28%;
+  top: 2%;
+  font-size: clamp(20px, 4vmin, 52px);
+  width: clamp(28px, 6vmin, 60px);
+  height: clamp(28px, 6vmin, 60px);
+}
+
+/* ─────────────────────────────────────────────
+   9. LEARN BACKGROUND — 10 DECORATION SLOTS
+───────────────────────────────────────────── */
+
+#app[data-bg="learn"] .decor-item[data-slot="open-book"] {
+  left: 50%;
+  top: 35%;
+  transform: translateX(-50%);
+  font-size: var(--decor-xl);
+  width: clamp(56px, 14vmin, 140px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+#app[data-bg="learn"] .decor-item[data-slot="bookstack"] {
+  right: 8%;
+  top: 32%;
+  font-size: var(--decor-lg);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+#app[data-bg="learn"] .decor-item[data-slot="reading-lamp"] {
+  left: 10%;
+  top: 30%;
+  font-size: var(--decor-lg);
+  width: clamp(32px, 7vmin, 70px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+#app[data-bg="learn"] .decor-item[data-slot="bookmark"] {
+  left: 40%;
+  top: 8%;
+  font-size: clamp(22px, 4.5vmin, 56px);
+  width: clamp(24px, 5vmin, 56px);
+  height: clamp(36px, 8vmin, 80px);
+}
+
+#app[data-bg="learn"] .decor-item[data-slot="magnifier"] {
+  right: 20%;
+  top: 30%;
+  font-size: clamp(26px, 5.5vmin, 64px);
+  width: clamp(32px, 7vmin, 70px);
+  height: clamp(32px, 7vmin, 70px);
+}
+
+#app[data-bg="learn"] .decor-item[data-slot="globe"] {
+  left: 5%;
+  top: 10%;
+  font-size: var(--decor-lg);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(36px, 8vmin, 80px);
+}
+
+#app[data-bg="learn"] .decor-item[data-slot="notebook"] {
+  left: 25%;
+  top: 38%;
+  font-size: var(--decor-base-size);
+  width: clamp(28px, 6vmin, 64px);
+  height: clamp(36px, 8vmin, 80px);
+}
+
+#app[data-bg="learn"] .decor-item[data-slot="pencil"] {
+  right: 30%;
+  top: 42%;
+  font-size: clamp(20px, 4vmin, 52px);
+  width: clamp(24px, 5vmin, 56px);
+  height: clamp(24px, 5vmin, 56px);
+}
+
+#app[data-bg="learn"] .decor-item[data-slot="tea-cup"] {
+  left: 18%;
+  top: 42%;
+  font-size: clamp(22px, 4.5vmin, 56px);
+  width: clamp(28px, 6vmin, 60px);
+  height: clamp(28px, 6vmin, 60px);
+}
+
+#app[data-bg="learn"] .decor-item[data-slot="trophy"] {
+  right: 5%;
+  bottom: 15%;
+  font-size: var(--decor-lg);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+/* ─────────────────────────────────────────────
+   10. PRACTICE BACKGROUND — 10 DECORATION SLOTS
+───────────────────────────────────────────── */
+
+#app[data-bg="practice"] .decor-item[data-slot="exercise-book"] {
+  left: 50%;
+  top: 30%;
+  transform: translateX(-50%);
+  font-size: var(--decor-xl);
+  width: clamp(50px, 12vmin, 120px);
+  height: clamp(62px, 14vmin, 140px);
+}
+
+#app[data-bg="practice"] .decor-item[data-slot="ruler"] {
+  left: 20%;
+  top: 35%;
+  font-size: clamp(20px, 4vmin, 52px);
+  width: clamp(24px, 5vmin, 56px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+#app[data-bg="practice"] .decor-item[data-slot="eraser"] {
+  right: 22%;
+  top: 40%;
+  font-size: clamp(20px, 4vmin, 52px);
+  width: clamp(24px, 5vmin, 56px);
+  height: clamp(20px, 4vmin, 52px);
+}
+
+#app[data-bg="practice"] .decor-item[data-slot="calculator"] {
+  right: 10%;
+  top: 28%;
+  font-size: var(--decor-base-size);
+  width: clamp(28px, 6vmin, 64px);
+  height: clamp(36px, 8vmin, 80px);
+}
+
+#app[data-bg="practice"] .decor-item[data-slot="geometry"] {
+  left: 8%;
+  top: 12%;
+  font-size: var(--decor-lg);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(36px, 8vmin, 80px);
+}
+
+#app[data-bg="practice"] .decor-item[data-slot="clock"] {
+  right: 5%;
+  top: 8%;
+  font-size: var(--decor-lg);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(36px, 8vmin, 80px);
+}
+
+#app[data-bg="practice"] .decor-item[data-slot="sticker-star"] {
+  left: 35%;
+  top: 8%;
+  font-size: clamp(26px, 5.5vmin, 64px);
+  width: clamp(32px, 7vmin, 70px);
+  height: clamp(32px, 7vmin, 70px);
+}
+
+#app[data-bg="practice"] .decor-item[data-slot="scissors"] {
+  left: 12%;
+  bottom: 18%;
+  font-size: clamp(22px, 4.5vmin, 56px);
+  width: clamp(28px, 6vmin, 60px);
+  height: clamp(28px, 6vmin, 60px);
+}
+
+#app[data-bg="practice"] .decor-item[data-slot="compass"] {
+  right: 18%;
+  bottom: 20%;
+  font-size: clamp(24px, 5vmin, 60px);
+  width: clamp(30px, 6.5vmin, 66px);
+  height: clamp(30px, 6.5vmin, 66px);
+}
+
+#app[data-bg="practice"] .decor-item[data-slot="medal"] {
+  left: 5%;
+  bottom: 10%;
+  font-size: var(--decor-lg);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+/* ─────────────────────────────────────────────
+   11. GAMES BACKGROUND — 10 DECORATION SLOTS
+───────────────────────────────────────────── */
+
+#app[data-bg="games"] .decor-item[data-slot="game-console"] {
+  left: 50%;
+  top: 30%;
+  transform: translateX(-50%);
+  font-size: var(--decor-xl);
+  width: clamp(56px, 14vmin, 140px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+#app[data-bg="games"] .decor-item[data-slot="joystick"] {
+  left: 15%;
+  top: 35%;
+  font-size: var(--decor-lg);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(36px, 8vmin, 80px);
+}
+
+#app[data-bg="games"] .decor-item[data-slot="dice"] {
+  right: 15%;
+  top: 25%;
+  font-size: var(--decor-base-size);
+  width: clamp(32px, 7vmin, 70px);
+  height: clamp(32px, 7vmin, 70px);
+}
+
+#app[data-bg="games"] .decor-item[data-slot="puzzle"] {
+  left: 8%;
+  top: 12%;
+  font-size: var(--decor-lg);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(36px, 8vmin, 80px);
+}
+
+#app[data-bg="games"] .decor-item[data-slot="star-reward"] {
+  right: 5%;
+  top: 8%;
+  font-size: var(--decor-lg);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(36px, 8vmin, 80px);
+}
+
+#app[data-bg="games"] .decor-item[data-slot="flag"] {
+  left: 30%;
+  top: 8%;
+  font-size: clamp(26px, 5.5vmin, 64px);
+  width: clamp(32px, 7vmin, 70px);
+  height: clamp(32px, 7vmin, 70px);
+}
+
+#app[data-bg="games"] .decor-item[data-slot="balloon"] {
+  right: 25%;
+  top: 5%;
+  font-size: var(--decor-lg);
+  width: clamp(32px, 7vmin, 70px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+#app[data-bg="games"] .decor-item[data-slot="trophy-games"] {
+  left: 5%;
+  bottom: 12%;
+  font-size: var(--decor-lg);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+#app[data-bg="games"] .decor-item[data-slot="magic-wand"] {
+  right: 8%;
+  bottom: 15%;
+  font-size: clamp(26px, 5.5vmin, 64px);
+  width: clamp(32px, 7vmin, 70px);
+  height: clamp(32px, 7vmin, 70px);
+}
+
+#app[data-bg="games"] .decor-item[data-slot="robot"] {
+  left: 50%;
+  bottom: 8%;
+  transform: translateX(-50%);
+  font-size: var(--decor-xl);
+  width: clamp(44px, 10vmin, 100px);
+  height: clamp(50px, 12vmin, 120px);
+}
+
+/* ─────────────────────────────────────────────
+   12. MUSIC BACKGROUND — 10 DECORATION SLOTS
+───────────────────────────────────────────── */
+
+#app[data-bg="music"] .decor-item[data-slot="piano"] {
+  left: 50%;
+  top: 32%;
+  transform: translateX(-50%);
+  font-size: var(--decor-xl);
+  width: clamp(56px, 14vmin, 140px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+#app[data-bg="music"] .decor-item[data-slot="guitar"] {
+  right: 6%;
+  top: 10%;
+  font-size: var(--decor-xl);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(62px, 15vmin, 150px);
+}
+
+#app[data-bg="music"] .decor-item[data-slot="microphone"] {
+  left: 8%;
+  top: 25%;
+  font-size: var(--decor-lg);
+  width: clamp(32px, 7vmin, 70px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+#app[data-bg="music"] .decor-item[data-slot="drum"] {
+  left: 15%;
+  bottom: 10%;
+  font-size: var(--decor-lg);
+  width: clamp(44px, 10vmin, 100px);
+  height: clamp(36px, 8vmin, 80px);
+}
+
+#app[data-bg="music"] .decor-item[data-slot="music-note-1"] {
+  left: 25%;
+  top: 8%;
+  font-size: clamp(26px, 5.5vmin, 64px);
+  width: clamp(32px, 7vmin, 70px);
+  height: clamp(32px, 7vmin, 70px);
+  animation: musicFloat1 4s ease-in-out infinite;
+}
+
+#app[data-bg="music"] .decor-item[data-slot="music-note-2"] {
+  right: 20%;
+  top: 6%;
+  font-size: clamp(22px, 4.5vmin, 56px);
+  width: clamp(28px, 6vmin, 60px);
+  height: clamp(28px, 6vmin, 60px);
+  animation: musicFloat2 3.5s ease-in-out infinite 0.8s;
+}
+
+#app[data-bg="music"] .decor-item[data-slot="headphones"] {
+  right: 15%;
+  bottom: 18%;
+  font-size: var(--decor-lg);
+  width: clamp(40px, 9vmin, 90px);
+  height: clamp(36px, 8vmin, 80px);
+}
+
+#app[data-bg="music"] .decor-item[data-slot="violin"] {
+  left: 5%;
+  top: 8%;
+  font-size: var(--decor-lg);
+  width: clamp(28px, 6vmin, 64px);
+  height: clamp(50px, 12vmin, 120px);
+}
+
+#app[data-bg="music"] .decor-item[data-slot="speaker"] {
+  right: 5%;
+  bottom: 8%;
+  font-size: var(--decor-lg);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+#app[data-bg="music"] .decor-item[data-slot="stage-light"] {
+  left: 50%;
+  top: 2%;
+  transform: translateX(-50%);
+  font-size: clamp(26px, 5.5vmin, 64px);
+  width: clamp(32px, 7vmin, 70px);
+  height: clamp(32px, 7vmin, 70px);
+}
+
+@keyframes musicFloat1 {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50%       { transform: translateY(clamp(-8px, -2vw, -16px)) rotate(5deg); }
+}
+
+@keyframes musicFloat2 {
+  0%, 100% { transform: translateY(0) rotate(5deg); }
+  50%       { transform: translateY(clamp(-6px, -1.5vw, -12px)) rotate(-5deg); }
+}
+
+/* ─────────────────────────────────────────────
+   13. DRAWING BACKGROUND — 10 DECORATION SLOTS
+───────────────────────────────────────────── */
+
+#app[data-bg="drawing"] .decor-item[data-slot="easel"] {
+  left: 50%;
+  top: 15%;
+  transform: translateX(-50%);
+  font-size: var(--decor-xl);
+  width: clamp(50px, 12vmin, 120px);
+  height: clamp(62px, 15vmin, 150px);
+}
+
+#app[data-bg="drawing"] .decor-item[data-slot="palette"] {
+  left: 10%;
+  top: 30%;
+  font-size: var(--decor-lg);
+  width: clamp(40px, 9vmin, 90px);
+  height: clamp(36px, 8vmin, 80px);
+}
+
+#app[data-bg="drawing"] .decor-item[data-slot="paintbrush"] {
+  right: 12%;
+  top: 28%;
+  font-size: var(--decor-base-size);
+  width: clamp(24px, 5vmin, 56px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+#app[data-bg="drawing"] .decor-item[data-slot="crayons"] {
+  left: 25%;
+  top: 40%;
+  font-size: clamp(22px, 4.5vmin, 56px);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(28px, 6vmin, 60px);
+}
+
+#app[data-bg="drawing"] .decor-item[data-slot="art-book"] {
+  right: 22%;
+  top: 38%;
+  font-size: var(--decor-base-size);
+  width: clamp(28px, 6vmin, 64px);
+  height: clamp(36px, 8vmin, 80px);
+}
+
+#app[data-bg="drawing"] .decor-item[data-slot="scissors-art"] {
+  left: 5%;
+  top: 8%;
+  font-size: clamp(22px, 4.5vmin, 56px);
+  width: clamp(28px, 6vmin, 60px);
+  height: clamp(28px, 6vmin, 60px);
+}
+
+#app[data-bg="drawing"] .decor-item[data-slot="star-art"] {
+  right: 5%;
+  top: 6%;
+  font-size: clamp(26px, 5.5vmin, 64px);
+  width: clamp(32px, 7vmin, 70px);
+  height: clamp(32px, 7vmin, 70px);
+}
+
+#app[data-bg="drawing"] .decor-item[data-slot="colored-pencils"] {
+  right: 5%;
+  bottom: 12%;
+  font-size: var(--decor-lg);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+#app[data-bg="drawing"] .decor-item[data-slot="artwork"] {
+  left: 5%;
+  bottom: 8%;
+  font-size: var(--decor-lg);
+  width: clamp(44px, 10vmin, 100px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+#app[data-bg="drawing"] .decor-item[data-slot="glitter"] {
+  left: 50%;
+  bottom: 5%;
+  transform: translateX(-50%);
+  font-size: clamp(22px, 4.5vmin, 56px);
+  width: clamp(28px, 6vmin, 60px);
+  height: clamp(28px, 6vmin, 60px);
+}
+
+/* ─────────────────────────────────────────────
+   14. READING BACKGROUND — 10 DECORATION SLOTS
+───────────────────────────────────────────── */
+
+#app[data-bg="reading"] .decor-item[data-slot="bedside-lamp"] {
+  left: 10%;
+  top: 28%;
+  font-size: var(--decor-lg);
+  width: clamp(32px, 7vmin, 70px);
+  height: clamp(50px, 12vmin, 120px);
+}
+
+#app[data-bg="reading"] .decor-item[data-slot="night-book"] {
+  left: 50%;
+  top: 35%;
+  transform: translateX(-50%);
+  font-size: var(--decor-xl);
+  width: clamp(56px, 14vmin, 140px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+#app[data-bg="reading"] .decor-item[data-slot="moon"] {
+  right: 8%;
+  top: 5%;
+  font-size: var(--decor-xl);
+  width: clamp(44px, 10vmin, 100px);
+  height: clamp(44px, 10vmin, 100px);
+  animation: moonGlow 4s ease-in-out infinite;
+}
+
+#app[data-bg="reading"] .decor-item[data-slot="stars-night"] {
+  left: 15%;
+  top: 5%;
+  font-size: clamp(22px, 4.5vmin, 56px);
+  width: clamp(28px, 6vmin, 60px);
+  height: clamp(28px, 6vmin, 60px);
+  animation: starTwinkle 2s ease-in-out infinite;
+}
+
+#app[data-bg="reading"] .decor-item[data-slot="pillow"] {
+  left: 35%;
+  bottom: 10%;
+  font-size: var(--decor-xl);
+  width: clamp(56px, 14vmin, 140px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+#app[data-bg="reading"] .decor-item[data-slot="teddy"] {
+  right: 10%;
+  bottom: 8%;
+  font-size: var(--decor-lg);
+  width: clamp(40px, 9vmin, 90px);
+  height: clamp(44px, 10vmin, 100px);
+}
+
+#app[data-bg="reading"] .decor-item[data-slot="blanket"] {
+  left: 50%;
+  bottom: 5%;
+  transform: translateX(-50%);
+  font-size: var(--decor-xl);
+  width: clamp(80px, 22vmin, 220px);
+  height: clamp(36px, 8vmin, 80px);
+}
+
+#app[data-bg="reading"] .decor-item[data-slot="dream-cloud"] {
+  left: 20%;
+  top: 8%;
+  font-size: var(--decor-lg);
+  width: clamp(44px, 10vmin, 100px);
+  height: clamp(32px, 7vmin, 70px);
+  animation: cloudFloat 5s ease-in-out infinite;
+}
+
+#app[data-bg="reading"] .decor-item[data-slot="candle"] {
+  right: 25%;
+  top: 32%;
+  font-size: clamp(22px, 4.5vmin, 56px);
+  width: clamp(24px, 5vmin, 56px);
+  height: clamp(32px, 7vmin, 70px);
+  animation: candleFlicker 1.5s ease-in-out infinite;
+}
+
+#app[data-bg="reading"] .decor-item[data-slot="owl"] {
+  left: 5%;
+  top: 12%;
+  font-size: var(--decor-lg);
+  width: clamp(36px, 8vmin, 80px);
+  height: clamp(36px, 8vmin, 80px);
+}
+
+@keyframes moonGlow {
+  0%, 100% { filter: drop-shadow(0 0 clamp(6px, 2vw, 20px) rgba(200, 220, 255, 0.6)); }
+  50%       { filter: drop-shadow(0 0 clamp(12px, 4vw, 40px) rgba(200, 220, 255, 0.9)); }
+}
+
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.6; transform: scale(0.9); }
+  50%       { opacity: 1;   transform: scale(1.1); }
+}
+
+@keyframes cloudFloat {
+  0%, 100% { transform: translateX(0); }
+  50%       { transform: translateX(clamp(4px, 1vw, 10px)); }
+}
+
+@keyframes candleFlicker {
+  0%, 100% { opacity: 0.85; transform: scaleY(1); }
+  33%       { opacity: 1;    transform: scaleY(1.05); }
+  66%       { opacity: 0.9;  transform: scaleY(0.97); }
+}
+
+/* ─────────────────────────────────────────────
+   15. DECORATION ENTRANCE ANIMATION
+───────────────────────────────────────────── */
+
+@keyframes decorPop {
+  0%   { transform: scale(0) rotate(-10deg); }
+  60%  { transform: scale(1.15) rotate(3deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+.decor-item.just-added {
+  animation: decorPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ─────────────────────────────────────────────
+   16. VYVY AVATAR — OUTFIT LAYERS
+───────────────────────────────────────────── */
+
+/* Base SVG groups — outfit layers inside .vyvy-svg */
+.vyvy-outfit-uniform {
+  /* always visible — default school uniform */
+}
+
+.vyvy-outfit-math {
+  display: none;
+}
+
+.vyvy-outfit-music {
+  display: none;
+}
+
+.vyvy-outfit-art {
+  display: none;
+}
+
+.vyvy-outfit-games {
+  display: none;
+}
+
+.vyvy-outfit-reading {
+  display: none;
+}
+
+.vyvy-outfit-science {
+  display: none;
+}
+
+.vyvy-outfit-sport {
+  display: none;
+}
+
+/* Active outfit — data-outfit on #vyvy-avatar */
+#vyvy-avatar[data-outfit="math"]    .vyvy-outfit-math    { display: block; }
+#vyvy-avatar[data-outfit="music"]   .vyvy-outfit-music   { display: block; }
+#vyvy-avatar[data-outfit="art"]     .vyvy-outfit-art     { display: block; }
+#vyvy-avatar[data-outfit="games"]   .vyvy-outfit-games   { display: block; }
+#vyvy-avatar[data-outfit="reading"] .vyvy-outfit-reading { display: block; }
+#vyvy-avatar[data-outfit="science"] .vyvy-outfit-science { display: block; }
+#vyvy-avatar[data-outfit="sport"]      .vyvy-outfit-sport      { display: block; }
+#vyvy-avatar[data-outfit="detective"]  .vyvy-outfit-detective  { display: block; }
+
+/* Hide uniform when a special outfit is active */
+#vyvy-avatar[data-outfit="math"]       .vyvy-outfit-uniform,
+#vyvy-avatar[data-outfit="music"]      .vyvy-outfit-uniform,
+#vyvy-avatar[data-outfit="art"]        .vyvy-outfit-uniform,
+#vyvy-avatar[data-outfit="games"]      .vyvy-outfit-uniform,
+#vyvy-avatar[data-outfit="reading"]    .vyvy-outfit-uniform,
+#vyvy-avatar[data-outfit="science"]    .vyvy-outfit-uniform,
+#vyvy-avatar[data-outfit="sport"]      .vyvy-outfit-uniform,
+#vyvy-avatar[data-outfit="detective"]  .vyvy-outfit-uniform {
+  display: none;
+}
+
+/* ─────────────────────────────────────────────
+   17. VYVY LEVEL GLOW EFFECTS
+───────────────────────────────────────────── */
+
+#vyvy-avatar[data-level="1"] .vyvy-svg {
+  filter: drop-shadow(0 4px 12px rgba(255, 143, 171, 0.3));
+}
+
+#vyvy-avatar[data-level="2"] .vyvy-svg {
+  filter: drop-shadow(0 4px 14px rgba(255, 143, 171, 0.4));
+}
+
+#vyvy-avatar[data-level="3"] .vyvy-svg {
+  filter: drop-shadow(0 4px 20px rgba(255, 215, 0, 0.5));
+}
+
+#vyvy-avatar[data-level="4"] .vyvy-svg {
+  filter: drop-shadow(0 4px 22px rgba(255, 215, 0, 0.55));
+}
+
+#vyvy-avatar[data-level="5"] .vyvy-svg {
+  filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8)) brightness(1.1);
+}
+
+#vyvy-avatar[data-level="6"] .vyvy-svg {
+  filter: drop-shadow(0 0 34px rgba(255, 200, 0, 0.75)) brightness(1.12);
+}
+
+#vyvy-avatar[data-level="7"] .vyvy-svg {
+  filter: drop-shadow(0 0 38px gold) brightness(1.15);
+}
+
+#vyvy-avatar[data-level="8"] .vyvy-svg {
+  filter: drop-shadow(0 0 40px gold) brightness(1.2);
+  animation: vyvyLegendary 3s ease-in-out infinite;
+}
+
+@keyframes vyvyLegendary {
+  0%, 100% {
+    filter: drop-shadow(0 0 40px gold) brightness(1.2);
+  }
+  50% {
+    filter: drop-shadow(0 0 60px gold) brightness(1.4);
+  }
+}
+
+/* ─────────────────────────────────────────────
+   18. SHOP PANEL
+───────────────────────────────────────────── */
+
+#decor-shop-panel {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(100%, 800px);
+  max-height: 70vh;
+  background: white;
+  border-radius: var(--panel-radius-top) var(--panel-radius-top) 0 0;
+  box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.2);
+  z-index: 200;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#decor-shop-panel.hidden {
+  transform: translateX(-50%) translateY(100%);
+}
+
+/* Shop panel drag handle */
+.shop-panel-handle {
+  width: clamp(32px, 8vw, 48px);
+  height: clamp(4px, 1vw, 6px);
+  background: #e0e0e0;
+  border-radius: 999px;
+  margin: clamp(10px, 2.5vw, 16px) auto clamp(4px, 1.5vw, 8px);
+  flex-shrink: 0;
+}
+
+/* Shop panel header */
+.shop-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(8px, 2vw, 14px) clamp(14px, 3.5vw, 24px);
+  border-bottom: 1px solid #f0f0f0;
+  flex-shrink: 0;
+}
+
+.shop-panel-title {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.shop-panel-stars {
+  display: flex;
+  align-items: center;
+  gap: clamp(4px, 1vw, 8px);
+  font-size: var(--fs-md);
+  font-weight: 700;
+  color: #F57F17;
+  background: #FFF9C4;
+  padding: clamp(4px, 1vw, 6px) clamp(8px, 2vw, 12px);
+  border-radius: 999px;
+}
+
+.shop-panel-close {
+  width: var(--touch);
+  height: var(--touch);
+  min-width: 44px;
+  min-height: 44px;
+  border: none;
+  background: #f5f5f5;
+  border-radius: 50%;
+  font-size: var(--fs-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.shop-panel-close:active,
+.shop-panel-close:hover {
+  background: #e0e0e0;
+}
+
+/* Shop category tabs */
+.shop-tabs {
+  display: flex;
+  gap: clamp(6px, 1.5vw, 10px);
+  padding: clamp(8px, 2vw, 12px) clamp(14px, 3.5vw, 24px);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  flex-shrink: 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.shop-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.shop-tab {
+  flex-shrink: 0;
+  padding: clamp(6px, 1.5vw, 10px) clamp(12px, 3vw, 20px);
+  border: 2px solid #e0e0e0;
+  border-radius: 999px;
+  background: white;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #757575;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: clamp(4px, 1vw, 6px);
+}
+
+.shop-tab.active {
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  border-color: transparent;
+  color: white;
+}
+
+.shop-tab:active,
+.shop-tab:hover {
+  border-color: var(--pink);
+  color: var(--pink);
+}
+
+.shop-tab.active:hover {
+  color: white;
+  border-color: transparent;
+}
+
+/* Shop scroll area */
+.shop-panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: clamp(12px, 3vw, 20px) clamp(14px, 3.5vw, 24px);
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Shop grid */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--shop-item-min), 1fr));
+  gap: clamp(8px, 2vw, 16px);
+}
+
+/* Individual shop item */
+.shop-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(4px, 1vw, 8px);
+  padding: clamp(10px, 2.5vw, 16px) clamp(8px, 2vw, 12px);
+  border: 2px solid #e0e0e0;
+  border-radius: clamp(12px, 3vw, 20px);
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  min-height: clamp(80px, 18vw, 120px);
+}
+
+.shop-item:active,
+.shop-item:hover {
+  transform: scale(0.97);
+  border-color: var(--pink);
+  box-shadow: 0 4px 16px rgba(255, 143, 171, 0.2);
+}
+
+.shop-item.owned {
+  border-color: var(--green);
+  background: #F1F8E9;
+}
+
+.shop-item.equipped {
+  border-color: var(--purple);
+  background: #EDE7F6;
+}
+
+.shop-item.locked {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.shop-item.locked:hover {
+  transform: none;
+  border-color: #e0e0e0;
+  box-shadow: none;
+}
+
+.shop-item-icon {
+  font-size: clamp(28px, 8vmin, 56px);
+  line-height: 1;
+}
+
+.shop-item-name {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  text-align: center;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.shop-item-price {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: #F57F17;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.shop-item-badge {
+  position: absolute;
+  top: clamp(4px, 1vw, 6px);
+  right: clamp(4px, 1vw, 6px);
+  font-size: clamp(9px, 1.8vw, 11px);
+  font-weight: 700;
+  padding: 2px clamp(4px, 1vw, 6px);
+  border-radius: 999px;
+  line-height: 1.4;
+}
+
+.shop-item-badge.new {
+  background: var(--pink);
+  color: white;
+}
+
+.shop-item-badge.level {
+  background: var(--yellow);
+  color: #5D4037;
+}
+
+/* ─────────────────────────────────────────────
+   19. AVATAR SHOP BUTTON (override)
+───────────────────────────────────────────── */
+
+.avatar-shop-btn {
+  background: linear-gradient(135deg, #FFE082, #FF8FAB);
+  color: white;
+  font-weight: 700;
+  border: none;
+  border-radius: clamp(12px, 3vw, 20px);
+  padding: clamp(8px, 2vw, 12px) clamp(12px, 3vw, 20px);
+  cursor: pointer;
+  font-size: clamp(13px, 2.8vw, 16px);
+  box-shadow: 0 4px 12px rgba(255, 143, 171, 0.3);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  font-family: inherit;
+}
+
+.avatar-shop-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 6px rgba(255, 143, 171, 0.2);
+}
+
+.avatar-shop-btn:hover {
+  box-shadow: 0 6px 18px rgba(255, 143, 171, 0.4);
+  transform: translateY(-1px);
+}
+
+/* ─────────────────────────────────────────────
+   20. STAR BURST FX
+───────────────────────────────────────────── */
+
+@keyframes starBurst {
+  0%   { transform: scale(0) rotate(0deg);   opacity: 1; }
+  50%  { transform: scale(2) rotate(180deg); opacity: 1; }
+  100% { transform: scale(0) rotate(360deg); opacity: 0; }
+}
+
+.star-burst-fx {
+  position: fixed;
+  pointer-events: none;
+  font-size: clamp(24px, 5vw, 48px);
+  animation: starBurst 1s ease-out forwards;
+  z-index: 1000;
+  line-height: 1;
+}
+
+/* Secondary sparkle particles */
+@keyframes sparkleFloat {
+  0%   { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+}
+
+.star-sparkle {
+  position: fixed;
+  pointer-events: none;
+  font-size: clamp(12px, 2.5vw, 20px);
+  animation: sparkleFloat 0.8s ease-out forwards;
+  z-index: 999;
+  line-height: 1;
+}
+
+/* ─────────────────────────────────────────────
+   21. LEVEL UP OVERLAY
+───────────────────────────────────────────── */
+
+#level-up-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+#level-up-overlay.hidden {
+  display: none;
+}
+
+.level-up-card {
+  background: white;
+  border-radius: clamp(20px, 4vw, 32px);
+  padding: clamp(24px, 5vw, 48px);
+  text-align: center;
+  max-width: min(90vw, 440px);
+  width: 100%;
+  animation: levelUpPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.level-up-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 224, 130, 0.15) 0%,
+    rgba(201, 160, 255, 0.1) 50%,
+    rgba(255, 143, 171, 0.15) 100%
+  );
+  pointer-events: none;
+}
+
+@keyframes levelUpPop {
+  0%   { transform: scale(0.3) rotate(-5deg); opacity: 0; }
+  60%  { transform: scale(1.05) rotate(1deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg);   opacity: 1; }
+}
+
+.level-up-icon {
+  font-size: clamp(48px, 12vmin, 96px);
+  line-height: 1;
+  margin-bottom: clamp(8px, 2vw, 16px);
+  display: block;
+}
+
+.level-up-title {
+  font-size: var(--fs-2xl);
+  font-weight: 800;
+  background: linear-gradient(135deg, #FF8FAB, #C9A0FF, #FFE082);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: clamp(4px, 1vw, 8px);
+}
+
+.level-up-subtitle {
+  font-size: var(--fs-md);
+  color: #757575;
+  margin-bottom: clamp(16px, 4vw, 28px);
+}
+
+.level-up-reward {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 2vw, 14px);
+  background: #FFF9C4;
+  border-radius: clamp(12px, 3vw, 20px);
+  padding: clamp(12px, 3vw, 20px);
+  margin-bottom: clamp(16px, 4vw, 28px);
+  font-size: var(--fs-md);
+  font-weight: 700;
+  color: #5D4037;
+}
+
+.level-up-btn {
+  width: 100%;
+  padding: clamp(14px, 3.5vw, 20px);
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: white;
+  border: none;
+  border-radius: clamp(14px, 3vw, 22px);
+  font-size: var(--fs-md);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  min-height: var(--touch);
+}
+
+.level-up-btn:active {
+  transform: scale(0.97);
+}
+
+.level-up-btn:hover {
+  box-shadow: 0 6px 20px rgba(255, 143, 171, 0.4);
+  transform: translateY(-1px);
+}
+
+/* confetti dots around level up card */
+@keyframes confettiFall {
+  0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(60px) rotate(360deg); opacity: 0; }
+}
+
+.level-up-confetti {
+  position: absolute;
+  width: clamp(6px, 1.5vw, 10px);
+  height: clamp(6px, 1.5vw, 10px);
+  border-radius: 2px;
+  animation: confettiFall 1.2s ease-in forwards;
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────
+   22. MULTIPLE CHOICE EXERCISE BUTTONS
+───────────────────────────────────────────── */
+
+.mc-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(8px, 2vw, 16px);
+  margin: clamp(12px, 3vw, 24px) 0;
+}
+
+/* Single column on very small screens */
+@media (max-width: 340px) {
+  .mc-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mc-btn {
+  padding: clamp(14px, 3vw, 22px) clamp(8px, 2vw, 16px);
+  border: 3px solid #e0e0e0;
+  border-radius: clamp(14px, 3vw, 20px);
+  background: white;
+  font-size: clamp(15px, 3.5vw, 20px);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  min-height: clamp(52px, 10vw, 72px);
+  text-align: center;
+  line-height: 1.3;
+  color: var(--text);
+  word-break: break-word;
+}
+
+.mc-btn:active,
+.mc-btn:hover {
+  transform: scale(0.97);
+  border-color: var(--pink);
+  box-shadow: 0 2px 8px rgba(255, 143, 171, 0.2);
+}
+
+.mc-btn.correct {
+  background: #C8E6C9;
+  border-color: #4CAF50;
+  color: #1B5E20;
+  animation: correctPulse 0.4s;
+}
+
+.mc-btn.wrong {
+  background: #FFCDD2;
+  border-color: #F44336;
+  color: #B71C1C;
+  animation: wrongShake 0.4s;
+}
+
+.mc-btn:disabled {
+  cursor: default;
+}
+
+.mc-btn:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.mc-btn.correct:hover,
+.mc-btn.wrong:hover {
+  transform: none;
+}
+
+@keyframes correctPulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.05); }
+}
+
+@keyframes wrongShake {
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(-6px); }
+  75%       { transform: translateX(6px); }
+}
+
+/* ─────────────────────────────────────────────
+   23. EXERCISE PROGRESS BAR
+───────────────────────────────────────────── */
+
+.exercise-progress {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 2vw, 12px);
+  padding: clamp(8px, 2vw, 16px) 0;
+}
+
+.exercise-progress-track {
+  flex: 1;
+  height: clamp(8px, 1.5vw, 12px);
+  background: #f0f0f0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.exercise-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--pink), var(--purple));
+  border-radius: 999px;
+  transition: width 0.4s ease;
+  min-width: 0;
+}
+
+.exercise-progress-label {
+  font-size: clamp(12px, 2.5vw, 15px);
+  color: #888;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Progress icon (streak or checkpoint) */
+.exercise-progress-icon {
+  font-size: clamp(16px, 3.5vw, 22px);
+  line-height: 1;
+}
+
+/* ─────────────────────────────────────────────
+   24. STARS DISPLAY
+───────────────────────────────────────────── */
+
+.stars-display {
+  display: flex;
+  align-items: center;
+  gap: clamp(4px, 1vw, 6px);
+  font-size: var(--fs-base);
+  font-weight: 700;
+  color: #F57F17;
+}
+
+.stars-display-count {
+  font-size: var(--fs-md);
+  font-weight: 800;
+  color: #E65100;
+}
+
+/* Star counter animation when gaining stars */
+@keyframes starCountBounce {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.3); }
+  60%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+.stars-display.gained .stars-display-count {
+  animation: starCountBounce 0.5s ease;
+}
+
+/* ─────────────────────────────────────────────
+   25. VYVY AVATAR CONTAINER
+───────────────────────────────────────────── */
+
+#vyvy-avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.vyvy-svg {
+  width: clamp(80px, 22vmin, 180px);
+  height: clamp(80px, 22vmin, 180px);
+  transition: filter 0.5s ease;
+  overflow: visible;
+}
+
+/* VyVy idle float animation */
+@keyframes vyvyFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(clamp(-4px, -1vmin, -8px)); }
+}
+
+#vyvy-avatar.idle .vyvy-svg {
+  animation: vyvyFloat 3s ease-in-out infinite;
+}
+
+/* VyVy happy bounce */
+@keyframes vyvyBounce {
+  0%   { transform: translateY(0) rotate(0deg); }
+  20%  { transform: translateY(clamp(-12px, -3vmin, -20px)) rotate(-5deg); }
+  40%  { transform: translateY(0) rotate(3deg); }
+  60%  { transform: translateY(clamp(-6px, -1.5vmin, -10px)) rotate(-2deg); }
+  80%  { transform: translateY(0) rotate(1deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+#vyvy-avatar.happy .vyvy-svg {
+  animation: vyvyBounce 0.8s ease-in-out;
+}
+
+/* VyVy sad shake */
+@keyframes vyvySad {
+  0%, 100% { transform: rotate(0deg); }
+  20%       { transform: rotate(-8deg); }
+  40%       { transform: rotate(8deg); }
+  60%       { transform: rotate(-5deg); }
+  80%       { transform: rotate(5deg); }
+}
+
+#vyvy-avatar.sad .vyvy-svg {
+  animation: vyvySad 0.6s ease-in-out;
+}
+
+/* VyVy thinking bob */
+@keyframes vyvyThink {
+  0%, 100% { transform: rotate(0deg); }
+  30%       { transform: rotate(8deg); }
+  70%       { transform: rotate(-3deg); }
+}
+
+#vyvy-avatar.thinking .vyvy-svg {
+  animation: vyvyThink 1.5s ease-in-out infinite;
+}
+
+/* ─────────────────────────────────────────────
+   26. SPEECH BUBBLE
+───────────────────────────────────────────── */
+
+.vyvy-speech-bubble {
+  position: absolute;
+  bottom: calc(100% + clamp(6px, 1.5vw, 12px));
+  left: 50%;
+  transform: translateX(-20%);
+  background: white;
+  border-radius: clamp(12px, 3vw, 18px);
+  padding: clamp(8px, 2vw, 12px) clamp(10px, 2.5vw, 16px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text);
+  max-width: clamp(140px, 40vw, 260px);
+  white-space: normal;
+  line-height: 1.4;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.vyvy-speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: clamp(-8px, -2vw, -10px);
+  left: clamp(16px, 5vw, 24px);
+  width: 0;
+  height: 0;
+  border: clamp(6px, 1.5vw, 10px) solid transparent;
+  border-top-color: white;
+  border-bottom: 0;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.08));
+}
+
+@keyframes bubblePop {
+  0%   { transform: translateX(-20%) scale(0.7); opacity: 0; }
+  70%  { transform: translateX(-20%) scale(1.05); opacity: 1; }
+  100% { transform: translateX(-20%) scale(1); opacity: 1; }
+}
+
+.vyvy-speech-bubble.show {
+  animation: bubblePop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes bubbleFade {
+  0%   { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-20%) translateY(-6px); }
+}
+
+.vyvy-speech-bubble.hide {
+  animation: bubbleFade 0.3s ease forwards;
+}
+
+/* ─────────────────────────────────────────────
+   27. THEME-SPECIFIC CONTENT CARD TINTING
+───────────────────────────────────────────── */
+
+/* Cards get subtle tint matching the current theme */
+#app[data-bg="home"] .card,
+#app[data-bg="home"] .lesson-card {
+  border-top: 3px solid var(--yellow);
+}
+
+#app[data-bg="learn"] .card,
+#app[data-bg="learn"] .lesson-card {
+  border-top: 3px solid var(--blue);
+}
+
+#app[data-bg="practice"] .card,
+#app[data-bg="practice"] .lesson-card {
+  border-top: 3px solid var(--green);
+}
+
+#app[data-bg="games"] .card,
+#app[data-bg="games"] .lesson-card {
+  border-top: 3px solid var(--purple);
+}
+
+#app[data-bg="music"] .card,
+#app[data-bg="music"] .lesson-card {
+  border-top: 3px solid var(--purple);
+}
+
+#app[data-bg="drawing"] .card,
+#app[data-bg="drawing"] .lesson-card {
+  border-top: 3px solid var(--pink);
+}
+
+#app[data-bg="reading"] .card,
+#app[data-bg="reading"] .lesson-card {
+  border-top: 3px solid #90CAF9;
+}
+
+/* Dark backgrounds need light text in content areas */
+#app[data-bg="games"] .screen-title,
+#app[data-bg="games"] .nav-label,
+#app[data-bg="music"] .screen-title,
+#app[data-bg="music"] .nav-label,
+#app[data-bg="reading"] .screen-title,
+#app[data-bg="reading"] .nav-label {
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* ─────────────────────────────────────────────
+   28. DECOR SHOP OVERLAY BACKDROP
+───────────────────────────────────────────── */
+
+#decor-shop-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 199;
+  transition: opacity 0.3s ease;
+}
+
+#decor-shop-backdrop.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────
+   29. DECOR SLOT HIGHLIGHT (placement UI)
+───────────────────────────────────────────── */
+
+.decor-slot-highlight {
+  position: absolute;
+  border: 2px dashed rgba(255, 143, 171, 0.7);
+  border-radius: clamp(8px, 2vw, 14px);
+  background: rgba(255, 143, 171, 0.08);
+  pointer-events: all;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: slotPulse 2s ease-in-out infinite;
+}
+
+.decor-slot-highlight:hover {
+  background: rgba(255, 143, 171, 0.18);
+  border-color: rgba(255, 143, 171, 1);
+}
+
+@keyframes slotPulse {
+  0%, 100% { opacity: 0.7; }
+  50%       { opacity: 1; }
+}
+
+/* ─────────────────────────────────────────────
+   30. THEME TRANSITION WIPE
+───────────────────────────────────────────── */
+
+@keyframes themeFadeIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+#app.theme-changing::before {
+  animation: themeFadeIn 0.6s ease forwards;
+}
+
+/* ─────────────────────────────────────────────
+   31. RESPONSIVE OVERRIDES
+───────────────────────────────────────────── */
+
+/* Tablet (768px – 1200px) adjustments */
+@media (min-width: 768px) and (max-width: 1200px) {
+  #decor-shop-panel {
+    width: min(90%, 800px);
+  }
+
+  .mc-options {
+    gap: clamp(10px, 2.5vw, 20px);
+  }
+
+  .vyvy-svg {
+    width: clamp(100px, 20vmin, 160px);
+    height: clamp(100px, 20vmin, 160px);
+  }
+}
+
+/* Large desktop (1920px+) adjustments */
+@media (min-width: 1920px) {
+  :root {
+    --decor-base-size: clamp(48px, 3.5vmin, 72px);
+    --decor-lg:        clamp(56px, 5vmin,  88px);
+    --decor-xl:        clamp(64px, 6vmin, 100px);
+  }
+
+  .level-up-card {
+    max-width: 480px;
+  }
+
+  #decor-shop-panel {
+    width: min(100%, 960px);
+  }
+}
+
+/* Phone (320px – 480px) adjustments */
+@media (max-width: 480px) {
+  .shop-panel-header {
+    gap: clamp(6px, 2vw, 10px);
+  }
+
+  .shop-panel-title {
+    font-size: var(--fs-base);
+  }
+
+  .level-up-card {
+    padding: clamp(20px, 5vw, 32px);
+    border-radius: clamp(16px, 5vw, 24px);
+  }
+
+  .mc-btn {
+    font-size: clamp(14px, 4vw, 18px);
+  }
+
+  /* Tighten decor positioning on small screens */
+  .decor-item[data-slot="wall-poster"]   { left: 2%; }
+  .decor-item[data-slot="bookshelf"]     { right: 1%; }
+  .decor-item[data-slot="backpack"]      { right: 2%; }
+  .decor-item[data-slot="toy-basket"]    { right: 1%; }
+}
+
+/* Very small screens (below 360px) */
+@media (max-width: 360px) {
+  .mc-options {
+    grid-template-columns: 1fr;
+  }
+
+  .shop-tabs {
+    padding: clamp(6px, 2vw, 10px) clamp(10px, 3vw, 16px);
+  }
+
+  .shop-panel-body {
+    padding: clamp(10px, 3vw, 16px) clamp(10px, 3vw, 16px);
+  }
+}
+
+/* Landscape phone */
+@media (max-height: 500px) and (orientation: landscape) {
+  #decor-shop-panel {
+    max-height: 85vh;
+  }
+
+  .level-up-card {
+    padding: clamp(14px, 2.5vw, 20px);
+  }
+
+  .level-up-icon {
+    font-size: clamp(32px, 8vmin, 56px);
+  }
+
+  .level-up-title {
+    font-size: var(--fs-xl);
+  }
+}
+
+/* ─────────────────────────────────────────────
+   32. ACCESSIBILITY — REDUCED MOTION
+───────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.1s !important;
+  }
+
+  .decor-item.just-added {
+    animation: none;
+    transform: scale(1);
+  }
+
+  #vyvy-avatar.idle .vyvy-svg,
+  #vyvy-avatar.happy .vyvy-svg,
+  #vyvy-avatar.sad .vyvy-svg,
+  #vyvy-avatar.thinking .vyvy-svg {
+    animation: none;
+  }
+
+  #app[data-bg="music"] .decor-item[data-slot="music-note-1"],
+  #app[data-bg="music"] .decor-item[data-slot="music-note-2"],
+  #app[data-bg="reading"] .decor-item[data-slot="moon"],
+  #app[data-bg="reading"] .decor-item[data-slot="stars-night"],
+  #app[data-bg="reading"] .decor-item[data-slot="dream-cloud"],
+  #app[data-bg="reading"] .decor-item[data-slot="candle"] {
+    animation: none;
+  }
+
+  #vyvy-avatar[data-level="8"] .vyvy-svg {
+    animation: none;
+    filter: drop-shadow(0 0 40px gold) brightness(1.2);
+  }
+}
+
+/* ─────────────────────────────────────────────
+   33. HIGH CONTRAST MODE SUPPORT
+───────────────────────────────────────────── */
+
+@media (prefers-contrast: high) {
+  .mc-btn {
+    border-width: 3px;
+    border-color: #000;
+  }
+
+  .mc-btn.correct {
+    border-color: #006600;
+    background: #CCFFCC;
+  }
+
+  .mc-btn.wrong {
+    border-color: #CC0000;
+    background: #FFCCCC;
+  }
+
+  .shop-item {
+    border-width: 2px;
+    border-color: #000;
+  }
+
+  .shop-tab.active {
+    outline: 2px solid #000;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   34. PRINT STYLES — hide decorations
+───────────────────────────────────────────── */
+
+@media print {
+  #study-decor-layer,
+  .bg-scene,
+  #decor-shop-panel,
+  #decor-shop-backdrop,
+  #level-up-overlay,
+  .star-burst-fx,
+  .star-sparkle,
+  .vyvy-speech-bubble {
+    display: none !important;
+  }
+
+  #app::before {
+    display: none !important;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   35. UTILITY HELPERS
+───────────────────────────────────────────── */
+
+/* Hide/show helpers used by JS */
+.theme-hidden {
+  display: none !important;
+}
+
+.theme-invisible {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Smooth opacity fade utility */
+.theme-fade-in {
+  animation: themeFadeIn 0.4s ease forwards;
+}
+
+/* Touch ripple for interactive decor items */
+.decor-item.interactive {
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.decor-item.interactive:active {
+  transform: scale(0.92);
+  transition: transform 0.1s ease;
+}
+
+/* Scrollbar styling for shop panel */
+.shop-panel-body::-webkit-scrollbar {
+  width: clamp(4px, 0.8vw, 6px);
+}
+
+.shop-panel-body::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 999px;
+}
+
+.shop-panel-body::-webkit-scrollbar-thumb {
+  background: #e0e0e0;
+  border-radius: 999px;
+}
+
+.shop-panel-body::-webkit-scrollbar-thumb:hover {
+  background: #c0c0c0;
+}
+
+/* Focus-visible styles for keyboard navigation */
+.mc-btn:focus-visible,
+.shop-item:focus-visible,
+.shop-tab:focus-visible,
+.level-up-btn:focus-visible,
+.avatar-shop-btn:focus-visible,
+.shop-panel-close:focus-visible {
+  outline: 3px solid var(--pink);
+  outline-offset: 2px;
+}
+
+/* ─────────────────────────────────────────────
+   END OF THEME.CSS
+   7 study corner themes + full decoration system
+   VyVy outfit layers + glow levels + shop panel
+   Level-up overlay + exercise UI + star effects
+   ============================================================= */

@@ -1,0 +1,90 @@
+[
+  {
+    "book_id": "KNTT_G2_MATH_T1",
+    "title": "SGK Toán 2 - Tập 1",
+    "subject": "toan",
+    "grade": 2,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": 1,
+    "source_file": "SGK TOÁN TẬP 1 - LỚP 2 (KẾT NỐI TRI THỨC).pdf",
+    "page_count": 142,
+    "parse_status": "toc_seed_from_visual"
+  },
+  {
+    "book_id": "KNTT_G2_MATH_T2",
+    "title": "SGK Toán 2 - Tập 2",
+    "subject": "toan",
+    "grade": 2,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": 2,
+    "source_file": "SGK TOÁN TẬP 2 - LỚP 2 (KẾT NỐI TRI THỨC).pdf",
+    "page_count": 142,
+    "parse_status": "toc_seed_from_visual"
+  },
+  {
+    "book_id": "KNTT_G2_VIETNAMESE_T1",
+    "title": "SGK Tiếng Việt 2 - Tập 1",
+    "subject": "tieng_viet",
+    "grade": 2,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": 1,
+    "source_file": "SGK TIẾNG VIỆT TẬP 1 - LỚP 2 (KẾT NỐI TRI THỨC).pdf",
+    "page_count": 146,
+    "parse_status": "toc_seed_from_visual"
+  },
+  {
+    "book_id": "KNTT_G2_VIETNAMESE_T2",
+    "title": "SGK Tiếng Việt 2 - Tập 2",
+    "subject": "tieng_viet",
+    "grade": 2,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": 2,
+    "source_file": "SGK TIẾNG VIỆT TẬP 2 - LỚP 2 (KẾT NỐI TRI THỨC).pdf",
+    "page_count": 146,
+    "parse_status": "toc_seed_from_visual"
+  },
+  {
+    "book_id": "KNTT_G2_MUSIC",
+    "title": "SGK Âm nhạc 2",
+    "subject": "am_nhac",
+    "grade": 2,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": null,
+    "source_file": "SGK ÂM NHẠC - LỚP 2 (KẾT NỐI TRI THỨC).pdf",
+    "page_count": 63,
+    "parse_status": "toc_seed_from_visual"
+  },
+  {
+    "book_id": "KNTT_G2_ART",
+    "title": "SGK Mĩ thuật 2",
+    "subject": "mi_thuat",
+    "grade": 2,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": null,
+    "source_file": "SGK MĨ THUẬT - LỚP 2 (KẾT NỐI TRI THỨC).pdf",
+    "page_count": 67,
+    "parse_status": "toc_seed_from_visual"
+  },
+  {
+    "book_id": "KNTT_G2_EXPERIENTIAL",
+    "title": "SGK Hoạt động trải nghiệm 2",
+    "subject": "hoat_dong_trai_nghiem",
+    "grade": 2,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": null,
+    "source_file": "SGK HOẠT ĐỘNG TRẢI NGHIỆM - LỚP 2 (KẾT NỐI TRI THỨC).pdf",
+    "page_count": 94,
+    "parse_status": "toc_seed_from_visual"
+  },
+  {
+    "book_id": "KNTT_G2_PE",
+    "title": "SGK Giáo dục thể chất 2",
+    "subject": "giao_duc_the_chat",
+    "grade": 2,
+    "series": "Kết nối tri thức với cuộc sống",
+    "term": null,
+    "source_file": "SGK GIÁO DỤC THỂ CHẤT - LỚP 2 (KẾT NỐI TRI THỨC).pdf",
+    "page_count": 98,
+    "parse_status": "partial_seed_from_visible_pages"
+  }
+]
