@@ -36,9 +36,15 @@ Docker named volume: phatlt2-aikidsbuddy-mmjgoa_vyvy-sgk-data
 
 ### Normal deploy (no VPN needed)
 
+> **IMPORTANT — Use the clean GitHub working repo only.**
+> `C:\AI_KIDS_BUDDY` contains the old GitLab full-history branch (150+ commits, different orphan lineage from GitHub).
+> Do NOT run `git push` from `C:\AI_KIDS_BUDDY` master — it will conflict with GitHub's clean orphan lineage.
+> Use `C:\AI_KIDS_BUDDY_GITHUB` (cloned from GitHub) for all GitHub/Dokploy deployment work.
+
 ```bash
 # 1. Push to GitHub — Dokploy Autodeploy triggers automatically on push
-git push github master
+# Working folder: C:\AI_KIDS_BUDDY_GITHUB
+git push origin master
 
 # 2. Or trigger manually via Dokploy UI:
 #    https://host.vnggames.ai → project → application → Deploy button
