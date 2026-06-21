@@ -19,8 +19,7 @@ Dokploy v0.29.4 (Docker Swarm + Traefik)   host.vnggames.ai  (IP: 103.245.249.96
 
 App URL:     http://kid.103.245.249.96.nip.io   (HTTP, no VPN needed)
 Dokploy UI:  https://host.vnggames.ai            (no VPN needed)
-GitLab repo: https://code.vnggames.ai/phatlt2/ai_kids_buddy   (VPN REQUIRED)
-GitLab IP:   61.28.235.82
+GitHub repo: https://github.com/l3t4nph4t/AI_KIDS_BUDDY   (no VPN needed)
 
 Dokploy App IDs:
   applicationId: 9Fjk27N6CJKvHCYCZEiB9
@@ -35,13 +34,13 @@ Docker named volume: phatlt2-aikidsbuddy-mmjgoa_vyvy-sgk-data
 
 ## 3. Deploy Flow
 
-### Normal deploy (VPN connected)
+### Normal deploy (no VPN needed)
 
 ```bash
-# 1. Ensure VPN VNG is active
-git push origin master
+# 1. Push to GitHub — Dokploy Autodeploy triggers automatically on push
+git push github master
 
-# 2. Trigger deploy via Dokploy UI:
+# 2. Or trigger manually via Dokploy UI:
 #    https://host.vnggames.ai → project → application → Deploy button
 #
 # OR via browser JS console at https://host.vnggames.ai:
@@ -57,9 +56,9 @@ fetch('/api/trpc/deployment.all?batch=1&input=' +
   .then(r=>r.json()).then(d=>console.log(d[0].result.data.json.map(i=>i.status+' | '+i.title)))
 ```
 
-### Emergency patch (no VPN / no git push)
+### Emergency patch (no git push available)
 
-When VPN is unavailable, use Dokploy Patches to inject a file directly into the build:
+When git push is unavailable, use Dokploy Patches to inject a file directly into the build:
 
 ```js
 // In browser console at https://host.vnggames.ai
@@ -74,10 +73,8 @@ fetch('/api/trpc/patch.create?batch=1', {method:'POST', headers:{'Content-Type':
 
 | Issue | Detail |
 |-------|--------|
-| SSH blocked | Port 22 to `code.vnggames.ai` times out — HTTPS only |
-| GitLab HTTP limit | Server rejects pushes > ~10–25 MB (413 error) |
-| `http.postBuffer` | `git config http.postBuffer 524288000` helps client side only, not server |
-| Solution | Batch 5–8 PDF files per commit+push; see `scripts/push_grade5_pdfs.sh` |
+| Large PDF commits | GitHub accepts up to 100 MB per file; no batching needed for code — only avoid committing PDFs to git at all (use Docker volume instead) |
+| Autodeploy webhook | Dokploy GitHub App `Dokploy-2026-06-21-mlwjn7` must remain installed on `l3t4nph4t/AI_KIDS_BUDDY` for auto-trigger to work |
 
 ---
 
@@ -117,28 +114,19 @@ for fname in sorted(os.listdir(folder)):
 
 ---
 
-## 5. Push Large PDF Batches to GitLab
+## 5. Push Large PDF Batches to GitHub
 
-GitLab's HTTP server rejects pack files > ~25 MB. Split into small commits:
+GitHub has no server-side HTTP size limit (unlike the old GitLab). Push normally:
 
 ```bash
-# Template: scripts/push_grade5_pdfs.sh
-# Pattern: 5–8 PDF files per commit, then immediately push
-
-commit_and_push() {
-  git commit -m "feat: PDFs — $1"
-  git push origin master
-}
-
-# Add 8 files, commit, push, repeat
-for ((i=1; i<=8; i++)); do
-  printf -v pad "%03d" $i
-  git add "backend/data/lesson_pdfs/grade_5/PATTERN_L${pad}.pdf"
-done
-commit_and_push "PATTERN_L001-L008"
+git add backend/data/lesson_pdfs/grade_5/
+git commit -m "feat: add grade 5 PDFs"
+git push github master
 ```
 
-See `scripts/push_grade5_pdfs.sh` for the full reusable script with `push_range()` helper.
+If pushing many large files at once, use `scripts/push_grade5_pdfs.sh` which batches 5–8 files per commit to keep individual pack sizes manageable.
+
+> **Note:** `lesson_pdfs/` PDFs belong in git (they are split lesson files). `source_sgk/` PDFs do NOT go in git — they live in the Docker named volume only.
 
 ---
 
@@ -172,7 +160,6 @@ backend/data/source_sgk/grade_5/   ← Docker volume, NOT in git
 MIMO_TOKEN_PLAN_KEY=...       # Gemini API key for lesson content generation
 MIMO_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai
 MIMO_MODEL=gemini-1.5-flash
-GITLAB_TOKEN=...               # VNG internal GitLab personal access token
 ```
 
 ---
@@ -187,5 +174,5 @@ See `docs/RUNBOOK.md` for local development setup (uvicorn, port, hot-reload, et
 
 | Script | Purpose |
 |--------|---------|
-| `scripts/push_grade5_pdfs.sh` | Batch-push PDF files to GitLab (5–8 per commit) |
+| `scripts/push_grade5_pdfs.sh` | Batch-push PDF files to GitHub (5–8 per commit) |
 | `scripts/build_unit_table.py` | Analyze curriculum: count units/lessons/PDFs per grade×subject |
