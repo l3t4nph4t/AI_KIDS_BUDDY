@@ -645,15 +645,48 @@ body {
 }
 
 /* Typing indicator */
-.typing-dots {
+.typing-message {
+  align-self: flex-start;
+}
+
+.typing-bubble {
   display: flex;
-  gap: 5px;
-  padding: 12px 16px;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px 10px 10px;
   background: linear-gradient(135deg, #FFF8E1, #FFECB3);
   border-radius: var(--radius);
   border-bottom-left-radius: 6px;
-  align-self: flex-start;
   box-shadow: 0 1px 4px var(--shadow);
+}
+
+.typing-avatar {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: rgba(255,255,255,0.72);
+  box-shadow: 0 2px 8px rgba(230,81,0,0.16);
+}
+
+.typing-content {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.typing-label {
+  color: #BF360C;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.typing-dots {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .typing-dot {
@@ -9107,5 +9140,172 @@ body.reading-pdf-mode #reading-controls button {
     min-height: 32px !important;
     padding: 0 6px !important;
     font-size: 11px !important;
+  }
+}
+
+/* Home chat UX polish: make the Home chat action discoverable and keep starter chips scoped to the drawer. */
+@keyframes homeTalkPulse {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    box-shadow:
+      0 12px 26px rgba(255, 111, 97, 0.24),
+      0 0 0 0 rgba(255, 143, 171, 0.32),
+      inset 0 2px 0 rgba(255,255,255,0.78);
+  }
+  50% {
+    transform: translateY(-2px) scale(1.025);
+    box-shadow:
+      0 16px 34px rgba(255, 111, 97, 0.30),
+      0 0 0 9px rgba(255, 143, 171, 0.08),
+      inset 0 2px 0 rgba(255,255,255,0.82);
+  }
+}
+
+#app.home-state .home-talk-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  position: absolute;
+  left: clamp(22px, calc(var(--home-vyvy-left) + 2vw), 230px);
+  top: calc(var(--home-vyvy-top) + min(calc(var(--home-vyvy-h) - 58px), 330px));
+  bottom: auto;
+  width: auto;
+  min-width: 168px;
+  max-width: min(260px, calc(100vw - 32px));
+  min-height: 54px;
+  padding: 10px 18px;
+  border: 2px solid rgba(255,255,255,0.92);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff6f61, #ff8fab 58%, #ffd166);
+  color: white;
+  font-size: clamp(15px, 3.6vw, 19px);
+  font-weight: 950;
+  line-height: 1;
+  letter-spacing: 0;
+  text-shadow: 0 1px 2px rgba(111, 48, 31, 0.28);
+  box-shadow:
+    0 12px 26px rgba(255, 111, 97, 0.24),
+    inset 0 2px 0 rgba(255,255,255,0.78);
+  animation: homeTalkPulse 2.4s ease-in-out infinite;
+  z-index: 7;
+}
+
+#app.home-state .home-talk-btn:active {
+  transform: translateY(1px) scale(0.97);
+}
+
+#app.home-state .home-talk-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.22);
+  font-size: 18px;
+  line-height: 1;
+}
+
+#app.home-state .home-talk-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#app.home-state.home-chat-drawer-open .home-talk-btn {
+  animation: none;
+  opacity: 0.62;
+}
+
+#app.home-state.home-chat-drawer-open #quick-buttons:not(.hidden) {
+  display: flex !important;
+  position: fixed;
+  left: max(24px, calc(env(safe-area-inset-left, 0px) + 24px));
+  right: max(24px, calc(env(safe-area-inset-right, 0px) + 24px));
+  bottom: calc(var(--home-nav-h, 108px) + 98px + env(safe-area-inset-bottom, 0px));
+  z-index: 123;
+  max-height: 118px;
+  padding: 8px 10px 10px;
+  gap: 7px;
+  border: 1px solid rgba(255, 178, 112, 0.34);
+  border-radius: 18px;
+  background: rgba(255,255,255,0.96);
+  box-shadow: 0 12px 28px rgba(92, 45, 26, 0.15);
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+#app.home-state.home-chat-drawer-open #quick-buttons:not(.hidden) .quick-group {
+  gap: 5px;
+}
+
+#app.home-state.home-chat-drawer-open #quick-buttons:not(.hidden) .quick-group-label {
+  font-size: 10px;
+  line-height: 1;
+  padding: 0 2px;
+}
+
+#app.home-state.home-chat-drawer-open #quick-buttons:not(.hidden) .quick-btn {
+  min-width: 74px;
+  max-width: 86px;
+  min-height: 54px;
+  padding: 7px 6px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,248,241,0.96));
+  border-color: rgba(255, 143, 171, 0.28);
+  color: #6b3222;
+}
+
+#app.home-state.home-chat-drawer-open #quick-buttons:not(.hidden) .quick-emoji {
+  font-size: 21px;
+}
+
+#app.home-state.home-chat-drawer-open #chat-messages {
+  padding-bottom: 188px;
+}
+
+@media (max-width: 899px) {
+  #app.home-state .home-talk-btn {
+    left: clamp(18px, calc(var(--home-vyvy-left) + 2vw), 92px);
+    top: calc(var(--home-vyvy-top) + min(calc(var(--home-vyvy-h) - 54px), 310px));
+    min-width: 154px;
+    min-height: 50px;
+    padding: 9px 15px;
+  }
+
+  #app.home-state.home-chat-drawer-open #quick-buttons:not(.hidden) {
+    left: 18px;
+    right: 18px;
+    bottom: calc(var(--home-nav-h, 108px) + 94px + env(safe-area-inset-bottom, 0px));
+    max-height: 104px;
+  }
+
+  #app.home-state.home-chat-drawer-open #quick-buttons:not(.hidden) .quick-btn {
+    min-width: 68px;
+    max-width: 78px;
+    min-height: 50px;
+    font-size: 10px;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1439px) {
+  #app.home-state.home-chat-drawer-open #quick-buttons:not(.hidden) {
+    left: calc(8vw + 14px);
+    right: calc(8vw + 14px);
+  }
+}
+
+@media (min-width: 1440px) {
+  #app.home-state.home-chat-drawer-open #quick-buttons:not(.hidden) {
+    left: calc(22vw + 16px);
+    right: calc(22vw + 16px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #app.home-state .home-talk-btn {
+    animation: none !important;
   }
 }

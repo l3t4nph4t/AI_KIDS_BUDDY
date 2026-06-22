@@ -693,14 +693,35 @@
 
   function showTyping() {
     if (!DOM.chatMessages) return;
+    hideTyping();
     var row = document.createElement('div');
-    row.className = 'typing-dots';
+    row.className = 'message message-bot typing-message';
     row.id = 'typing-indicator';
+    var bubble = document.createElement('div');
+    bubble.className = 'bubble typing-bubble';
+    var avatar = document.createElement('img');
+    avatar.className = 'typing-avatar';
+    avatar.src = '/static/assets/vyvy/vyvy.png';
+    avatar.alt = '';
+    avatar.setAttribute('aria-hidden', 'true');
+    var content = document.createElement('div');
+    content.className = 'typing-content';
+    var label = document.createElement('div');
+    label.className = 'typing-label';
+    label.textContent = 'VyVy đang nghĩ...';
+    var dots = document.createElement('div');
+    dots.className = 'typing-dots';
+    dots.setAttribute('aria-hidden', 'true');
     for (var i = 0; i < 3; i++) {
       var dot = document.createElement('div');
       dot.className = 'typing-dot';
-      row.appendChild(dot);
+      dots.appendChild(dot);
     }
+    content.appendChild(label);
+    content.appendChild(dots);
+    bubble.appendChild(avatar);
+    bubble.appendChild(content);
+    row.appendChild(bubble);
     DOM.chatMessages.appendChild(row);
     scrollToBottom();
   }
@@ -708,6 +729,25 @@
   function hideTyping() {
     var el = document.getElementById('typing-indicator');
     if (el) el.remove();
+  }
+
+  function hasUserChatMessage() {
+    return !!(DOM.chatMessages && DOM.chatMessages.querySelector('.message-user'));
+  }
+
+  function setHomeChatSuggestionsVisible(visible) {
+    var quick = document.getElementById('quick-buttons');
+    var app = document.getElementById('app');
+    if (!quick || !app) return;
+    var shouldShow = visible &&
+      currentView === 'home' &&
+      app.classList.contains('home-chat-drawer-open') &&
+      !hasUserChatMessage();
+    quick.classList.toggle('hidden', !shouldShow);
+  }
+
+  function hideHomeChatSuggestions() {
+    setHomeChatSuggestionsVisible(false);
   }
 
   /* ── Voice Selection (Vietnamese priority) ── */
@@ -991,6 +1031,7 @@
   function sendMessage(text, sessionMode) {
     if (!text || !text.trim()) return;
     if (state.isProcessing) return;
+    hideHomeChatSuggestions();
     if (isDailyLimit()) {
       appendMessage('Hôm nay bạn nói chuyện nhiều rồi, mai mình tiếp tục nhé! VyVy yêu bạn!', 'bot');
       return;
@@ -1051,7 +1092,7 @@
         hideTyping();
         setAvatarState('idle');
         var bn = state.settings.bot_name || 'VyVy';
-        appendMessage('Ôi, ' + bn + ' bị lỗi rồi. Bạn thử nhắn lại nhé!', 'bot');
+        appendMessage('Ôi, ' + bn + ' đang mất kết nối một chút. Bạn thử gửi lại nhé!', 'bot');
       })
       .finally(function () {
         state.isProcessing = false;
@@ -5955,6 +5996,7 @@
     var chatArea = document.getElementById('chat-area');
     if (chatArea) chatArea.setAttribute('role', 'dialog');
     updateBottomNavState('chat');
+    setHomeChatSuggestionsVisible(true);
     var input = document.getElementById('chat-input');
     if (input) {
       setTimeout(function() { input.focus(); }, 80);
@@ -5966,6 +6008,7 @@
     if (!app) return;
     if (!app.classList.contains('home-chat-drawer-open')) return;
     app.classList.remove('home-chat-drawer-open');
+    hideHomeChatSuggestions();
     var chatArea = document.getElementById('chat-area');
     if (chatArea) chatArea.removeAttribute('role');
     if (currentView === 'home') updateBottomNavState('home');
@@ -6315,7 +6358,7 @@
     if (homeTalkBtn) {
       homeTalkBtn.addEventListener('click', function() {
         playSound('click');
-        showView('chat');
+        openHomeChatDrawer();
       });
     }
 
@@ -6385,6 +6428,7 @@
           var map = ACTION_MAP[action];
           if (!map) return;
           if (state.mode !== 'idle' || state.isProcessing) return;
+          hideHomeChatSuggestions();
 
           // Handle special actions (games, music, drawing)
           if (map.special === 'games') { setVyvyOutfit('games'); showGamesPanel(); return; }
@@ -6414,6 +6458,7 @@
       DOM.sendBtn.addEventListener('click', function () {
         var text = DOM.chatInput ? DOM.chatInput.value.trim() : '';
         if (text && state.mode === 'idle' && !state.isProcessing) {
+          hideHomeChatSuggestions();
           appendMessage(text, 'user');
           sendMessage(text);
           DOM.chatInput.value = '';
