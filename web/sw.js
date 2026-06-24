@@ -1,4 +1,4 @@
-var CACHE_NAME = 'vyvy-v3';
+var CACHE_NAME = 'vyvy-v4';
 var STATIC_ASSETS = [
   '/',
   '/index.html',
