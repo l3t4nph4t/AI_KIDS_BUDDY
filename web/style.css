@@ -9471,3 +9471,252 @@ body.reading-pdf-mode #reading-controls button {
     animation: none !important;
   }
 }
+
+/* Home Short-Wide QA Authority: final Home-only cascade after V3/V3.1/V3.2/chat polish/home-talk/home-welcome rules. */
+#app.home-state #input-area {
+  --composer-feedback-h: 0px;
+}
+
+#app.home-state .chat-voice-feedback {
+  position: absolute;
+  left: 14px;
+  right: 106px;
+  top: calc(-1 * var(--composer-feedback-h, 30px) - 6px);
+  min-height: 24px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(255, 253, 249, 0.96);
+  border: 1px solid rgba(255, 178, 112, 0.42);
+  color: #6b3222;
+  font-size: 12px;
+  font-weight: 850;
+  line-height: 1.15;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 8px 18px rgba(92,45,26,0.12);
+}
+
+#app.home-state .chat-voice-feedback:not(.hidden) {
+  display: block !important;
+}
+
+#app.home-state .chat-voice-feedback.is-listening {
+  color: #7a3f28;
+  border-color: rgba(255, 111, 97, 0.52);
+}
+
+#app.home-state .chat-voice-feedback.is-error {
+  color: #9b2f20;
+  border-color: rgba(198, 40, 40, 0.32);
+}
+
+@media (min-width: 900px) and (max-width: 1439px) and (max-height: 620px) {
+  #app.home-state {
+    --home-nav-h: clamp(78px, 16dvh, 86px);
+    --home-nav-bottom: max(8px, env(safe-area-inset-bottom, 0px));
+    --home-nav-gap: 16px;
+    --home-gap: 10px;
+    --home-mission-h: clamp(78px, 16dvh, 88px);
+    --home-rooms-total-h: clamp(94px, 20dvh, 106px);
+    --home-rooms-h: clamp(70px, 15dvh, 82px);
+    --home-room-card-h: clamp(66px, 14dvh, 78px);
+    --home-rooms-top: calc(100dvh - var(--home-nav-bottom) - var(--home-nav-h) - var(--home-nav-gap) - var(--home-rooms-total-h));
+    --home-mission-top: max(150px, calc(var(--home-rooms-top) - var(--home-gap) - var(--home-mission-h)));
+    --home-mission-left: 13vw;
+    --home-mission-w: min(60vw, 680px);
+    --home-room-card-w: calc((100vw - (var(--home-content-x) * 2) - 48px) / 3.4);
+    --home-vyvy-h: clamp(250px, 52dvh, 292px);
+    --home-vyvy-top: clamp(42px, 7dvh, 58px);
+    --home-vyvy-left: clamp(78px, 9vw, 136px);
+  }
+
+  #app.home-state .bottom-nav {
+    bottom: var(--home-nav-bottom) !important;
+    height: var(--home-nav-h) !important;
+    min-height: 0;
+    padding: 6px 12px;
+  }
+
+  #app.home-state #mission-cta {
+    top: var(--home-mission-top) !important;
+    left: var(--home-mission-left) !important;
+    width: var(--home-mission-w) !important;
+    height: var(--home-mission-h) !important;
+    min-height: 0 !important;
+    padding: 8px 12px !important;
+    gap: 8px !important;
+    grid-template-columns: minmax(0, 1fr) minmax(104px, 25%);
+    border-radius: 20px;
+  }
+
+  #app.home-state .mission-heading {
+    font-size: clamp(15px, 2.1vw, 18px) !important;
+  }
+
+  #app.home-state .mission-subtitle {
+    font-size: 11px !important;
+    line-height: 1.12 !important;
+  }
+
+  #app.home-state .mission-progress-row {
+    gap: 6px !important;
+  }
+
+  #app.home-state .mission-progress-track {
+    height: 5px !important;
+  }
+
+  #app.home-state .mission-start-btn {
+    height: clamp(40px, 8dvh, 44px) !important;
+    min-width: 100px !important;
+    padding: 0 10px !important;
+    font-size: clamp(13px, 1.7vw, 16px) !important;
+  }
+
+  #app.home-state .room-carousel-wrap {
+    top: var(--home-rooms-top) !important;
+    height: var(--home-rooms-total-h) !important;
+    overflow: hidden !important;
+    z-index: 5;
+  }
+
+  #app.home-state .room-carousel-head {
+    display: none !important;
+  }
+
+  #app.home-state #room-carousel {
+    height: var(--home-rooms-h) !important;
+    padding: 0 2px 4px !important;
+    align-items: center;
+  }
+
+  #app.home-state .room-card,
+  #app.home-state .room-card.is-active,
+  #app.home-state .room-card.is-next,
+  #app.home-state .room-card.is-prev {
+    height: var(--home-room-card-h) !important;
+  }
+
+  #app.home-state .room-carousel-controls {
+    height: 24px !important;
+    margin-top: 0 !important;
+  }
+
+  #app.home-state .room-carousel-arrow {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  #app.home-state #vyvy-status,
+  #app.home-state .home-welcome-bubble {
+    display: none !important;
+  }
+
+  #app.home-state .home-grade-badge {
+    top: calc(var(--home-vyvy-top) + var(--home-vyvy-h) - 76px) !important;
+  }
+
+  #app.home-state .home-talk-btn {
+    display: inline-flex !important;
+    left: max(18px, env(safe-area-inset-left, 0px)) !important;
+    top: calc(var(--home-mission-top) + 50px) !important;
+    width: min(132px, calc(var(--home-mission-left) - 32px)) !important;
+    min-width: 0 !important;
+    min-height: 42px !important;
+    padding: 7px 10px !important;
+    font-size: 13px !important;
+    z-index: 7;
+  }
+
+  #app.home-state .home-talk-icon {
+    width: 24px;
+    height: 24px;
+    flex-basis: 24px;
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1439px) and (max-height: 620px) {
+  #app.home-state.home-chat-drawer-open {
+    --home-chat-input-h: 56px;
+    --home-chat-input-gap: 10px;
+    --home-chat-mission-gap: 8px;
+    --home-chat-drawer-top: calc(var(--home-mission-top) + var(--home-mission-h) + var(--home-chat-mission-gap));
+    --home-chat-input-bottom: calc(var(--home-nav-bottom) + var(--home-nav-h) + 12px);
+    --home-chat-drawer-bottom: calc(var(--home-chat-input-bottom) + var(--home-chat-input-h) + var(--home-chat-input-gap));
+  }
+
+  #app.home-state.home-chat-drawer-open #chat-area {
+    display: flex !important;
+    left: 8vw !important;
+    right: 8vw !important;
+    top: var(--home-chat-drawer-top) !important;
+    bottom: var(--home-chat-drawer-bottom) !important;
+    height: auto !important;
+    min-height: 54px !important;
+    max-height: none !important;
+    border-radius: 18px !important;
+  }
+
+  #app.home-state.home-chat-drawer-open .home-chat-drawer-head {
+    height: 38px !important;
+    padding: 6px 12px !important;
+  }
+
+  #app.home-state.home-chat-drawer-open .home-chat-drawer-head span {
+    display: none !important;
+  }
+
+  #app.home-state.home-chat-drawer-open .home-chat-close {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  #app.home-state.home-chat-drawer-open #chat-messages {
+    flex: 1 1 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 42px 12px 10px !important;
+    overflow-y: auto !important;
+  }
+
+  #app.home-state.home-chat-drawer-open #input-area {
+    --composer-feedback-h: 28px;
+    display: flex !important;
+    left: calc(8vw + 14px) !important;
+    right: calc(8vw + 14px) !important;
+    bottom: var(--home-chat-input-bottom) !important;
+    height: var(--home-chat-input-h) !important;
+    min-height: var(--home-chat-input-h) !important;
+    padding: 6px 8px !important;
+    z-index: 122;
+  }
+
+  #app.home-state.home-chat-drawer-open #quick-buttons:not(.hidden) {
+    display: none !important;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1439px) and (max-height: 520px) {
+  #app.home-state {
+    --home-nav-h: 78px;
+    --home-nav-gap: 14px;
+    --home-mission-h: 76px;
+    --home-rooms-total-h: 92px;
+    --home-rooms-h: 68px;
+    --home-room-card-h: 64px;
+    --home-vyvy-h: clamp(226px, 48dvh, 252px);
+    --home-mission-top: max(132px, calc(var(--home-rooms-top) - 8px - var(--home-mission-h)));
+  }
+
+  #app.home-state .mission-subtitle {
+    display: none !important;
+  }
+
+  #app.home-state.home-chat-drawer-open #chat-area {
+    min-height: 46px !important;
+  }
+}

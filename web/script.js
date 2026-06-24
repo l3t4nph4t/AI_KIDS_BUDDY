@@ -198,6 +198,7 @@
       chatArea: document.getElementById('chat-area'),
       chatMessages: document.getElementById('chat-messages'),
       chatInput: document.getElementById('chat-input'),
+      chatVoiceFeedback: document.getElementById('chat-voice-feedback'),
       sendBtn: document.getElementById('send-btn'),
       liveCallBtn: document.getElementById('live-call-btn'),
       endCallBtn: document.getElementById('end-call-btn'),
@@ -782,6 +783,15 @@
     setHomeChatSuggestionsVisible(false);
   }
 
+  function setChatVoiceFeedback(message, tone) {
+    if (!DOM.chatVoiceFeedback) return;
+    var hasMessage = !!(message && message.trim());
+    DOM.chatVoiceFeedback.textContent = hasMessage ? message.trim() : '';
+    DOM.chatVoiceFeedback.classList.toggle('hidden', !hasMessage);
+    DOM.chatVoiceFeedback.classList.toggle('is-listening', tone === 'listening');
+    DOM.chatVoiceFeedback.classList.toggle('is-error', tone === 'error');
+  }
+
   /* ── Voice Selection (Vietnamese priority) ── */
   function getAvailableVoices() {
     if (!state.synthesis) return [];
@@ -1123,8 +1133,7 @@
       .catch(function () {
         hideTyping();
         setAvatarState('idle');
-        var bn = state.settings.bot_name || 'VyVy';
-        appendMessage('Ôi, ' + bn + ' đang mất kết nối một chút. Bạn thử gửi lại nhé!', 'bot');
+        appendMessage('VyVy đang mất kết nối một chút. Mình vẫn có thể thử lại nha.', 'bot');
       })
       .finally(function () {
         state.isProcessing = false;
@@ -1135,6 +1144,7 @@
   function initSpeechRecognition() {
     var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SR) {
+      setChatVoiceFeedback('Máy này chưa hỗ trợ micro giọng nói. Bạn nhắn chữ cho VyVy nhé.', 'error');
       if (DOM.liveCallBtn) {
         DOM.liveCallBtn.title = 'Máy này chưa hỗ trợ gọi giọng nói';
         DOM.liveCallBtn.style.opacity = '0.5';
@@ -1151,6 +1161,7 @@
 
     rec.onstart = function () {
       setAvatarState('listening');
+      setChatVoiceFeedback('VyVy đang nghe...', 'listening');
       if (DOM.callStatusText) DOM.callStatusText.textContent = 'VyVy đang nghe...';
     };
 
@@ -1169,6 +1180,7 @@
       clearTimeout(state.silenceTimeout);
 
       if (transcript.trim() && isFinal) {
+        setChatVoiceFeedback('', '');
         if (confidence > 0 && confidence < 0.4) {
           showToast('Bạn nói lại được không? VyVy nghe chưa rõ', 'info', 3000);
           if (state.liveCallActive) {
@@ -1181,7 +1193,10 @@
         }
         appendMessage(transcript.trim(), 'user');
         sendMessage(transcript.trim());
+      } else if (transcript.trim()) {
+        setChatVoiceFeedback('VyVy nghe được: ' + transcript.trim(), 'listening');
       } else if (!transcript.trim() && isFinal) {
+        setChatVoiceFeedback('', '');
         if (state.liveCallActive) {
           setTimeout(function () { startListening(); }, 500);
         } else if (state.pttActive || state.holdActive) {
@@ -1201,6 +1216,7 @@
     rec.onerror = function (event) {
       console.log('Speech recognition error:', event.error);
       if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+        setChatVoiceFeedback('Bạn cho phép micro để nói với VyVy nhé.', 'error');
         appendMessage('Cho phép micro để nói chuyện với VyVy nhé! Nhấn vào biểu tượng micro trên thanh địa chỉ.', 'bot');
         if (state.liveCallActive) stopLiveCall();
         if (state.pttActive || state.holdActive) resetMicUI();
@@ -1208,6 +1224,7 @@
         return;
       }
       if (event.error === 'network') {
+        setChatVoiceFeedback('Mạng yếu quá, bạn thử lại nhé!', 'error');
         showToast('Mạng yếu quá, bạn thử lại nhé!', 'warning', 3000);
         if (state.pttActive || state.holdActive) resetMicUI();
         setAvatarState('idle');
@@ -1219,6 +1236,7 @@
             if (state.liveCallActive && !state.isProcessing) startListening();
           }, 500);
         } else if (state.pttActive) {
+          setChatVoiceFeedback('VyVy chưa nghe thấy gì. Bạn bấm mic nói lại nhé!', 'error');
           showToast('VyVy không nghe thấy gì. Bạn bấm mic nói lại nhé!', 'info', 3000);
           resetMicUI();
         } else if (state.holdActive) {
@@ -1239,6 +1257,9 @@
     };
 
     rec.onend = function () {
+      if (!state.liveCallActive && !state.pttActive && !state.holdActive) {
+        setChatVoiceFeedback('', '');
+      }
       if (state.liveCallActive && !state.isProcessing) {
         setTimeout(function () {
           if (state.liveCallActive && !state.isProcessing) {
