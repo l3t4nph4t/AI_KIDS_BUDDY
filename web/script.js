@@ -206,6 +206,9 @@
       stopCallBtn: document.getElementById('stop-call-btn'),
       vyvyAvatar: document.getElementById('vyvy-avatar'),
       vyvyStatus: document.getElementById('vyvy-status'),
+      homeWelcomeBubble: document.getElementById('home-welcome-bubble'),
+      homeGradeBadge: document.getElementById('home-grade-badge'),
+      starBalance: document.getElementById('star-balance'),
       vyvyParticles: document.getElementById('vyvy-particles'),
       vyvyMouth: document.getElementById('vyvy-mouth'),
       quickButtons: document.querySelectorAll('.quick-btn'),
@@ -485,6 +488,35 @@
 
   function isSettingsDone() {
     return lsGet(SK.SETTINGS_DONE, 'false') === 'true';
+  }
+
+  function deriveAgeFromGrade(grade) {
+    var g = Math.max(1, Math.min(5, parseInt(grade, 10) || 3));
+    return g + 5;
+  }
+
+  function getSavedGrade(defaultGrade) {
+    var savedGrade = parseInt(lsGet(SK.GRADE, String(defaultGrade || 3)), 10);
+    if (savedGrade >= 1 && savedGrade <= 5) return savedGrade;
+    return defaultGrade || 3;
+  }
+
+  function updateHomeProfileBadges() {
+    var grade = getSavedGrade(3);
+    var gradeBadge = document.getElementById('home-grade-badge');
+    if (gradeBadge) {
+      gradeBadge.textContent = 'Lớp ' + grade;
+      gradeBadge.classList.remove('hidden');
+    }
+
+    var starWrap = document.getElementById('star-balance');
+    var starCount = document.getElementById('star-count');
+    var stars = parseInt(localStorage.getItem(SK.STARS) || '0', 10) || 0;
+    if (starCount) starCount.textContent = String(stars);
+    if (starWrap) starWrap.classList.toggle('is-zero-stars', stars <= 0);
+    if (DOM.vyvyStatus && stars <= 0) {
+      DOM.vyvyStatus.textContent = 'Học bài đầu tiên để nhận sao nhé!';
+    }
   }
 
   /* ── Daily counter ──────────────────────── */
@@ -6001,6 +6033,9 @@
     if (input) {
       setTimeout(function() { input.focus(); }, 80);
     }
+    if (DOM.chatMessages) {
+      setTimeout(function() { DOM.chatMessages.scrollTop = DOM.chatMessages.scrollHeight; }, 40);
+    }
   }
 
   function closeHomeChatDrawer(focusChatButton) {
@@ -6936,6 +6971,31 @@
     appendMessage(greeting, 'bot');
   }
 
+  var homeWelcomeTimer = null;
+
+  function hideHomeWelcomeBubble() {
+    var bubble = document.getElementById('home-welcome-bubble');
+    if (homeWelcomeTimer) {
+      clearTimeout(homeWelcomeTimer);
+      homeWelcomeTimer = null;
+    }
+    if (bubble) bubble.classList.add('hidden');
+  }
+
+  function showHomeWelcomeBubble() {
+    var bubble = document.getElementById('home-welcome-bubble');
+    if (!bubble) return;
+    var name = state.settings.nickname || 'bạn';
+    bubble.textContent = 'Chào ' + name + '! Mình là VyVy. Mình học cùng bạn nhé!';
+    bubble.classList.remove('hidden');
+    bubble.onclick = function() {
+      hideHomeWelcomeBubble();
+      openHomeChatDrawer();
+    };
+    if (homeWelcomeTimer) clearTimeout(homeWelcomeTimer);
+    homeWelcomeTimer = setTimeout(hideHomeWelcomeBubble, 4000);
+  }
+
   /* ── First-time setup ───────────────────── */
   function promptFirstTime() {
     if (!isSettingsDone()) {
@@ -7031,103 +7091,166 @@
     if (!overlay) return;
     overlay.classList.remove('hidden');
 
-    var selectedAge = 8;
-
-    // Step 1: Name
     var nameInput = document.getElementById('onboarding-name');
+    var gradeContainer = document.getElementById('onboarding-grades');
+    var pinInput = document.getElementById('onboarding-pin');
+    var pinError = document.getElementById('onboarding-pin-error');
+    var backBtn = document.getElementById('onboarding-back');
+    var progressEl = document.getElementById('onboarding-progress');
     var next1 = document.getElementById('onboarding-next1');
-    if (nameInput) nameInput.value = '';
-    if (next1) {
-      next1.onclick = function() {
-        var name = nameInput ? nameInput.value.trim() : '';
-        if (!name) { nameInput.focus(); return; }
-        state.settings.nickname = name;
-        document.getElementById('onboarding-step1').classList.add('hidden');
-        document.getElementById('onboarding-step-bot-name').classList.remove('hidden');
-        var botNameInput = document.getElementById('onboarding-bot-name-input');
-        if (botNameInput) botNameInput.focus();
-      };
+    var next2 = document.getElementById('onboarding-next2');
+    var finishBtn = document.getElementById('onboarding-finish');
+    var skipPinBtn = document.getElementById('onboarding-skip-pin');
+    var onboardingState = {
+      step: 'name',
+      nickname: '',
+      grade: getSavedGrade(3)
+    };
+
+    function syncName() {
+      onboardingState.nickname = nameInput ? nameInput.value.trim() : '';
+      return onboardingState.nickname;
     }
 
-    // Step 1.5: Bot Name
-    var botNameInput = document.getElementById('onboarding-bot-name-input');
-    var nextBotName = document.getElementById('onboarding-next-bot-name');
-    if (nextBotName) {
-      nextBotName.onclick = function() {
-        var botName = botNameInput ? botNameInput.value.trim() : '';
-        if (!botName) botName = 'VyVy';
-        state.settings.bot_name = botName;
-        document.getElementById('onboarding-step-bot-name').classList.add('hidden');
-        document.getElementById('onboarding-step2').classList.remove('hidden');
-      };
-    }
-
-    // Step 2: Age
-    var agesContainer = document.getElementById('onboarding-ages');
-    if (agesContainer) {
-      agesContainer.innerHTML = '';
-      for (var a = 5; a <= 12; a++) {
-        var btn = document.createElement('button');
-        btn.className = 'onboarding-age-btn' + (a === 8 ? ' active' : '');
-        btn.textContent = a;
-        btn.dataset.age = a;
-        btn.onclick = function() {
-          var allBtns = agesContainer.querySelectorAll('.onboarding-age-btn');
-          for (var j = 0; j < allBtns.length; j++) allBtns[j].classList.remove('active');
-          this.classList.add('active');
-          selectedAge = parseInt(this.dataset.age);
-        };
-        agesContainer.appendChild(btn);
+    function renderProgress() {
+      if (!progressEl) return;
+      progressEl.innerHTML = '';
+      if (onboardingState.step === 'pin') {
+        progressEl.classList.add('is-parent-step');
+        return;
+      }
+      progressEl.classList.remove('is-parent-step');
+      var steps = ['name', 'grade'];
+      var activeIndex = steps.indexOf(onboardingState.step);
+      for (var i = 0; i < steps.length; i++) {
+        var dot = document.createElement('span');
+        dot.className = 'onboarding-dot';
+        if (i < activeIndex) dot.classList.add('done');
+        if (i === activeIndex) dot.classList.add('active');
+        progressEl.appendChild(dot);
       }
     }
-    var next2 = document.getElementById('onboarding-next2');
-    if (next2) {
-      next2.onclick = function() {
-        state.settings.age = selectedAge;
-        document.getElementById('onboarding-step2').classList.add('hidden');
-        document.getElementById('onboarding-step3').classList.remove('hidden');
-        var pinInput = document.getElementById('onboarding-pin');
-        if (pinInput) pinInput.focus();
-      };
+
+    function renderGrades() {
+      if (!gradeContainer) return;
+      gradeContainer.innerHTML = '';
+      for (var g = 1; g <= 5; g++) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'onboarding-grade-btn' + (g === onboardingState.grade ? ' active' : '');
+        btn.textContent = 'Lớp ' + g;
+        btn.dataset.grade = g;
+        btn.setAttribute('aria-pressed', g === onboardingState.grade ? 'true' : 'false');
+        btn.onclick = function() {
+          onboardingState.grade = parseInt(this.dataset.grade, 10) || 3;
+          renderGrades();
+        };
+        gradeContainer.appendChild(btn);
+      }
     }
 
-    // Step 3: PIN + Finish
-    var finishBtn = document.getElementById('onboarding-finish');
-    if (finishBtn) {
-      finishBtn.onclick = function() {
-        var pin = document.getElementById('onboarding-pin');
-        var pinVal = pin ? pin.value.trim() : '';
-        state.settings.mode = 'balanced';
-        state.settings.goal = 'vui vẻ và học hỏi';
+    function renderOnboarding() {
+      var panels = {
+        name: document.getElementById('onboarding-step1'),
+        grade: document.getElementById('onboarding-step2'),
+        pin: document.getElementById('onboarding-step3')
+      };
+      Object.keys(panels).forEach(function(key) {
+        if (panels[key]) panels[key].classList.toggle('hidden', key !== onboardingState.step);
+      });
+      if (backBtn) backBtn.classList.toggle('hidden', onboardingState.step === 'name');
+      if (pinError) pinError.classList.add('hidden');
+      renderProgress();
+      if (onboardingState.step === 'grade') renderGrades();
+      setTimeout(function() {
+        if (onboardingState.step === 'name' && nameInput) nameInput.focus();
+        if (onboardingState.step === 'pin' && pinInput) pinInput.focus();
+      }, 30);
+    }
 
-        var doFinish = function() {
-          // Map age to grade: 6→1, 7→2, 8→3, 9→4, 10→5
-          var grade = Math.max(1, Math.min(5, state.settings.age - 5));
-          lsSet(SK.GRADE, String(grade));
-          saveSettings();
-          // Set active grade on server
-          fetch(API_BASE + '/curriculum/active-grade', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ grade: grade })
-          }).catch(function() {});
-          overlay.classList.add('hidden');
-          showToast('Chào mừng ' + state.settings.nickname + '! Mình là ' + (state.settings.bot_name || 'VyVy') + ' nhé!', 'success');
-          showWelcome();
-        };
+    function setStep(step) {
+      onboardingState.step = step;
+      renderOnboarding();
+    }
 
-        if (pinVal.length >= 4) {
-          // Save PIN if provided
-          hashPin(pinVal).then(function(hash) {
-            lsSet(SK.PIN, hash);
-            doFinish();
-          });
-        } else {
-          // PIN optional — skip and finish
+    function advanceName() {
+      var name = syncName();
+      if (!name) {
+        if (nameInput) nameInput.focus();
+        return;
+      }
+      setStep('grade');
+    }
+
+    function finishOnboarding(skipPin) {
+      var pinVal = pinInput ? pinInput.value.trim() : '';
+      if (!skipPin && pinVal.length > 0 && pinVal.length < 4) {
+        if (pinError) pinError.classList.remove('hidden');
+        if (pinInput) pinInput.focus();
+        return;
+      }
+
+      state.settings.nickname = syncName() || 'Bé';
+      state.settings.bot_name = 'VyVy';
+      state.settings.age = deriveAgeFromGrade(onboardingState.grade);
+      state.settings.mode = 'balanced';
+      state.settings.goal = 'vui vẻ và học hỏi';
+
+      var doFinish = function() {
+        lsSet(SK.GRADE, String(onboardingState.grade));
+        saveSettings();
+        fetch(API_BASE + '/curriculum/active-grade', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ grade: onboardingState.grade })
+        }).catch(function() {});
+        overlay.classList.add('hidden');
+        updateHomeProfileBadges();
+        showToast('Chào mừng ' + state.settings.nickname + '! Mình là VyVy nhé!', 'success');
+        showWelcome();
+        showHomeWelcomeBubble();
+      };
+
+      if (!skipPin && pinVal.length >= 4) {
+        hashPin(pinVal).then(function(hash) {
+          lsSet(SK.PIN, hash);
           doFinish();
+        });
+      } else {
+        doFinish();
+      }
+    }
+
+    if (nameInput) {
+      nameInput.value = onboardingState.nickname;
+      nameInput.onkeydown = function(ev) {
+        if (ev.key === 'Enter') {
+          ev.preventDefault();
+          advanceName();
         }
       };
     }
+    if (next1) next1.onclick = advanceName;
+    if (next2) next2.onclick = function() { setStep('pin'); };
+    if (backBtn) {
+      backBtn.onclick = function() {
+        if (onboardingState.step === 'grade') setStep('name');
+        else if (onboardingState.step === 'pin') setStep('grade');
+      };
+    }
+    if (finishBtn) finishBtn.onclick = function() { finishOnboarding(false); };
+    if (skipPinBtn) skipPinBtn.onclick = function() { finishOnboarding(true); };
+    if (pinInput) {
+      pinInput.value = '';
+      pinInput.onkeydown = function(ev) {
+        if (ev.key === 'Enter') {
+          ev.preventDefault();
+          finishOnboarding(false);
+        }
+      };
+    }
+
+    renderOnboarding();
   }
 
   /* ── Avatar Shop ─────────────────────────── */
@@ -7322,8 +7445,7 @@
   function init() {
     cacheDom();
     loadSettings();
-    var sc = document.getElementById('star-count');
-    if (sc) sc.textContent = localStorage.getItem('vyvy_stars') || '0';
+    updateHomeProfileBadges();
     loadMemory();
     loadTheme();
     loadVoices();

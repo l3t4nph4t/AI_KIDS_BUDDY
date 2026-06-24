@@ -120,7 +120,9 @@
                 <img class="vyvy-home-img" src="/static/assets/vyvy/vyvy.png" alt="VyVy">
                 <div id="vyvy-particles" class="vyvy-particles"></div>
             </div>
+            <button id="home-welcome-bubble" class="home-welcome-bubble hidden" type="button" aria-label="Mở trò chuyện với VyVy"></button>
             <p id="vyvy-status" class="vyvy-status">Học 1 bài để nhận sao nhé!</p>
+            <div id="home-grade-badge" class="home-grade-badge hidden">Lớp 3</div>
             <button class="home-talk-btn" id="home-talk-btn" type="button" aria-label="Nói chuyện với VyVy">
                 <span class="home-talk-icon">🎙️</span>
                 <span class="home-talk-text">Nói với VyVy</span>
@@ -697,32 +699,30 @@
         <!-- Onboarding Overlay -->
         <div id="onboarding-overlay" class="onboarding-overlay hidden">
             <div class="onboarding-card">
+                <button id="onboarding-back" class="onboarding-back hidden" type="button" aria-label="Quay lại">‹</button>
+                <div id="onboarding-progress" class="onboarding-progress" aria-label="Tiến trình tạo hồ sơ"></div>
                 <div id="onboarding-step1" class="onboarding-step">
                     <div class="onboarding-icon">🌸</div>
                     <h2 class="onboarding-title">Chào bạn!</h2>
                     <p class="onboarding-desc">Mình là <strong id="onboarding-bot-name">VyVy</strong>, bạn AI của bạn. Bạn tên gì?</p>
-                    <input type="text" id="onboarding-name" class="onboarding-input" placeholder="Tên bạn...">
+                    <input type="text" id="onboarding-name" class="onboarding-input" placeholder="Tên bạn..." maxlength="40" autocomplete="given-name">
                     <button id="onboarding-next1" class="onboarding-btn">Tiếp theo →</button>
                 </div>
-                <div id="onboarding-step-bot-name" class="onboarding-step hidden">
-                    <div class="onboarding-icon">🤖</div>
-                    <h2 class="onboarding-title">Đặt tên cho bạn AI</h2>
-                    <p class="onboarding-desc">Bạn muốn gọi mình là gì?</p>
-                    <input type="text" id="onboarding-bot-name-input" class="onboarding-input" placeholder="VyVy" maxlength="20">
-                    <button id="onboarding-next-bot-name" class="onboarding-btn">Tiếp theo →</button>
-                </div>
                 <div id="onboarding-step2" class="onboarding-step hidden">
-                    <div class="onboarding-icon">🎂</div>
-                    <h2 class="onboarding-title">Bạn bao nhiêu tuổi?</h2>
-                    <div class="onboarding-ages" id="onboarding-ages"></div>
+                    <div class="onboarding-icon">📚</div>
+                    <h2 class="onboarding-title">Bạn đang học lớp mấy?</h2>
+                    <p class="onboarding-desc">VyVy sẽ chọn bài học đúng với lớp của bạn.</p>
+                    <div class="onboarding-grades" id="onboarding-grades" role="group" aria-label="Chọn lớp"></div>
                     <button id="onboarding-next2" class="onboarding-btn">Tiếp theo →</button>
                 </div>
                 <div id="onboarding-step3" class="onboarding-step hidden">
                     <div class="onboarding-icon">🔒</div>
-                    <h2 class="onboarding-title">Tạo mã PIN</h2>
-                    <p class="onboarding-desc">Phụ huynh tạo mã PIN (4+ số) để bảo vệ cài đặt.</p>
-                    <input type="password" id="onboarding-pin" class="onboarding-input" maxlength="8" placeholder="----">
-                    <button id="onboarding-finish" class="onboarding-btn onboarding-btn-primary">Bắt đầu học! 🚀</button>
+                    <h2 class="onboarding-title">Dành cho ba mẹ</h2>
+                    <p class="onboarding-desc">Tạo mã PIN 4 số trở lên để bảo vệ cài đặt. Có thể bỏ qua và đặt sau.</p>
+                    <input type="password" id="onboarding-pin" class="onboarding-input" maxlength="8" inputmode="numeric" placeholder="Mã PIN">
+                    <p id="onboarding-pin-error" class="onboarding-error hidden">PIN cần ít nhất 4 số hoặc để trống để bỏ qua.</p>
+                    <button id="onboarding-finish" class="onboarding-btn onboarding-btn-primary">Bắt đầu học</button>
+                    <button id="onboarding-skip-pin" class="onboarding-btn onboarding-btn-skip" type="button">Bỏ qua, đặt sau</button>
                 </div>
             </div>
         </div>
