@@ -9472,6 +9472,583 @@ body.reading-pdf-mode #reading-controls button {
   }
 }
 
+/* Home Study Room Game World Authority */
+#app.home-state {
+  --home-content-x: clamp(14px, 4vw, 64px);
+  --home-vyvy-left: clamp(18px, 7vw, 132px);
+  --home-vyvy-top: clamp(82px, 15dvh, 150px);
+  --home-vyvy-h: clamp(250px, 42dvh, 390px);
+  --home-carousel-bottom: max(14px, env(safe-area-inset-bottom, 0px));
+  --home-carousel-h: clamp(142px, 20dvh, 194px);
+  --home-card-w: clamp(190px, 21vw, 262px);
+  --home-bubble-left: clamp(210px, 28vw, 430px);
+  --home-bubble-top: clamp(118px, 18dvh, 180px);
+  background-image: url('/static/assets/bg_home_clean.png');
+  background-position: 48% 0%;
+}
+
+#app.home-state .bottom-nav {
+  display: none !important;
+}
+
+#app.home-state .home-content {
+  overflow: hidden;
+}
+
+#app.home-state .header {
+  height: auto;
+  min-height: 56px;
+  padding: max(10px, env(safe-area-inset-top, 0px)) var(--home-content-x) 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  z-index: 20;
+  pointer-events: none;
+}
+
+#app.home-state .header-left {
+  min-height: 46px;
+  padding: 7px 12px 7px 10px;
+  border-radius: 999px;
+  background: rgba(255, 253, 249, 0.78);
+  border: 1px solid rgba(255, 190, 118, 0.42);
+  box-shadow: 0 10px 22px rgba(92, 45, 26, 0.13), inset 0 2px 0 rgba(255,255,255,0.70);
+  backdrop-filter: blur(9px);
+  pointer-events: auto;
+}
+
+#app.home-state .header-icon {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #fff8df, #ffd88a);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.84), 0 5px 10px rgba(149, 88, 33, 0.12);
+  font-size: 17px;
+}
+
+#app.home-state .header-title {
+  font-size: clamp(15px, 2vw, 18px);
+  color: #61301f;
+}
+
+#app.home-state .header-sub {
+  color: rgba(97,48,31,0.72);
+  font-size: 11px;
+}
+
+#app.home-state #parent-settings-btn {
+  position: fixed;
+  top: max(10px, env(safe-area-inset-top, 0px));
+  right: var(--home-content-x);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  color: #7a3f28;
+  background: linear-gradient(180deg, #fffaf1, #ffe1b5);
+  border: 1px solid rgba(255, 178, 112, 0.54);
+  box-shadow: 0 10px 22px rgba(92,45,26,0.16), inset 0 2px 0 rgba(255,255,255,0.75);
+  pointer-events: auto;
+}
+
+#app.home-state .star-balance-bar {
+  top: max(10px, env(safe-area-inset-top, 0px)) !important;
+  right: calc(var(--home-content-x) + 54px) !important;
+  min-height: 46px;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  background: rgba(255, 253, 249, 0.82);
+  border: 1px solid rgba(255, 190, 118, 0.44);
+  box-shadow: 0 10px 22px rgba(92,45,26,0.13), inset 0 2px 0 rgba(255,255,255,0.72);
+  z-index: 20;
+}
+
+#app.home-state .star-balance {
+  min-height: 34px;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fff1bb, #ffc95c);
+  color: #724016;
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.70), 0 5px 12px rgba(179,106,28,0.16);
+}
+
+#app.home-state .avatar-shop-btn {
+  min-height: 34px;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffad75, #ff6f61);
+  border: 0;
+  color: #fff;
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.35), 0 6px 14px rgba(255,111,97,0.24);
+}
+
+#app.home-state .avatar-area {
+  height: 100%;
+  min-height: 100%;
+  pointer-events: none;
+}
+
+#app.home-state #vyvy-avatar {
+  left: var(--home-vyvy-left) !important;
+  top: var(--home-vyvy-top) !important;
+  width: calc(var(--home-vyvy-h) * 0.68) !important;
+  height: var(--home-vyvy-h) !important;
+  z-index: 5;
+}
+
+#app.home-state #vyvy-status,
+#app.home-state #home-grade-badge,
+#app.home-state .home-talk-btn {
+  display: none !important;
+}
+
+#app.home-state #mission-cta {
+  position: absolute;
+  left: var(--home-bubble-left) !important;
+  top: var(--home-bubble-top) !important;
+  width: min(430px, calc(100vw - var(--home-bubble-left) - var(--home-content-x))) !important;
+  min-height: 0 !important;
+  height: auto !important;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  margin: 0;
+  padding: 18px;
+  border-radius: 26px 26px 26px 10px;
+  background: linear-gradient(160deg, rgba(255,253,249,0.98), rgba(255,238,215,0.96));
+  border: 2px solid rgba(255, 190, 118, 0.62);
+  box-shadow: 0 20px 42px rgba(92,45,26,0.18), 0 6px 0 rgba(220,137,73,0.22), inset 0 2px 0 rgba(255,255,255,0.82);
+  z-index: 12;
+}
+
+#app.home-state #mission-cta::after {
+  content: '';
+  position: absolute;
+  left: 24px;
+  bottom: -10px;
+  width: 22px;
+  height: 22px;
+  background: rgba(255, 245, 233, 0.98);
+  border-right: 2px solid rgba(255, 190, 118, 0.62);
+  border-bottom: 2px solid rgba(255, 190, 118, 0.62);
+  transform: rotate(45deg);
+}
+
+#app.home-state #mission-cta.is-minimized {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px) scale(0.96);
+}
+
+#app.home-state .mission-heading {
+  color: #63311f;
+  font-size: clamp(20px, 2.5vw, 28px);
+  letter-spacing: 0;
+}
+
+#app.home-state .mission-subtitle {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fff3bf, #ffe08b);
+  color: #7b4a18;
+  font-size: clamp(12px, 1.7vw, 14px);
+  font-weight: 850;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.74);
+}
+
+#app.home-state .mission-progress-row {
+  max-width: 260px;
+}
+
+#app.home-state .mission-loop-row {
+  display: none;
+}
+
+#app.home-state .mission-action-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+#app.home-state .mission-start-btn,
+#app.home-state .mission-side-btn,
+#app.home-state .mission-later-btn {
+  min-height: 44px;
+  border: 0;
+  border-radius: 999px;
+  font-family: inherit;
+  font-weight: 950;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+
+#app.home-state .mission-start-btn {
+  width: auto;
+  min-width: 156px;
+  padding: 0 18px;
+  background: linear-gradient(180deg, #ffb15f 0%, #ff7a68 54%, #f25779 100%);
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(116,49,28,0.24);
+  box-shadow: 0 10px 0 rgba(177,78,51,0.18), 0 16px 26px rgba(255,111,97,0.26), inset 0 2px 0 rgba(255,255,255,0.42);
+}
+
+#app.home-state .mission-side-btn {
+  padding: 0 15px;
+  background: linear-gradient(180deg, #fff7ea, #ffd8b5);
+  color: #7a3f28;
+  border: 1px solid rgba(255, 174, 111, 0.58);
+  box-shadow: 0 6px 0 rgba(180,107,56,0.12), inset 0 2px 0 rgba(255,255,255,0.72);
+}
+
+#app.home-state .mission-later-btn {
+  min-height: 38px;
+  padding: 0 12px;
+  background: transparent;
+  color: rgba(97,48,31,0.66);
+}
+
+#app.home-state .mission-start-btn:active,
+#app.home-state .mission-side-btn:active,
+#app.home-state .mission-later-btn:active,
+#app.home-state .home-hotspot:active,
+#app.home-state .room-card:active {
+  transform: translateY(2px) scale(0.98);
+}
+
+#app.home-state .home-hotspots {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+}
+
+#app.home-state .home-hotspot {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 7px 12px;
+  border: 1px solid rgba(255, 186, 116, 0.56);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255,253,248,0.94), rgba(255,225,189,0.90));
+  color: #6f3924;
+  font-family: inherit;
+  font-size: clamp(11px, 1.5vw, 13px);
+  font-weight: 900;
+  box-shadow: 0 8px 16px rgba(92,45,26,0.14), 0 3px 0 rgba(196,122,66,0.13), inset 0 1px 0 rgba(255,255,255,0.80);
+  backdrop-filter: blur(5px);
+  cursor: pointer;
+  pointer-events: auto;
+  white-space: nowrap;
+}
+
+#app.home-state .hotspot-desk { left: clamp(250px, 42vw, 640px); top: clamp(270px, 49dvh, 474px); }
+#app.home-state .hotspot-books { left: clamp(30px, 14vw, 220px); top: clamp(185px, 29dvh, 288px); }
+#app.home-state .hotspot-reward { right: clamp(18px, 10vw, 150px); top: clamp(260px, 47dvh, 430px); }
+#app.home-state .hotspot-decor { right: clamp(24px, 14vw, 210px); top: clamp(128px, 22dvh, 210px); }
+#app.home-state .hotspot-play { left: clamp(270px, 50vw, 720px); top: clamp(370px, 63dvh, 560px); }
+
+#app.home-state .room-carousel-wrap {
+  left: var(--home-content-x) !important;
+  right: var(--home-content-x) !important;
+  top: auto !important;
+  bottom: var(--home-carousel-bottom) !important;
+  height: var(--home-carousel-h) !important;
+  padding: 0 !important;
+  z-index: 14;
+  overflow: visible !important;
+}
+
+#app.home-state .room-carousel-head {
+  display: flex !important;
+  align-items: baseline;
+  gap: 10px;
+  width: fit-content;
+  max-width: min(720px, 100%);
+  min-height: 0;
+  margin: 0 0 8px;
+  padding: 8px 13px;
+  border-radius: 18px;
+  background: rgba(255,253,249,0.78);
+  border: 1px solid rgba(255,190,118,0.36);
+  box-shadow: 0 8px 18px rgba(92,45,26,0.10);
+  backdrop-filter: blur(7px);
+}
+
+#app.home-state .room-carousel-title {
+  color: #63311f;
+  font-size: clamp(13px, 1.7vw, 17px);
+  font-weight: 950;
+}
+
+#app.home-state .room-carousel-sub {
+  display: inline !important;
+  color: rgba(99,49,31,0.68);
+  font-size: clamp(11px, 1.4vw, 13px);
+  font-weight: 750;
+}
+
+#app.home-state #room-carousel {
+  height: calc(var(--home-carousel-h) - 42px) !important;
+  display: flex;
+  gap: clamp(10px, 1.6vw, 18px);
+  align-items: stretch;
+  padding: 6px 4px 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+}
+
+#app.home-state .room-card,
+#app.home-state .room-card.is-active,
+#app.home-state .room-card.is-next,
+#app.home-state .room-card.is-prev {
+  position: relative;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto auto;
+  align-items: center;
+  justify-items: center;
+  flex: 0 0 var(--home-card-w);
+  width: var(--home-card-w);
+  height: 100%;
+  min-width: 0;
+  padding: 12px 14px 11px;
+  border-radius: 24px;
+  border: 2px solid rgba(255, 190, 118, 0.48);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.72), rgba(255,255,255,0) 36%),
+    linear-gradient(160deg, #fff7ea, #ffd9b1);
+  box-shadow: 0 12px 0 rgba(184,111,61,0.13), 0 18px 34px rgba(92,45,26,0.13), inset 0 2px 0 rgba(255,255,255,0.82);
+  opacity: 0.92;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+  filter: none;
+  scroll-snap-align: center;
+  overflow: hidden;
+}
+
+#app.home-state .room-card::before {
+  content: '';
+  position: absolute;
+  inset: 8px 10px auto;
+  height: 34%;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.46), rgba(255,255,255,0));
+  pointer-events: none;
+}
+
+#app.home-state .room-card.is-active {
+  border-color: rgba(255, 126, 104, 0.82);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.76), rgba(255,255,255,0) 35%),
+    linear-gradient(160deg, #fff9ed, #ffd4a1 58%, #ffb26a);
+  box-shadow: 0 0 0 4px rgba(255, 196, 94, 0.22), 0 14px 0 rgba(190,91,58,0.16), 0 24px 42px rgba(255,126,104,0.22), inset 0 2px 0 rgba(255,255,255,0.86);
+  transform: translateY(-4px) scale(1.02);
+  opacity: 1;
+}
+
+#app.home-state .room-card img {
+  width: min(100%, 136px);
+  height: min(88px, 52%);
+  object-fit: contain;
+  filter: drop-shadow(0 8px 9px rgba(92,45,26,0.16));
+  z-index: 1;
+}
+
+#app.home-state .room-card-label {
+  z-index: 1;
+  margin-top: 2px;
+  color: #63311f;
+  font-size: clamp(14px, 1.6vw, 17px);
+  font-weight: 950;
+  line-height: 1.1;
+  text-align: center;
+}
+
+#app.home-state .room-card-sub {
+  z-index: 1;
+  margin-top: 3px;
+  color: rgba(99,49,31,0.70);
+  font-size: clamp(10px, 1.2vw, 12px);
+  font-weight: 800;
+  line-height: 1.15;
+  text-align: center;
+}
+
+#app.home-state .room-carousel-controls {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: -4px;
+}
+
+#app.home-state .room-carousel-arrow {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,190,118,0.48);
+  background: linear-gradient(180deg, #fffaf1, #ffdcb1);
+  color: #7a3f28;
+  box-shadow: 0 5px 0 rgba(184,111,61,0.13), inset 0 2px 0 rgba(255,255,255,0.75);
+}
+
+#app.home-state .room-carousel-dot {
+  background: rgba(255, 179, 112, 0.42);
+}
+
+#app.home-state .room-carousel-dot.active {
+  background: #ff7a68;
+  box-shadow: 0 0 0 4px rgba(255, 122, 104, 0.14);
+}
+
+@media (min-width: 900px) {
+  #app.home-state {
+    --home-card-w: clamp(202px, 19vw, 252px);
+  }
+}
+
+@media (min-width: 1440px) {
+  #app.home-state {
+    --home-vyvy-left: clamp(110px, 9vw, 170px);
+    --home-bubble-left: clamp(390px, 30vw, 520px);
+    --home-carousel-h: 198px;
+    --home-card-w: clamp(212px, 16vw, 248px);
+  }
+}
+
+@media (max-width: 899px) {
+  #app.home-state {
+    --home-vyvy-left: clamp(18px, 7vw, 58px);
+    --home-vyvy-top: clamp(92px, 12dvh, 126px);
+    --home-vyvy-h: clamp(245px, 36dvh, 330px);
+    --home-bubble-left: clamp(154px, 42vw, 260px);
+    --home-bubble-top: clamp(120px, 17dvh, 168px);
+    --home-carousel-h: clamp(158px, 19dvh, 176px);
+    --home-card-w: clamp(174px, 30vw, 214px);
+  }
+
+  #app.home-state .room-carousel-sub {
+    display: none !important;
+  }
+
+  #app.home-state .hotspot-books,
+  #app.home-state .hotspot-decor {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  #app.home-state {
+    --home-content-x: 14px;
+    --home-vyvy-left: 22px;
+    --home-vyvy-top: clamp(120px, 15dvh, 142px);
+    --home-vyvy-h: clamp(235px, 34dvh, 292px);
+    --home-bubble-left: clamp(132px, 38vw, 162px);
+    --home-bubble-top: clamp(128px, 17dvh, 154px);
+    --home-carousel-h: 168px;
+    --home-card-w: clamp(158px, 48vw, 184px);
+  }
+
+  #app.home-state .header-left {
+    max-width: 160px;
+  }
+
+  #app.home-state .star-balance-bar {
+    right: calc(var(--home-content-x) + 50px) !important;
+  }
+
+  #app.home-state .avatar-shop-btn .shop-text {
+    display: none;
+  }
+
+  #app.home-state #mission-cta {
+    width: calc(100vw - var(--home-bubble-left) - 10px) !important;
+    padding: 13px;
+    border-radius: 22px 22px 22px 9px;
+  }
+
+  #app.home-state .mission-heading {
+    font-size: clamp(16px, 4.8vw, 20px);
+  }
+
+  #app.home-state .mission-subtitle,
+  #app.home-state .mission-progress-row {
+    display: none;
+  }
+
+  #app.home-state .mission-action-stack {
+    gap: 6px;
+  }
+
+  #app.home-state .mission-start-btn {
+    min-width: 100%;
+    min-height: 42px;
+    font-size: 14px;
+  }
+
+  #app.home-state .mission-side-btn,
+  #app.home-state .mission-later-btn {
+    min-height: 34px;
+    font-size: 11px;
+    padding: 0 9px;
+  }
+
+  #app.home-state .home-hotspot {
+    min-height: 30px;
+    padding: 6px 9px;
+    font-size: 10px;
+  }
+
+  #app.home-state .hotspot-desk { left: 44vw; top: 50dvh; }
+  #app.home-state .hotspot-reward { right: 12px; top: 48dvh; }
+  #app.home-state .hotspot-play { left: 52vw; top: 60dvh; }
+  #app.home-state .hotspot-books,
+  #app.home-state .hotspot-decor {
+    display: none;
+  }
+
+  #app.home-state .room-carousel-head {
+    display: none !important;
+  }
+
+  #app.home-state #room-carousel {
+    height: 148px !important;
+  }
+
+  #app.home-state .room-card {
+    border-radius: 20px;
+    padding: 10px 11px;
+  }
+
+  #app.home-state .room-card img {
+    height: 66px;
+  }
+
+  #app.home-state .room-card-label {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 380px) {
+  #app.home-state {
+    --home-bubble-left: 126px;
+    --home-card-w: 154px;
+  }
+
+  #app.home-state .mission-later-btn {
+    display: none;
+  }
+}
+
 /* Home Short-Wide QA Authority: final Home-only cascade after V3/V3.1/V3.2/chat polish/home-talk/home-welcome rules. */
 #app.home-state #input-area {
   --composer-feedback-h: 0px;
@@ -9733,5 +10310,145 @@ body.reading-pdf-mode #reading-controls button {
 
   #app.home-state.home-chat-drawer-open #chat-area {
     min-height: 46px !important;
+  }
+}
+
+/* Home Study Room Game World Final Overrides */
+#app.home-state .header {
+  display: flex !important;
+}
+
+#app.home-state #parent-settings-btn {
+  display: flex !important;
+  width: 46px !important;
+  height: 46px !important;
+}
+
+#app.home-state .bottom-nav {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+#app.home-state .home-talk-btn,
+#app.home-state #vyvy-status,
+#app.home-state #home-grade-badge {
+  display: none !important;
+}
+
+#app.home-state #mission-cta {
+  left: var(--home-bubble-left) !important;
+  top: var(--home-bubble-top) !important;
+  width: min(430px, calc(100vw - var(--home-bubble-left) - var(--home-content-x))) !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+#app.home-state .room-carousel-wrap {
+  top: auto !important;
+  bottom: var(--home-carousel-bottom) !important;
+  height: var(--home-carousel-h) !important;
+  overflow: visible !important;
+}
+
+#app.home-state #room-carousel {
+  height: calc(var(--home-carousel-h) - 42px) !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+}
+
+#app.home-state.home-chat-drawer-open {
+  --home-chat-input-h: 58px;
+  --home-chat-gap: 10px;
+  --home-chat-input-bottom: calc(var(--home-carousel-bottom) + var(--home-carousel-h) + 10px);
+  --home-chat-drawer-bottom: calc(var(--home-chat-input-bottom) + var(--home-chat-input-h) + var(--home-chat-gap));
+  --home-chat-drawer-h: clamp(146px, 22dvh, 220px);
+}
+
+#app.home-state.home-chat-drawer-open #chat-area {
+  display: flex !important;
+  flex-direction: column !important;
+  position: fixed !important;
+  left: max(12px, env(safe-area-inset-left, 0px)) !important;
+  right: max(12px, env(safe-area-inset-right, 0px)) !important;
+  top: auto !important;
+  bottom: var(--home-chat-drawer-bottom) !important;
+  height: var(--home-chat-drawer-h) !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+#app.home-state.home-chat-drawer-open #chat-messages {
+  flex: 1 1 auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  padding: 54px 14px 12px !important;
+  margin: 0 !important;
+  overflow-y: auto !important;
+}
+
+#app.home-state.home-chat-drawer-open #input-area {
+  --composer-feedback-h: 28px;
+  display: flex !important;
+  position: fixed !important;
+  left: max(24px, calc(env(safe-area-inset-left, 0px) + 24px)) !important;
+  right: max(24px, calc(env(safe-area-inset-right, 0px) + 24px)) !important;
+  bottom: var(--home-chat-input-bottom) !important;
+  height: var(--home-chat-input-h) !important;
+  min-height: var(--home-chat-input-h) !important;
+  margin: 0 !important;
+  z-index: 122 !important;
+}
+
+@media (min-width: 900px) {
+  #app.home-state.home-chat-drawer-open {
+    --home-chat-input-bottom: calc(var(--home-carousel-bottom) + var(--home-carousel-h) + 12px);
+    --home-chat-drawer-h: clamp(150px, 20dvh, 220px);
+  }
+
+  #app.home-state.home-chat-drawer-open #chat-area {
+    left: 18vw !important;
+    right: 18vw !important;
+  }
+
+  #app.home-state.home-chat-drawer-open #input-area {
+    left: calc(18vw + 16px) !important;
+    right: calc(18vw + 16px) !important;
+  }
+}
+
+@media (min-width: 1440px) {
+  #app.home-state.home-chat-drawer-open #chat-area {
+    left: 24vw !important;
+    right: 24vw !important;
+  }
+
+  #app.home-state.home-chat-drawer-open #input-area {
+    left: calc(24vw + 16px) !important;
+    right: calc(24vw + 16px) !important;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1439px) and (max-height: 620px) {
+  #app.home-state {
+    --home-vyvy-left: clamp(78px, 9vw, 136px);
+    --home-vyvy-top: clamp(42px, 7dvh, 58px);
+    --home-vyvy-h: clamp(250px, 52dvh, 292px);
+    --home-bubble-left: clamp(280px, 30vw, 420px);
+    --home-bubble-top: clamp(86px, 15dvh, 118px);
+    --home-carousel-bottom: max(10px, env(safe-area-inset-bottom, 0px));
+    --home-carousel-h: clamp(112px, 21dvh, 138px);
+    --home-card-w: clamp(176px, 20vw, 220px);
+  }
+
+  #app.home-state .room-carousel-head {
+    display: none !important;
+  }
+
+  #app.home-state #room-carousel {
+    height: calc(var(--home-carousel-h) - 22px) !important;
+    padding-bottom: 6px !important;
   }
 }

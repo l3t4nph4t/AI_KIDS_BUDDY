@@ -5842,14 +5842,14 @@
   }
 
     /* Room Carousel: V3 scroll-snap home shelf */
-  var ROOM_ORDER = ['entertainment', 'art', 'music', 'sleep'];
+  var ROOM_ORDER = ['learn', 'library', 'art', 'music', 'games'];
 
   function routeToRoom(roomId) {
     playSound('click');
-    if (roomId === 'entertainment') {
-      if (window.VyvyDecor) window.VyvyDecor.setBg('games');
-      setVyvyOutfit('games');
-      showView('games');
+    if (roomId === 'learn' || roomId === 'library') {
+      closeHomeChatDrawer();
+      setVyvyOutfit('uniform');
+      openLearningPicker();
     } else if (roomId === 'art') {
       if (window.VyvyDecor) window.VyvyDecor.setBg('drawing');
       setVyvyOutfit('art');
@@ -5858,8 +5858,35 @@
       if (window.VyvyDecor) window.VyvyDecor.setBg('music');
       setVyvyOutfit('music');
       showView('music');
-    } else if (roomId === 'sleep') {
-      showToast('Phòng Ngủ sắp ra mắt!', 'info');
+    } else if (roomId === 'games') {
+      if (window.VyvyDecor) window.VyvyDecor.setBg('games');
+      setVyvyOutfit('games');
+      showView('games');
+    }
+  }
+
+  function routeHomeWorldAction(action) {
+    if (action === 'learn' || action === 'library') {
+      routeToRoom(action);
+    } else if (action === 'chat') {
+      playSound('click');
+      openHomeChatDrawer();
+    } else if (action === 'rewards') {
+      playSound('click');
+      openRewardsPanel();
+    } else if (action === 'decor') {
+      playSound('click');
+      if (window.VyvyDecor && typeof window.VyvyDecor.openShop === 'function') {
+        window.VyvyDecor.openShop();
+      } else {
+        openRewardsPanel();
+      }
+    } else if (action === 'games') {
+      routeToRoom('games');
+    } else if (action === 'art') {
+      routeToRoom('art');
+    } else if (action === 'music') {
+      routeToRoom('music');
     }
   }
 
@@ -5946,13 +5973,8 @@
       card.addEventListener('click', function() {
         var roomId = card.dataset.roomId;
         if (!roomId) return;
-
-        if (roomId === activeRoom) {
-          routeToRoom(roomId);
-          return;
-        }
-
         setActiveRoom(roomId, true);
+        routeToRoom(roomId);
       });
 
       card.addEventListener('keydown', function(ev) {
@@ -6011,13 +6033,37 @@
 
   function setupMissionCta() {
     var missionStartBtn = document.getElementById('mission-begin-btn');
-    if (!missionStartBtn) return;
-    missionStartBtn.addEventListener('click', function() {
-      playSound('click');
-      closeHomeChatDrawer();
-      setVyvyOutfit('uniform');
-      openLearningPicker();
-    });
+    if (missionStartBtn) {
+      missionStartBtn.addEventListener('click', function() {
+        routeHomeWorldAction('learn');
+      });
+    }
+
+    var bubbleChatBtn = document.getElementById('home-bubble-chat-btn');
+    if (bubbleChatBtn) {
+      bubbleChatBtn.addEventListener('click', function() {
+        routeHomeWorldAction('chat');
+      });
+    }
+
+    var laterBtn = document.getElementById('home-bubble-later-btn');
+    if (laterBtn) {
+      laterBtn.addEventListener('click', function() {
+        playSound('click');
+        var mission = document.getElementById('mission-cta');
+        if (mission) mission.classList.add('is-minimized');
+        showToast('VyVy vẫn ở đây khi bạn muốn học nhé!', 'info');
+      });
+    }
+
+    var hotspots = document.querySelectorAll('[data-home-hotspot]');
+    for (var i = 0; i < hotspots.length; i++) {
+      (function(btn) {
+        btn.addEventListener('click', function() {
+          routeHomeWorldAction(btn.dataset.homeHotspot);
+        });
+      })(hotspots[i]);
+    }
   }
 
   /* ── Learn CTA Button ──────────────────── */
