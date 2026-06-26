@@ -2,7 +2,7 @@ import os
 import re
 import json
 import logging
-from fastapi import FastAPI, Request, Query, HTTPException
+from fastapi import FastAPI, Request, UploadFile, File, Query, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -812,6 +812,42 @@ async def curriculum_content_stats():
     stats = get_content_stats()
     return JSONResponse(
         content=stats,
+        media_type="application/json; charset=utf-8",
+    )
+
+
+_UPLOAD_TOKEN = "VYVY_SGK_2026"
+
+
+@app.post("/admin/upload-sgk")
+async def upload_sgk(
+    file: UploadFile = File(...),
+    token: str = Query(...),
+    grade: int = Query(..., ge=1, le=5),
+):
+    if token != _UPLOAD_TOKEN:
+        raise HTTPException(status_code=403, detail="Forbidden")
+
+    filename = os.path.basename(file.filename or "")
+    if not filename.lower().endswith(".pdf"):
+        raise HTTPException(status_code=400, detail="Only PDF files are accepted")
+
+    dest_dir = os.path.join(PROJECT_ROOT, "backend", "data", "source_sgk", f"grade_{grade}")
+    os.makedirs(dest_dir, exist_ok=True)
+    dest = os.path.join(dest_dir, filename)
+
+    content = await file.read()
+    with open(dest, "wb") as f:
+        f.write(content)
+
+    return JSONResponse(
+        content={
+            "ok": True,
+            "grade": grade,
+            "filename": filename,
+            "bytes": len(content),
+            "path": f"backend/data/source_sgk/grade_{grade}/{filename}",
+        },
         media_type="application/json; charset=utf-8",
     )
 
