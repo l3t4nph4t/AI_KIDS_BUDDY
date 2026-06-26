@@ -10534,3 +10534,20 @@ body.reading-pdf-mode #reading-controls button {
     font-size: 12px;
   }
 }
+
+/* Non-home view guard: prevent Home-only fixed/absolute layers from stealing clicks. */
+#app:not(.home-state) .home-content,
+#app:not(.home-state) .avatar-area,
+#app:not(.home-state) #mission-cta,
+#app:not(.home-state) .home-hotspots,
+#app:not(.home-state) .room-carousel-wrap,
+#app:not(.home-state) #chat-area,
+#app:not(.home-state) #quick-buttons,
+#app:not(.home-state) .home-talk-btn,
+#app:not(.home-state) #home-welcome-bubble,
+#app:not(.home-state) #vyvy-status,
+#app:not(.home-state) #home-grade-badge,
+#app:not(.home-state) .star-balance-bar {
+  display: none !important;
+  pointer-events: none !important;
+}
