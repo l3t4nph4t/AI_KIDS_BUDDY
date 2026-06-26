@@ -10452,3 +10452,85 @@ body.reading-pdf-mode #reading-controls button {
     padding-bottom: 6px !important;
   }
 }
+
+/* Home Study Room flow alignment after origin merge. */
+#app.home-state #bottom-nav {
+  display: none !important;
+}
+
+#app.home-state .star-balance-bar {
+  align-items: center;
+  gap: 7px;
+  max-width: min(calc(100vw - 112px), 430px);
+}
+
+#app.home-state .home-hud-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 38px;
+  min-height: 30px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: rgba(255, 250, 244, 0.88);
+  border: 1px solid rgba(255, 190, 150, 0.42);
+  color: #6b321f;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+#app.home-state .home-hud-chip b,
+#app.home-state .star-count {
+  display: inline-block;
+  min-width: 1.35em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+#app.home-state .hotspot-desk,
+#app.home-state .hotspot-books,
+#app.home-state .hotspot-decor,
+#app.home-state .hotspot-play {
+  display: none !important;
+}
+
+#app.home-state #mission-cta {
+  background: linear-gradient(145deg, rgba(255,253,249,1), rgba(255,237,220,0.99)) !important;
+}
+
+#app.home-state .room-card-sub {
+  min-height: 12px;
+  font-size: max(12px, 0.72rem);
+}
+
+#app.home-state.home-chat-drawer-open #chat-area {
+  bottom: calc(92px + env(safe-area-inset-bottom, 0px)) !important;
+  height: min(30dvh, 270px) !important;
+  max-height: calc(100dvh - 190px) !important;
+}
+
+#app.home-state.home-chat-drawer-open #input-area {
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+#app.home-state.home-chat-drawer-open #chat-messages {
+  padding: 54px 14px 12px !important;
+}
+
+@media (min-width: 640px) and (max-width: 899px) {
+  #app.home-state {
+    --home-vyvy-h: min(42dvh, 440px);
+  }
+}
+
+@media (max-width: 520px) {
+  #app.home-state .home-hud-chip {
+    min-width: 32px;
+    min-height: 30px;
+    padding: 0 6px;
+    font-size: 12px;
+  }
+}

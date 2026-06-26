@@ -515,6 +515,7 @@
     var stars = parseInt(localStorage.getItem(SK.STARS) || '0', 10) || 0;
     if (starCount) starCount.textContent = String(stars);
     if (starWrap) starWrap.classList.toggle('is-zero-stars', stars <= 0);
+    updateHomeHudStats({ stars: stars });
     if (DOM.vyvyStatus && stars <= 0) {
       DOM.vyvyStatus.textContent = 'Học bài đầu tiên để nhận sao nhé!';
     }
@@ -1775,6 +1776,41 @@
     var readerStars = document.getElementById('reader-hud-stars');
     if (pickerStars) pickerStars.textContent = stars;
     if (readerStars) readerStars.textContent = stars;
+    updateHomeHudStats({ stars: stars });
+  }
+
+  function getHomeLessonGrade() {
+    var grade = getSavedGrade(3);
+    if (grade >= 1 && grade <= 5) return grade;
+    return 3;
+  }
+
+  function updateHomeHudStats(data) {
+    data = data || {};
+    var stars = data.stars;
+    if (stars == null && data.cumulative_stars) stars = data.cumulative_stars.total_stars;
+    if (stars == null) stars = getStudyStars();
+    stars = parseInt(stars, 10) || 0;
+
+    var starCountEl = document.getElementById('star-count');
+    if (starCountEl) starCountEl.textContent = String(stars);
+
+    var streak = data.streak;
+    if (streak == null && window.VyvyDecor && typeof window.VyvyDecor.getExerciseStats === 'function') {
+      try {
+        var exerciseStats = window.VyvyDecor.getExerciseStats();
+        streak = exerciseStats && exerciseStats.streak;
+      } catch (e) {}
+    }
+    var streakEl = document.getElementById('home-streak-count');
+    if (streakEl) streakEl.textContent = String(parseInt(streak, 10) || 0);
+
+    var level = 1;
+    if (window.VyvyDecor && typeof window.VyvyDecor.getVyvyLevel === 'function') {
+      try { level = window.VyvyDecor.getVyvyLevel(); } catch (e2) { level = 1; }
+    }
+    var levelEl = document.getElementById('home-level-count');
+    if (levelEl) levelEl.textContent = String(parseInt(level, 10) || 1);
   }
 
   function setLearningStage(stage) {
@@ -2241,7 +2277,7 @@
 
   function startRandomLesson(subject) {
     var sessionUrl = API_BASE + '/curriculum/session/start';
-    fetch(sessionUrl, {
+    return fetch(sessionUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json; charset=utf-8' },
       body: JSON.stringify({
@@ -2262,7 +2298,7 @@
     learnState.selectedLessonUnitId = unitId || learnState.selectedLessonUnitId;
     prepareReadingSessionSwitch();
     var sessionUrl = API_BASE + '/curriculum/session/start';
-    fetch(sessionUrl, {
+    return fetch(sessionUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json; charset=utf-8' },
       body: JSON.stringify({
@@ -2276,6 +2312,49 @@
       .then(function(res) { return res.json(); })
       .then(function(data) { handleSessionStart(data); })
       .catch(function() {});
+  }
+
+  function setTodayLessonLoading(isLoading) {
+    var btn = document.getElementById('mission-begin-btn');
+    if (!btn) return;
+    if (!btn.dataset.readyText) btn.dataset.readyText = btn.textContent || 'Học cùng VyVy';
+    btn.disabled = !!isLoading;
+    btn.textContent = isLoading ? 'Đang mở bài...' : btn.dataset.readyText;
+  }
+
+  function openTodayLessonFromHome() {
+    closeHomeChatDrawer();
+    setVyvyOutfit('uniform');
+    var grade = getHomeLessonGrade();
+    learnState.activeGrade = grade;
+    learnState.selectedGrade = grade;
+    setTodayLessonLoading(true);
+    return fetch(API_BASE + '/curriculum/next-unit?grade=' + encodeURIComponent(grade))
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        var unit = data && data.unit;
+        var unitId = unit && unit.daily_unit_id;
+        var subject = (data && data.subject) || (unit && unit.subject) || learnState.selectedSubject || learnState.subject;
+        if (!unitId || !subject) {
+          showToast('VyVy chưa tìm được bài tiếp theo, mình chọn bài nhé.', 'info', 2600);
+          openLearningPicker();
+          return null;
+        }
+        learnState.subject = subject;
+        learnState.selectedSubject = subject;
+        learnState.selectedSubjectLabel = (data && data.subject_label) || getSubjectLabel(subject);
+        learnState.selectedLessonTitle = unit.title || '';
+        if (window.VyvyDecor) window.VyvyDecor.setBg('learn');
+        showView('learning');
+        return startSpecificLesson(unitId, subject);
+      })
+      .catch(function() {
+        showToast('VyVy chưa tìm được bài tiếp theo, mình chọn bài nhé.', 'info', 2600);
+        openLearningPicker();
+      })
+      .finally(function() {
+        setTodayLessonLoading(false);
+      });
   }
 
   function handleSessionStart(data) {
@@ -5842,14 +5921,18 @@
   }
 
     /* Room Carousel: V3 scroll-snap home shelf */
-  var ROOM_ORDER = ['learn', 'library', 'art', 'music', 'games'];
+  var ROOM_ORDER = ['learn', 'decor', 'games', 'library', 'art', 'music'];
 
   function routeToRoom(roomId) {
     playSound('click');
-    if (roomId === 'learn' || roomId === 'library') {
+    if (roomId === 'learn') {
+      openTodayLessonFromHome();
+    } else if (roomId === 'library') {
       closeHomeChatDrawer();
       setVyvyOutfit('uniform');
       openLearningPicker();
+    } else if (roomId === 'decor') {
+      routeHomeWorldAction('decor');
     } else if (roomId === 'art') {
       if (window.VyvyDecor) window.VyvyDecor.setBg('drawing');
       setVyvyOutfit('art');
@@ -5866,7 +5949,9 @@
   }
 
   function routeHomeWorldAction(action) {
-    if (action === 'learn' || action === 'library') {
+    if (action === 'learn') {
+      routeToRoom('learn');
+    } else if (action === 'library') {
       routeToRoom(action);
     } else if (action === 'chat') {
       playSound('click');
@@ -7352,18 +7437,21 @@
   };
 
   function loadStarBalance() {
-    fetch(API_BASE + '/curriculum/progress')
+    var grade = getHomeLessonGrade();
+    fetch(API_BASE + '/curriculum/progress?grade=' + encodeURIComponent(grade))
       .then(function(res) { return res.json(); })
       .then(function(data) {
         var stars = data.cumulative_stars ? data.cumulative_stars.total_stars : 0;
         avatarShopState.stars = stars;
         var starCountEl = document.getElementById('star-count');
         if (starCountEl) starCountEl.textContent = stars;
+        updateHomeHudStats(data);
         var shopBalanceEl = document.getElementById('shop-balance-stars');
         if (shopBalanceEl) shopBalanceEl.textContent = '⭐ ' + stars;
       })
       .catch(function(err) {
         console.error('[AvatarShop] Load star balance error:', err);
+        updateHomeHudStats();
       });
   }
 
@@ -7513,6 +7601,7 @@
     cacheDom();
     loadSettings();
     updateHomeProfileBadges();
+    loadStarBalance();
     loadMemory();
     loadTheme();
     loadVoices();
