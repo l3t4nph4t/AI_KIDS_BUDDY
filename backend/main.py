@@ -824,6 +824,13 @@ async def curriculum_pdf(grade: int, filename: str):
     decoded = urllib.parse.unquote(filename)
     pdf_path = os.path.join(pdf_dir, decoded)
 
+    if not os.path.isdir(pdf_dir):
+        return JSONResponse(
+            content={"detail": "PDF directory not found", "grade": grade},
+            status_code=404,
+            media_type="application/json; charset=utf-8",
+        )
+
     if not os.path.isfile(pdf_path):
         def _normalize(s):
             s = unicodedata.normalize('NFD', s.lower())
@@ -871,7 +878,7 @@ async def curriculum_lesson_pdf(lesson_id: str):
     )
     pdf_path = os.path.join(lesson_pdf_dir, f"{lesson_id}.pdf")
 
-    if not os.path.isfile(pdf_path):
+    if not os.path.isfile(pdf_path) and os.path.isdir(lesson_pdf_dir):
         for grade_dir in os.listdir(lesson_pdf_dir):
             candidate = os.path.join(lesson_pdf_dir, grade_dir, f"{lesson_id}.pdf")
             if os.path.isfile(candidate):
@@ -882,8 +889,13 @@ async def curriculum_lesson_pdf(lesson_id: str):
         return FileResponse(pdf_path, media_type="application/pdf")
 
     try:
-        parts = lesson_id.split("_")
-        grade = int(parts[1].replace("G", ""))
+        match = re.match(r"^KNTT_G(\d+)_.*_L\d+$", lesson_id)
+        if not match:
+            return JSONResponse(
+                content={"error": "Invalid lesson_id", "lesson_id": lesson_id},
+                status_code=404,
+            )
+        grade = int(match.group(1))
         book_id = re.sub(r"_L\d+$", "", lesson_id)
 
         from backend.curriculum import get_lessons_by_book, get_book_by_id
@@ -894,35 +906,35 @@ async def curriculum_lesson_pdf(lesson_id: str):
                 status_code=404,
             )
 
-        source_file = book.get("source_file", "")
-        source_path = os.path.join(PROJECT_ROOT, "backend", "data", "source_sgk", f"grade_{grade}", source_file)
-
-        if not os.path.isfile(source_path):
-            return JSONResponse(
-                content={"error": "Source PDF not found"},
-                status_code=404,
-            )
-
         lesson = None
         for l in get_lessons_by_book(book_id):
             if l["lesson_id"] == lesson_id:
                 lesson = l
                 break
 
-        if not lesson or not lesson.get("page_start"):
+        page_start_value = lesson.get("pdf_page_start") or lesson.get("page_start") if lesson else None
+        if not lesson or not page_start_value:
             return JSONResponse(
                 content={"error": "Lesson page range not found"},
                 status_code=404,
             )
 
-        page_start = lesson["page_start"] - 1
-        page_end = lesson.get("page_end", lesson["page_start"] + 3)
-        if not page_end:
-            page_end = lesson["page_start"] + 3
-        page_end = page_end - 1
+        source_file = lesson.get("source_file") or book.get("source_file", "")
+        source_path = os.path.join(PROJECT_ROOT, "backend", "data", "source_sgk", f"grade_{grade}", source_file)
+
+        if not os.path.isfile(source_path):
+            return JSONResponse(
+                content={"error": "Source PDF not found", "source_file": source_file},
+                status_code=404,
+            )
+
+        page_start = int(page_start_value) - 1
+        page_end_value = lesson.get("pdf_page_end") or lesson.get("page_end")
+        if not page_end_value:
+            page_end_value = int(page_start_value) + 3
+        page_end = int(page_end_value) - 1
 
         import pikepdf
-        import re
         import tempfile
 
         def get_used_xobjects(page):

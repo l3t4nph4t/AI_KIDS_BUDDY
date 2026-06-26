@@ -55,6 +55,7 @@ backend/data/source_sgk/
 
 # Lesson PDFs — mounted via Docker volume in production (not in git)
 backend/data/lesson_pdfs/
+backend/data/lesson_pdf_cache/
 
 # Generated outputs, logs, screenshots
 qa_screenshots/
