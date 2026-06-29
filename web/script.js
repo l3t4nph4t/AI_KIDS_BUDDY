@@ -3768,6 +3768,7 @@
   function _pa1_initAudio(unitId) {
     var audioBtn    = document.getElementById('reading-audio-btn');
     var practiceBtn = document.getElementById('reading-start-practice');
+    var skipBtn     = document.getElementById('reading-skip-audio');
     var voiceGender = lsGet(SK.VOICE_GENDER, 'female');
     var audioUrl    = API_BASE + '/curriculum/lesson-audio?unit_id='
                       + encodeURIComponent(unitId) + '&voice=' + voiceGender;
@@ -3780,42 +3781,47 @@
     audio.load();
 
     if (practiceBtn) {
-      practiceBtn.disabled = false;
-      practiceBtn.title = 'Bat dau luyen tap khi ban da san sang';
+      practiceBtn.disabled = true;
+      practiceBtn.title = 'Nghe VyVy đọc bài hoặc bấm Bỏ qua để luyện tập';
     }
     if (audioBtn) {
-      audioBtn.textContent = '▶ VyVy doc bai';
+      audioBtn.textContent = '▶ VyVy đọc bài';
       audioBtn.classList.add('vyvy-cta-pulse');
+    }
+    if (skipBtn) {
+      skipBtn.style.setProperty('display', 'inline-flex', 'important');
+      skipBtn.style.setProperty('align-items', 'center');
+      skipBtn.style.setProperty('justify-content', 'center');
     }
 
     var finishDeferredAudio = function() {
       if (audioBtn) {
-        audioBtn.textContent = '▶ Nghe lai';
+        audioBtn.textContent = '▶ Nghe lại';
         audioBtn.classList.add('vyvy-cta-pulse');
       }
       if (practiceBtn) {
         practiceBtn.disabled = false;
-        practiceBtn.title = 'Bat dau luyen tap de nhan sao';
+        practiceBtn.title = 'Bắt đầu luyện tập để nhận sao';
       }
-      _pa1_setReadingVyvy('happy', 'Nghe xong roi! San sang chua?');
+      _pa1_setReadingVyvy('happy', 'Nghe xong rồi! Sẵn sàng chưa?');
     };
 
     audio.onended = finishDeferredAudio;
     audio.onplaying = function() {
       if (audioBtn) {
-        audioBtn.textContent = '⏸ Dang doc';
+        audioBtn.textContent = '⏸ Đang đọc';
         audioBtn.classList.remove('vyvy-cta-pulse');
       }
-      _pa1_setReadingVyvy('explaining', 'Minh doc bai cho ban nhe!');
+      _pa1_setReadingVyvy('explaining', 'Mình đọc bài cho bạn nhé!');
     };
     audio.onerror = function() {
       if (audioBtn) {
-        audioBtn.textContent = '▶ VyVy doc bai';
+        audioBtn.textContent = '▶ VyVy đọc bài';
         audioBtn.classList.add('vyvy-cta-pulse');
       }
       if (practiceBtn) {
         practiceBtn.disabled = false;
-        practiceBtn.title = 'Bat dau luyen tap de nhan sao';
+        practiceBtn.title = 'Không tải được audio, bạn có thể luyện tập tiếp';
       }
     };
 
@@ -3823,7 +3829,7 @@
       audioBtn.onclick = function() {
         if (!audio.paused) {
           audio.pause();
-          audioBtn.textContent = '▶ Tiep tuc';
+          audioBtn.textContent = '▶ Tiếp tục';
           audioBtn.classList.add('vyvy-cta-pulse');
           return;
         }
@@ -3831,11 +3837,15 @@
           audio.src = audioUrl;
           audio.load();
         }
-        audioBtn.textContent = '⏳ Dang tai...';
+        audioBtn.textContent = '⏳ Đang tải...';
         audioBtn.classList.remove('vyvy-cta-pulse');
         audio.play().catch(function() {
-          audioBtn.textContent = '▶ VyVy doc bai';
+          audioBtn.textContent = '▶ VyVy đọc bài';
           audioBtn.classList.add('vyvy-cta-pulse');
+          if (practiceBtn) {
+            practiceBtn.disabled = false;
+            practiceBtn.title = 'Không phát được audio, bạn có thể luyện tập tiếp';
+          }
         });
       };
     }
@@ -5932,7 +5942,7 @@
       setVyvyOutfit('uniform');
       openLearningPicker();
     } else if (roomId === 'decor') {
-      routeHomeWorldAction('decor');
+      openRewardsPanel();
     } else if (roomId === 'art') {
       if (window.VyvyDecor) window.VyvyDecor.setBg('drawing');
       setVyvyOutfit('art');
@@ -5951,7 +5961,7 @@
   function routeHomeWorldAction(action) {
     if (action === 'learn') {
       routeToRoom('learn');
-    } else if (action === 'library') {
+    } else if (action === 'library' || action === 'decor') {
       routeToRoom(action);
     } else if (action === 'chat') {
       playSound('click');
@@ -5959,13 +5969,6 @@
     } else if (action === 'rewards') {
       playSound('click');
       openRewardsPanel();
-    } else if (action === 'decor') {
-      playSound('click');
-      if (window.VyvyDecor && typeof window.VyvyDecor.openShop === 'function') {
-        window.VyvyDecor.openShop();
-      } else {
-        openRewardsPanel();
-      }
     } else if (action === 'games') {
       routeToRoom('games');
     } else if (action === 'art') {
