@@ -10541,6 +10541,61 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
   }
 }
 
+/* Home responsive asset authority: keep the final Home override from pinning every viewport to the mobile background. */
+#app.home-state {
+  background-image: url('/static/assets/bg_home_clean.png') !important;
+  background-size: cover !important;
+  background-position: 48% 0% !important;
+  background-repeat: no-repeat !important;
+}
+
+@media (min-width: 900px) and (max-width: 1439px) {
+  #app.home-state {
+    background-image: url('/static/assets/bg_home_clean_tabblet.png') !important;
+    background-position: 50% 36% !important;
+  }
+}
+
+@media (min-width: 1440px) {
+  #app.home-state {
+    background-image: url('/static/assets/bg_home_clean_desktop.png') !important;
+    background-position: 50% 40% !important;
+  }
+}
+
+@media (min-width: 900px) and (max-height: 760px) {
+  #app.home-state {
+    --home-carousel-bottom: max(8px, env(safe-area-inset-bottom, 0px));
+    --home-carousel-h: clamp(124px, 18dvh, 150px);
+    --home-card-w: clamp(176px, 18vw, 220px);
+  }
+
+  #app.home-state .room-carousel-wrap {
+    overflow: hidden !important;
+  }
+
+  #app.home-state .room-carousel-head {
+    display: none !important;
+  }
+
+  #app.home-state #room-carousel {
+    height: 100% !important;
+    padding: 6px 4px !important;
+  }
+
+  #app.home-state .room-card,
+  #app.home-state .room-card.is-active,
+  #app.home-state .room-card.is-next,
+  #app.home-state .room-card.is-prev {
+    padding: 8px 10px;
+    transform: none;
+  }
+
+  #app.home-state .room-card img {
+    height: min(64px, 48%);
+  }
+}
+
 /* Non-home view guard: prevent Home-only fixed/absolute layers from stealing clicks. */
 #app:not(.home-state) .home-content,
 #app:not(.home-state) .avatar-area,
