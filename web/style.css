@@ -9137,6 +9137,12 @@ body.reading-pdf-mode #reading-controls button {
   white-space: nowrap;
 }
 
+body.reading-pdf-mode #reading-controls .reading-skip-audio {
+  display: inline-flex !important;
+  flex: 0 0 74px !important;
+  justify-content: center;
+}
+
 @media (max-width: 760px) {
   body.reading-pdf-mode #learn-reading {
     --reader-topbar-h: 88px;

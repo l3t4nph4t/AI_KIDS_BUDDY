@@ -129,9 +129,16 @@
             </button>
             <!-- Star Balance & Avatar Shop Button -->
             <div class="star-balance-bar">
-                <div class="star-balance" id="star-balance">
+                <div class="star-balance home-hud-chip" id="star-balance">
                     <span class="star-icon">⭐</span>
                     <span class="star-count" id="star-count">0</span>
+                </div>
+                <div class="home-hud-chip home-streak-chip" aria-label="Chuỗi học tập">
+                    <span class="hud-icon">🔥</span>
+                    <span class="hud-label">Chuỗi <b id="home-streak-count">0</b></span>
+                </div>
+                <div class="home-hud-chip home-level-chip" aria-label="Cấp VyVy">
+                    <span class="hud-label">Cấp <b id="home-level-count" data-vyvy-level-num>1</b></span>
                 </div>
                 <button class="avatar-shop-btn" id="avatar-shop-btn" title="Đổi avatar">
                     <span class="shop-icon">🎨</span>
@@ -168,11 +175,7 @@
 
         <!-- Room object hotspots -->
         <div class="home-hotspots" aria-label="Lối vào trong phòng học">
-            <button class="home-hotspot hotspot-desk" type="button" data-home-hotspot="learn">📚 Bàn học</button>
-            <button class="home-hotspot hotspot-books" type="button" data-home-hotspot="library">📖 Kệ sách</button>
             <button class="home-hotspot hotspot-reward" type="button" data-home-hotspot="rewards">⭐ Rương sao</button>
-            <button class="home-hotspot hotspot-decor" type="button" data-home-hotspot="decor">🎨 Trang trí</button>
-            <button class="home-hotspot hotspot-play" type="button" data-home-hotspot="games">🎮 Góc chơi</button>
         </div>
 
         <!-- Room Carousel -->
@@ -184,12 +187,26 @@
             <div class="room-carousel" id="room-carousel" role="list" aria-label="Chọn phòng">
                 <button class="room-card is-active" type="button"
                         data-room-id="learn"
-                        aria-label="Bàn học" aria-pressed="true">
+                        aria-label="Bài hôm nay" aria-pressed="true">
                     <img src="/static/assets/study/study_sgk_book.webp" alt="" loading="eager">
-                    <span class="room-card-label">Bàn học</span>
-                    <span class="room-card-sub">Vào bài hôm nay</span>
+                    <span class="room-card-label">Bài hôm nay</span>
+                    <span class="room-card-sub">Vào thẳng 1 bài</span>
                 </button>
                 <button class="room-card is-next" type="button"
+                        data-room-id="decor"
+                        aria-label="Trang trí phòng" aria-pressed="false">
+                    <img src="/static/ui/nav/room_phong_ngu.png" alt="" loading="eager">
+                    <span class="room-card-label">Trang trí</span>
+                    <span class="room-card-sub">Đổi decor phòng</span>
+                </button>
+                <button class="room-card" type="button"
+                        data-room-id="games"
+                        aria-label="Góc chơi" aria-pressed="false">
+                    <img src="/static/ui/nav/room_giai_tri.png" alt="" loading="eager">
+                    <span class="room-card-label">Góc chơi</span>
+                    <span class="room-card-sub">Mini game thưởng sao</span>
+                </button>
+                <button class="room-card" type="button"
                         data-room-id="library"
                         aria-label="Thư viện kệ sách" aria-pressed="false">
                     <img src="/static/assets/study/lesson_card_book_default.webp" alt="" loading="eager">
@@ -209,13 +226,6 @@
                     <img src="/static/ui/nav/room_am_nhac.png" alt="" loading="eager">
                     <span class="room-card-label">Phòng nhạc</span>
                     <span class="room-card-sub">Nghe nhạc thiếu nhi</span>
-                </button>
-                <button class="room-card" type="button"
-                        data-room-id="games"
-                        aria-label="Khu vui chơi" aria-pressed="false">
-                    <img src="/static/ui/nav/room_giai_tri.png" alt="" loading="eager">
-                    <span class="room-card-label">Khu vui chơi</span>
-                    <span class="room-card-sub">Mini game thưởng sao</span>
                 </button>
             </div>
             <div class="room-carousel-controls" aria-label="Chuyển phòng">
