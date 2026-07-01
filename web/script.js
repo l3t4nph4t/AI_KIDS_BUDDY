@@ -2887,6 +2887,7 @@
       zoomOut: document.getElementById('study-pdf-zoom-out'),
       zoomLabel: document.getElementById('study-pdf-zoom-label'),
       cropToggle: document.getElementById('study-pdf-crop-toggle'),
+      focusToggle: document.getElementById('study-pdf-focus-toggle'),
       pageCounter: document.getElementById('study-page-counter')
     };
   }
@@ -3194,11 +3195,34 @@
       els.cropToggle.textContent = pdfReaderState.cropMode === 'on' ? 'Cắt lề: Bật' : 'Cắt lề: Tắt';
       els.cropToggle.title = hasProfile ? 'Bật hoặc tắt cắt lề SGK' : 'SGK này chưa có hồ sơ cắt lề an toàn';
     }
+    if (els.focusToggle) {
+      var isFocusMode = document.body.classList.contains('reading-pdf-focus-mode');
+      var canFocus = document.body.classList.contains('reading-pdf-mode');
+      els.focusToggle.disabled = !canFocus;
+      els.focusToggle.setAttribute('aria-pressed', isFocusMode ? 'true' : 'false');
+      els.focusToggle.textContent = isFocusMode ? 'Thoát toàn màn hình sách' : 'Toàn màn hình sách';
+      els.focusToggle.title = 'Ẩn phần phụ để đọc SGK rộng hơn trong app';
+    }
     if (els.pageCounter && hasDoc) {
       els.pageCounter.textContent = pdfReaderState.pagesPerSpread > 1 && lastVisiblePage !== pdfReaderState.currentPage
         ? ('Trang ' + pdfReaderState.currentPage + '-' + lastVisiblePage + '/' + pdfReaderState.totalPages)
         : ('Trang ' + pdfReaderState.currentPage + '/' + pdfReaderState.totalPages);
     }
+  }
+
+  function setPdfReaderFocusMode(isFocusMode) {
+    document.body.classList.toggle('reading-pdf-focus-mode', !!isFocusMode);
+    updatePdfReaderControls();
+    if (!pdfReaderState.pdfDoc) return;
+    setTimeout(function() {
+      renderPdfSpread(true).catch(function(err) {
+        fallbackToIframePdf(pdfReaderState.pdfId, pdfReaderState.readStep, 'PDF.js render failed after focus mode toggle: ' + (err && err.message ? err.message : err));
+      });
+    }, 80);
+  }
+
+  function togglePdfReaderFocusMode() {
+    setPdfReaderFocusMode(!document.body.classList.contains('reading-pdf-focus-mode'));
   }
 
   function createPdfPageSlot(pageNumber) {
@@ -3479,9 +3503,15 @@
     if (els.zoomIn) els.zoomIn.onclick = function() { setPdfZoom(0.1); };
     if (els.zoomOut) els.zoomOut.onclick = function() { setPdfZoom(-0.1); };
     if (els.cropToggle) els.cropToggle.onclick = togglePdfCrop;
+    if (els.focusToggle) els.focusToggle.onclick = togglePdfReaderFocusMode;
   }
 
   window.addEventListener('resize', handlePdfReaderResize);
+  document.addEventListener('keydown', function(ev) {
+    if (ev.key === 'Escape' && document.body.classList.contains('reading-pdf-focus-mode')) {
+      setPdfReaderFocusMode(false);
+    }
+  });
   document.addEventListener('visibilitychange', function() {
     if (document.hidden) {
       cancelPdfPreload();
@@ -3514,6 +3544,7 @@
   function exitReadingPdfMode() {
     document.body.classList.remove('reading-pdf-mode');
     document.body.classList.remove('pdfjs-reader-active');
+    document.body.classList.remove('reading-pdf-focus-mode');
     var frame = document.getElementById('reading-pdf-frame');
     if (frame && (!frame.src || frame.src === 'undefined' || frame.src === 'null')) {
       frame.src = 'about:blank';
