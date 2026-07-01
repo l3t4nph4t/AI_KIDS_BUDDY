@@ -80,7 +80,6 @@ body {
 
 .app.home-state {
   max-width: none;
-  background-image: url('/static/assets/bg_home.png');
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
@@ -4265,7 +4264,6 @@ body.reading-pdf-mode #reading-controls .reading-skip-btn {
 /* ── Responsive: Tablet ──────────────── */
 @media (min-width: 640px) {
   .app.home-state {
-    background-image: url('/static/assets/bg_home_clean_tabblet.png');
     background-position: center top;
   }
 
@@ -4318,7 +4316,6 @@ body.reading-pdf-mode #reading-controls .reading-skip-btn {
     height: 100dvh;
     border-radius: 0;
     box-shadow: none;
-    background-image: url('/static/assets/bg_home_clean_desktop.png');
   }
 
   .app.home-state .avatar-area {
@@ -7626,7 +7623,6 @@ body.reading-pdf-mode #reading-controls #reading-explanation-btn {
   min-height: 100dvh;
   max-width: none;
   overflow: hidden;
-  background-image: url('/static/assets/bg_home_clean.png');
   background-size: cover;
   background-position: 48% 0%;
   background-repeat: no-repeat;
@@ -7978,7 +7974,6 @@ body.reading-pdf-mode #reading-controls #reading-explanation-btn {
     --home-vyvy-h: clamp(360px, 36dvh, 456px);
     --home-vyvy-left: 12vw;
     --home-vyvy-top: 11dvh;
-    background-image: url('/static/assets/bg_home_clean_tabblet.png');
     background-position: 50% 36%;
   }
 
@@ -8006,7 +8001,6 @@ body.reading-pdf-mode #reading-controls #reading-explanation-btn {
     --home-vyvy-h: clamp(370px, 40dvh, 420px);
     --home-vyvy-left: 16vw;
     --home-vyvy-top: 12dvh;
-    background-image: url('/static/assets/bg_home_clean_desktop.png');
     background-position: 50% 40%;
   }
 
@@ -9489,7 +9483,6 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
   --home-card-w: clamp(190px, 21vw, 262px);
   --home-bubble-left: clamp(210px, 28vw, 430px);
   --home-bubble-top: clamp(118px, 18dvh, 180px);
-  background-image: url('/static/assets/bg_home_clean.png');
   background-position: 48% 0%;
 }
 
@@ -10599,27 +10592,36 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
 /* Canonical Home Layout Authority: one final room-scene contract after older Home experiments. */
 #app.home-state {
   --home-safe-x: clamp(14px, 4vw, 58px);
+  --home-safe-left: max(var(--home-safe-x), env(safe-area-inset-left, 0px));
+  --home-safe-right: max(var(--home-safe-x), env(safe-area-inset-right, 0px));
   --home-safe-top: max(10px, env(safe-area-inset-top, 0px));
   --home-safe-bottom: max(10px, env(safe-area-inset-bottom, 0px));
+  --home-viewport-h: 100vh;
   --home-vyvy-left: 22px;
   --home-vyvy-top: clamp(118px, 15dvh, 146px);
   --home-vyvy-h: clamp(232px, 34dvh, 300px);
   --home-vyvy-w: calc(var(--home-vyvy-h) * 0.68);
   --home-mission-left: clamp(136px, 38vw, 168px);
   --home-mission-top: clamp(132px, 18dvh, 164px);
-  --home-mission-w: calc(100vw - var(--home-mission-left) - 12px);
+  --home-mission-w: calc(100vw - var(--home-mission-left) - var(--home-safe-right) - 12px);
   --home-carousel-bottom: var(--home-safe-bottom);
   --home-carousel-h: 168px;
   --home-card-w: clamp(158px, 48vw, 186px);
   position: relative;
   width: 100vw;
-  height: 100dvh;
-  min-height: 100dvh;
+  height: var(--home-viewport-h);
+  min-height: var(--home-viewport-h);
   overflow: hidden !important;
   background-image: url('/static/assets/bg_home_clean.png') !important;
   background-size: cover !important;
   background-position: 48% 0% !important;
   background-repeat: no-repeat !important;
+}
+
+@supports (height: 100dvh) {
+  #app.home-state {
+    --home-viewport-h: 100dvh;
+  }
 }
 
 #app.home-state .home-content {
@@ -10638,7 +10640,7 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
   justify-content: space-between !important;
   min-height: 56px !important;
   height: auto !important;
-  padding: var(--home-safe-top) var(--home-safe-x) 0 !important;
+  padding: var(--home-safe-top) var(--home-safe-right) 0 var(--home-safe-left) !important;
   background: transparent !important;
   box-shadow: none !important;
   z-index: 90 !important;
@@ -10663,7 +10665,7 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
 #app.home-state .star-balance-bar {
   position: fixed !important;
   top: calc(var(--home-safe-top) + 54px) !important;
-  right: var(--home-safe-x) !important;
+  right: var(--home-safe-right) !important;
   left: auto !important;
   width: auto !important;
   max-width: min(72vw, 430px) !important;
@@ -10706,7 +10708,7 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
   width: var(--home-vyvy-w) !important;
   height: var(--home-vyvy-h) !important;
   max-width: 42vw !important;
-  max-height: calc(100dvh - var(--home-carousel-h) - var(--home-carousel-bottom) - 88px) !important;
+  max-height: calc(var(--home-viewport-h) - var(--home-carousel-h) - var(--home-carousel-bottom) - 88px) !important;
   z-index: 8 !important;
 }
 
@@ -10716,7 +10718,7 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
   top: var(--home-mission-top) !important;
   width: min(430px, var(--home-mission-w)) !important;
   height: auto !important;
-  max-height: calc(100dvh - var(--home-mission-top) - var(--home-carousel-h) - var(--home-carousel-bottom) - 18px) !important;
+  max-height: calc(var(--home-viewport-h) - var(--home-mission-top) - var(--home-carousel-h) - var(--home-carousel-bottom) - 18px) !important;
   min-height: 0 !important;
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) !important;
@@ -10757,8 +10759,8 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
 
 #app.home-state .room-carousel-wrap {
   position: fixed !important;
-  left: var(--home-safe-x) !important;
-  right: var(--home-safe-x) !important;
+  left: var(--home-safe-left) !important;
+  right: var(--home-safe-right) !important;
   top: auto !important;
   bottom: var(--home-carousel-bottom) !important;
   height: var(--home-carousel-h) !important;
@@ -10868,6 +10870,8 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
 @media (max-width: 520px) {
   #app.home-state {
     --home-safe-x: 12px;
+    --home-safe-left: max(var(--home-safe-x), env(safe-area-inset-left, 0px));
+    --home-safe-right: max(var(--home-safe-x), env(safe-area-inset-right, 0px));
     --home-vyvy-left: 18px;
     --home-vyvy-top: clamp(122px, 16dvh, 150px);
     --home-vyvy-h: clamp(224px, 33dvh, 286px);
@@ -10922,12 +10926,14 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
 @media (min-width: 640px) and (max-width: 899px) {
   #app.home-state {
     --home-safe-x: clamp(24px, 4vw, 40px);
+    --home-safe-left: max(var(--home-safe-x), env(safe-area-inset-left, 0px));
+    --home-safe-right: max(var(--home-safe-x), env(safe-area-inset-right, 0px));
     --home-vyvy-left: clamp(38px, 7vw, 62px);
     --home-vyvy-top: clamp(124px, 13dvh, 164px);
     --home-vyvy-h: clamp(300px, 38dvh, 390px);
     --home-mission-left: clamp(270px, 42vw, 360px);
     --home-mission-top: clamp(150px, 17dvh, 188px);
-    --home-mission-w: calc(100vw - var(--home-mission-left) - var(--home-safe-x));
+    --home-mission-w: calc(100vw - var(--home-mission-left) - var(--home-safe-right));
     --home-carousel-h: 184px;
     --home-card-w: clamp(178px, 28vw, 214px);
   }
@@ -10936,12 +10942,14 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
 @media (min-width: 900px) {
   #app.home-state {
     --home-safe-x: clamp(34px, 4vw, 72px);
+    --home-safe-left: max(var(--home-safe-x), env(safe-area-inset-left, 0px));
+    --home-safe-right: max(var(--home-safe-x), env(safe-area-inset-right, 0px));
     --home-vyvy-left: clamp(78px, 8vw, 148px);
     --home-vyvy-top: clamp(94px, 14dvh, 138px);
     --home-vyvy-h: clamp(315px, 44dvh, 420px);
     --home-mission-left: clamp(330px, 31vw, 520px);
     --home-mission-top: clamp(108px, 16dvh, 148px);
-    --home-mission-w: min(450px, calc(100vw - var(--home-mission-left) - var(--home-safe-x)));
+    --home-mission-w: min(450px, calc(100vw - var(--home-mission-left) - var(--home-safe-right)));
     --home-carousel-h: clamp(180px, 23dvh, 206px);
     --home-card-w: clamp(190px, 18vw, 238px);
     background-image: url('/static/assets/bg_home_clean_tabblet.png') !important;
@@ -10950,7 +10958,7 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
 
   #app.home-state .star-balance-bar {
     top: var(--home-safe-top) !important;
-    right: calc(var(--home-safe-x) + 58px) !important;
+    right: calc(var(--home-safe-right) + 58px) !important;
   }
 
   #app.home-state #mission-cta {
@@ -10963,6 +10971,22 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
 
   #app.home-state .room-card img {
     height: min(82px, 52%) !important;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+  #app.home-state {
+    --home-safe-x: clamp(42px, 4vw, 64px);
+    --home-safe-left: max(var(--home-safe-x), env(safe-area-inset-left, 0px));
+    --home-safe-right: max(var(--home-safe-x), env(safe-area-inset-right, 0px));
+    --home-vyvy-left: clamp(78px, 7vw, 120px);
+    --home-vyvy-top: clamp(92px, 13dvh, 126px);
+    --home-vyvy-h: clamp(300px, 42dvh, 390px);
+    --home-mission-left: clamp(330px, 30vw, 450px);
+    --home-mission-top: clamp(110px, 15dvh, 140px);
+    --home-mission-w: min(440px, calc(100vw - var(--home-mission-left) - var(--home-safe-right)));
+    --home-carousel-h: clamp(170px, 22dvh, 190px);
+    --home-card-w: clamp(190px, 17vw, 226px);
   }
 }
 
@@ -10988,6 +11012,8 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
 @media (min-width: 1440px) {
   #app.home-state {
     --home-safe-x: clamp(48px, 5vw, 92px);
+    --home-safe-left: max(var(--home-safe-x), env(safe-area-inset-left, 0px));
+    --home-safe-right: max(var(--home-safe-x), env(safe-area-inset-right, 0px));
     --home-vyvy-left: clamp(118px, 9vw, 178px);
     --home-vyvy-top: clamp(106px, 15dvh, 148px);
     --home-vyvy-h: clamp(355px, 46dvh, 455px);
@@ -11000,15 +11026,33 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
   }
 }
 
+@media (min-width: 1920px) {
+  #app.home-state {
+    --home-stage-margin: calc((100vw - 1840px) / 2);
+    --home-safe-x: 92px;
+    --home-safe-left: max(calc(var(--home-stage-margin) + var(--home-safe-x)), env(safe-area-inset-left, 0px));
+    --home-safe-right: max(calc(var(--home-stage-margin) + var(--home-safe-x)), env(safe-area-inset-right, 0px));
+    --home-vyvy-left: calc(var(--home-stage-margin) + 178px);
+    --home-vyvy-top: clamp(118px, 15dvh, 156px);
+    --home-vyvy-h: clamp(390px, 43dvh, 470px);
+    --home-mission-left: calc(var(--home-stage-margin) + 580px);
+    --home-mission-top: clamp(136px, 16dvh, 172px);
+    --home-mission-w: 450px;
+    --home-card-w: 246px;
+  }
+}
+
 @media (orientation: landscape) and (max-height: 560px) {
   #app.home-state {
     --home-safe-x: clamp(14px, 3vw, 34px);
+    --home-safe-left: max(var(--home-safe-x), env(safe-area-inset-left, 0px));
+    --home-safe-right: max(var(--home-safe-x), env(safe-area-inset-right, 0px));
     --home-vyvy-left: clamp(42px, 8vw, 84px);
     --home-vyvy-top: clamp(48px, 9dvh, 66px);
     --home-vyvy-h: clamp(178px, 47dvh, 238px);
     --home-mission-left: clamp(224px, 31vw, 330px);
     --home-mission-top: clamp(64px, 14dvh, 86px);
-    --home-mission-w: min(380px, calc(100vw - var(--home-mission-left) - var(--home-safe-x)));
+    --home-mission-w: min(380px, calc(100vw - var(--home-mission-left) - var(--home-safe-right)));
     --home-carousel-h: clamp(108px, 27dvh, 132px);
     --home-card-w: clamp(156px, 19vw, 190px);
   }
@@ -11023,7 +11067,7 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
 
   #app.home-state .star-balance-bar {
     top: var(--home-safe-top) !important;
-    left: var(--home-safe-x) !important;
+    left: var(--home-safe-left) !important;
     right: auto !important;
     max-width: min(52vw, 360px) !important;
   }
