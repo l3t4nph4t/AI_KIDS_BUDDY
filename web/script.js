@@ -735,7 +735,7 @@
     bubble.className = 'bubble typing-bubble';
     var avatar = document.createElement('img');
     avatar.className = 'typing-avatar';
-    avatar.src = '/static/assets/vyvy/vyvy.png';
+    avatar.src = '/static/assets/vyvy/vyvy.webp';
     avatar.alt = '';
     avatar.setAttribute('aria-hidden', 'true');
     var content = document.createElement('div');
@@ -1813,11 +1813,39 @@
     if (levelEl) levelEl.textContent = String(parseInt(level, 10) || 1);
   }
 
+  var SHELL_NAMES = ['home', 'picker', 'reader', 'practice', 'view'];
+
+  function setShell(shell, context) {
+    shell = SHELL_NAMES.indexOf(shell) >= 0 ? shell : 'view';
+    context = context || {};
+    var appEl = document.getElementById('app');
+    document.body.classList.add('ux-foundation-v1');
+    for (var i = 0; i < SHELL_NAMES.length; i++) {
+      document.body.classList.remove('shell-' + SHELL_NAMES[i]);
+      if (appEl) appEl.classList.remove('shell-' + SHELL_NAMES[i]);
+    }
+    document.body.classList.add('shell-' + shell);
+    if (appEl) {
+      appEl.dataset.shell = shell;
+      appEl.classList.add('shell-' + shell);
+      appEl.classList.toggle('home-state', shell === 'home');
+      if (context.stage) appEl.dataset.shellStage = context.stage;
+    }
+  }
+
+  function shellForLearningStage(stage) {
+    if (stage === 'reading') return 'reader';
+    if (stage === 'session' || stage === 'practice' || stage === 'complete') return 'practice';
+    return 'picker';
+  }
+
   function setLearningStage(stage) {
+    stage = stage || 'picker';
     var panel = document.getElementById('learn-panel');
     var picker = document.getElementById('study-picker-hero');
-    if (panel) panel.dataset.studyStage = stage || 'picker';
+    if (panel) panel.dataset.studyStage = stage;
     if (picker) picker.classList.toggle('hidden', stage !== 'picker');
+    setShell(shellForLearningStage(stage), { stage: stage });
   }
 
   function getSubjectLabel(subject) {
@@ -2384,8 +2412,8 @@
     if (lessonListDiv) lessonListDiv.classList.add('hidden');
 
     if (data.error) {
-      setLearningStage('session');
-      if (msgEl) msgEl.textContent = 'Có lỗi: ' + data.error;
+      setLearningStage('practice');
+      renderPracticeMessage('Có lỗi: ' + data.error, 'retry');
       if (sessionDiv) sessionDiv.classList.remove('hidden');
       return;
     }
@@ -2400,13 +2428,13 @@
     if (data.current_step === 'read' && data.session.has_content) {
       showLessonReading(data.session.steps.read, data.session);
     } else {
-      setLearningStage('session');
+      setLearningStage('practice');
       var items = (data.session.steps.practice || {}).items || [];
       if (items.length > 0 && items[0].options) {
         learnState.currentOptions = items[0].options;
       }
       if (titleEl) titleEl.textContent = data.session.subject_emoji + ' ' + data.session.title;
-      if (msgEl) msgEl.textContent = data.message;
+      renderPracticeMessage(data.message, 'question');
       if (sessionDiv) sessionDiv.classList.remove('hidden');
       showLearnInput();
       updateStarsDisplay();
@@ -3902,17 +3930,17 @@
   function _pa1_setReadingVyvy(pose, message) {
     var catalog = (window.VYVY_CATALOG && window.VYVY_CATALOG.states) || {};
     var fallbackAssets = {
-      idle: 'vyvy_idle.png',
-      explaining: 'vyvy_explaining.png',
-      happy: 'vyvy_cheering.png',
-      reading: 'vyvy_reading.png',
-      listening: 'vyvy_listening.png',
-      thinking: 'vyvy_thinking.png'
+      idle: 'vyvy_idle.webp',
+      explaining: 'vyvy_explaining.webp',
+      happy: 'vyvy_cheering.webp',
+      reading: 'vyvy_reading.webp',
+      listening: 'vyvy_listening.webp',
+      thinking: 'vyvy_thinking.webp'
     };
     var poseDef = catalog[pose] || catalog['idle'] || {};
     var imgSrc  = poseDef.asset
       ? '/static/assets/vyvy/' + poseDef.asset
-      : '/static/assets/vyvy/' + (fallbackAssets[pose] || fallbackAssets.idle || 'vyvy.png');
+      : '/static/assets/vyvy/' + (fallbackAssets[pose] || fallbackAssets.idle || 'vyvy.webp');
 
     var img    = document.getElementById('reading-vyvy-img');
     var railImg = document.getElementById('reading-vyvy-rail-img');
@@ -4065,12 +4093,97 @@
     }
   }
 
+  function getPracticeItems() {
+    var session = learnState.currentSession || {};
+    return (((session.steps || {}).practice || {}).items) || [];
+  }
+
+  function getCurrentPracticePrompt() {
+    var session = learnState.currentSession || {};
+    if (learnState.currentStep === 'check') {
+      return (((session.steps || {}).check || {}).question) || '';
+    }
+    var items = getPracticeItems();
+    var idx = Number(learnState.itemIndex) || 0;
+    if (idx >= 0 && idx < items.length) return items[idx].question || '';
+    return (((session.steps || {}).practice || {}).message) || '';
+  }
+
+  function splitPracticeMessage(message) {
+    var raw = String(message || '').replace(/\r/g, '').trim();
+    var lines = raw.split('\n').map(function(line) { return line.trim(); }).filter(Boolean);
+    var prompt = getCurrentPracticePrompt();
+    if (!prompt && lines.length) prompt = lines[lines.length - 1];
+    var feedback = '';
+    if (lines.length > 1) feedback = lines.slice(0, lines.length - 1).join('\n');
+    if (raw && prompt && raw.indexOf(prompt) < 0 && !feedback) feedback = raw;
+    return { feedback: feedback, prompt: prompt || raw || 'VyVy đang chuẩn bị câu hỏi.' };
+  }
+
+  function renderPracticeMessage(message, tone) {
+    setLearningStage(tone === 'complete' ? 'complete' : 'practice');
+    var msgEl = document.getElementById('learn-message');
+    var sessionEl = document.getElementById('learn-session');
+    if (sessionEl) {
+      sessionEl.dataset.practiceTone = tone || 'question';
+      sessionEl.classList.add('practice-shell');
+    }
+    if (!msgEl) return;
+
+    var parts = splitPracticeMessage(message);
+    msgEl.className = 'learn-message practice-question-card';
+    msgEl.innerHTML = '';
+
+    var items = getPracticeItems();
+    var total = learnState.currentStep === 'check' ? Math.max(1, items.length + 1) : Math.max(1, learnState.totalItems || items.length || 1);
+    var current = learnState.currentStep === 'check'
+      ? total
+      : Math.min(total, (Number(learnState.itemIndex) || 0) + 1);
+
+    var header = document.createElement('div');
+    header.className = 'practice-card-head';
+    var badge = document.createElement('span');
+    badge.className = 'practice-step-badge';
+    badge.textContent = learnState.currentStep === 'check' ? 'Câu thử thách' : ('Câu ' + current + '/' + total);
+    var stars = document.createElement('span');
+    stars.className = 'practice-star-count';
+    stars.textContent = 'Sao: ' + (learnState.totalStars || 0);
+    header.appendChild(badge);
+    header.appendChild(stars);
+
+    var body = document.createElement('div');
+    body.className = 'practice-card-body';
+    var img = document.createElement('img');
+    img.className = 'practice-vyvy';
+    img.src = '/static/assets/vyvy/vyvy_thinking.webp';
+    img.alt = 'VyVy';
+    img.onerror = function() { this.src = '/static/assets/vyvy/vyvy_thinking.png'; };
+
+    var copy = document.createElement('div');
+    copy.className = 'practice-copy';
+    if (parts.feedback) {
+      var feedback = document.createElement('div');
+      feedback.className = 'practice-feedback-line';
+      feedback.textContent = parts.feedback.replace(/\*\*/g, '');
+      copy.appendChild(feedback);
+    }
+    var question = document.createElement('div');
+    question.className = 'practice-question-text';
+    question.textContent = parts.prompt.replace(/\*\*/g, '');
+    copy.appendChild(question);
+
+    body.appendChild(img);
+    body.appendChild(copy);
+    msgEl.appendChild(header);
+    msgEl.appendChild(body);
+  }
+
   function startPracticeFromReading() {
     _pa1_stopReadingAudio();
     clearReadingPdfFrame();
     var readingDiv = document.getElementById('learn-reading');
     var sessionDiv = document.getElementById('learn-session');
-    setLearningStage('session');
+    setLearningStage('practice');
     if (readingDiv) readingDiv.classList.add('hidden');
     if (sessionDiv) sessionDiv.classList.remove('hidden');
 
@@ -4081,7 +4194,7 @@
     if (titleEl) titleEl.textContent = session.subject_emoji + ' ' + session.title;
 
     var msgEl = document.getElementById('learn-message');
-    if (msgEl) msgEl.textContent = 'VyVy đang chuẩn bị câu hỏi...';
+    renderPracticeMessage('VyVy đang chuẩn bị câu hỏi...', 'loading');
 
     fetch(API_BASE + '/curriculum/session/respond', {
       method: 'POST',
@@ -4098,7 +4211,7 @@
       .then(function(res) { return res.json(); })
       .then(function(data) {
         if (data.error) {
-          if (msgEl) msgEl.textContent = 'Có lỗi: ' + data.error;
+          renderPracticeMessage('Có lỗi: ' + data.error, 'retry');
           return;
         }
         learnState.currentStep = data.next_step;
@@ -4111,7 +4224,7 @@
             learnState.currentOptions = items[0].options;
           }
         }
-        if (msgEl) msgEl.textContent = data.message;
+        renderPracticeMessage(data.message, 'question');
         showLearnInput();
         updateStarsDisplay();
         updateProgressBar();
@@ -4122,9 +4235,12 @@
   }
 
   function showLearnInput() {
+    setLearningStage('practice');
     var inputArea = document.getElementById('learn-input-area');
     var actionsArea = document.getElementById('learn-actions');
     var input = document.getElementById('learn-answer-input');
+    if (inputArea) inputArea.classList.add('practice-answer-area');
+    if (actionsArea) actionsArea.classList.add('practice-action-area');
 
     // Check if current question has multiple choice options
     var options = learnState.currentOptions;
@@ -4169,7 +4285,7 @@
 
   function sendMcAnswer(answer) {
     var msgEl = document.getElementById('learn-message');
-    if (msgEl) msgEl.textContent = 'VyVy đang suy nghĩ...';
+    renderPracticeMessage('VyVy đang suy nghĩ...', 'loading');
 
     var session = learnState.currentSession;
     if (!session) return;
@@ -4198,6 +4314,7 @@
   }
 
   function showLearnNext() {
+    setLearningStage('practice');
     var inputArea = document.getElementById('learn-input-area');
     var actionsArea = document.getElementById('learn-actions');
     if (inputArea) inputArea.classList.add('hidden');
@@ -4240,7 +4357,7 @@
     if (!session) return;
 
     var msgEl = document.getElementById('learn-message');
-    if (msgEl) msgEl.textContent = 'VyVy đang suy nghĩ...';
+    renderPracticeMessage('VyVy đang suy nghĩ...', 'loading');
 
     var payload = {
       session_data: session,
@@ -4272,7 +4389,7 @@
   function handleLearnResponse(data) {
     var msgEl = document.getElementById('learn-message');
     if (data.error) {
-      if (msgEl) msgEl.textContent = 'Có lỗi: ' + data.error;
+      renderPracticeMessage('Có lỗi: ' + data.error, 'retry');
       return;
     }
 
@@ -4315,20 +4432,7 @@
       learnState.currentOptions = null;
     }
 
-    if (msgEl) {
-      if (data.retry) {
-        msgEl.innerHTML = renderMarkdown(data.message);
-      } else {
-        var _parts = data.message.split('\n');
-        var _feedback = _parts[0] || '';
-        var _question = _parts.slice(1).join('\n').trim();
-        if (_question) {
-          msgEl.innerHTML = '<div class="learn-feedback-line">' + _feedback + '</div><div>' + _question + '</div>';
-        } else {
-          msgEl.textContent = _feedback;
-        }
-      }
-    }
+    renderPracticeMessage(data.message, data.retry ? 'retry' : (data.next_step || 'question'));
 
     if (data.next_step === 'feedback') {
       showLearnNext();
@@ -4360,6 +4464,7 @@
   }
 
   function showLearningComplete() {
+    setLearningStage('complete');
     // PA1C: persist lesson history for progress tracking
     try {
       var history = JSON.parse(localStorage.getItem('vyvy_lesson_history') || '[]');
@@ -4455,7 +4560,7 @@
     var titleEl = document.getElementById('learn-session-title');
     if (titleEl) titleEl.textContent = 'Đang tải bài...';
     var msgEl = document.getElementById('learn-message');
-    if (msgEl) msgEl.textContent = 'VyVy đang chuẩn bị bài...';
+    renderPracticeMessage('VyVy đang chuẩn bị bài...', 'loading');
     fetch(API_BASE + '/curriculum/session/start', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json; charset=utf-8' },
@@ -4463,7 +4568,7 @@
     })
       .then(function(res) { return res.json(); })
       .then(function(data) {
-        if (data.error) { if (msgEl) msgEl.textContent = 'Có lỗi: ' + data.error; if (sessionDiv) sessionDiv.classList.remove('hidden'); return; }
+        if (data.error) { renderPracticeMessage('Có lỗi: ' + data.error, 'retry'); if (sessionDiv) sessionDiv.classList.remove('hidden'); return; }
         learnState.currentSession = data.session;
         learnState.currentStep = data.current_step;
         learnState.unitId = data.unit_id || '';
@@ -4473,8 +4578,9 @@
         if (data.current_step === 'read' && data.session.has_content) {
           showLessonReading(data.session.steps.read, data.session);
         } else {
+          setLearningStage('practice');
           if (titleEl) titleEl.textContent = data.session.subject_emoji + ' ' + data.session.title;
-          if (msgEl) msgEl.textContent = data.message;
+          renderPracticeMessage(data.message, 'question');
           if (sessionDiv) sessionDiv.classList.remove('hidden');
           showLearnInput();
           updateStarsDisplay();
@@ -6409,14 +6515,14 @@
     }
 
     if (currentView === 'home') {
-      if (appEl) appEl.classList.add('home-state');
+      setShell('home', { stage: 'home' });
       if (headerTitle) headerTitle.textContent = bn;
       if (headerSub) { headerSub.textContent = 'bạn AI của bạn'; headerSub.style.display = ''; }
       if (backBtn) backBtn.classList.add('hidden');
       if (inputArea) inputArea.classList.add('hidden');
       setVyvyOutfit('uniform');
     } else {
-      if (appEl) appEl.classList.remove('home-state');
+      if (currentView !== 'learning') setShell('view', { stage: currentView });
       if (backBtn) backBtn.classList.remove('hidden');
 
       var viewTitles = {
@@ -7660,6 +7766,7 @@
   /* ── Init ───────────────────────────────── */
   function init() {
     cacheDom();
+    setShell('home', { stage: 'home' });
     loadSettings();
     updateHomeProfileBadges();
     loadStarBalance();

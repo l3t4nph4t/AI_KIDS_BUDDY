@@ -1,0 +1,1047 @@
+/* UX Foundation V1: canonical shell layout loaded after legacy CSS. */
+
+:root {
+  --ux-safe-top: env(safe-area-inset-top, 0px);
+  --ux-safe-right: env(safe-area-inset-right, 0px);
+  --ux-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --ux-safe-left: env(safe-area-inset-left, 0px);
+  --ux-reader-bg: #fff8ec;
+  --ux-ink: #473322;
+  --ux-muted: #7b6755;
+  --ux-panel: rgba(255, 252, 246, 0.94);
+  --ux-line: rgba(96, 63, 38, 0.16);
+  --ux-green: #2f8f6b;
+  --ux-blue: #3776b8;
+  --ux-pink: #df6f96;
+}
+
+html,
+body.ux-foundation-v1 {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body.ux-foundation-v1 {
+  overscroll-behavior: none;
+}
+
+body.ux-foundation-v1 #app {
+  width: 100vw;
+  min-height: 100svh;
+  min-height: 100dvh;
+}
+
+body.ux-foundation-v1.shell-picker #app,
+body.ux-foundation-v1.shell-reader #app,
+body.ux-foundation-v1.shell-practice #app {
+  width: 100vw !important;
+  height: 100svh !important;
+  height: 100dvh !important;
+  max-width: none !important;
+  max-height: none !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
+}
+
+body.ux-foundation-v1 #app:not([data-shell="home"]) .home-content,
+body.ux-foundation-v1 #app:not([data-shell="home"]) .avatar-area,
+body.ux-foundation-v1 #app:not([data-shell="home"]) #mission-cta,
+body.ux-foundation-v1 #app:not([data-shell="home"]) .home-hotspots,
+body.ux-foundation-v1 #app:not([data-shell="home"]) .room-carousel-wrap,
+body.ux-foundation-v1 #app:not([data-shell="home"]) #chat-area,
+body.ux-foundation-v1 #app:not([data-shell="home"]) #quick-buttons,
+body.ux-foundation-v1 #app:not([data-shell="home"]) .home-talk-btn,
+body.ux-foundation-v1 #app:not([data-shell="home"]) #home-welcome-bubble,
+body.ux-foundation-v1 #app:not([data-shell="home"]) #vyvy-status,
+body.ux-foundation-v1 #app:not([data-shell="home"]) #home-grade-badge,
+body.ux-foundation-v1 #app:not([data-shell="home"]) .star-balance-bar {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+body.ux-foundation-v1 .onboarding-overlay:not(.hidden) {
+  background: rgba(39, 29, 23, 0.48);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+/* HomeShell */
+body.ux-foundation-v1 #app[data-shell="home"] {
+  width: 100vw !important;
+  height: 100svh !important;
+  height: 100dvh !important;
+  max-width: none !important;
+  max-height: none !important;
+  overflow: hidden !important;
+  background-image: url('/static/assets/bg_home_clean_desktop.webp') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  color: var(--ux-ink);
+}
+
+body.ux-foundation-v1 #app[data-shell="home"] .header {
+  position: fixed !important;
+  top: max(10px, var(--ux-safe-top)) !important;
+  left: max(12px, var(--ux-safe-left)) !important;
+  right: max(12px, var(--ux-safe-right)) !important;
+  height: 48px !important;
+  z-index: 45 !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="home"] .avatar-area {
+  position: fixed !important;
+  left: clamp(24px, 7vw, 120px) !important;
+  bottom: clamp(160px, 25dvh, 260px) !important;
+  width: clamp(150px, 19vw, 280px) !important;
+  height: clamp(160px, 23vw, 320px) !important;
+  z-index: 18 !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="home"] #mission-cta {
+  position: fixed !important;
+  left: clamp(190px, 26vw, 520px) !important;
+  bottom: clamp(172px, 26dvh, 280px) !important;
+  width: min(420px, 34vw) !important;
+  max-height: 174px !important;
+  z-index: 24 !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="home"] .room-carousel-wrap {
+  position: fixed !important;
+  left: max(14px, var(--ux-safe-left)) !important;
+  right: max(14px, var(--ux-safe-right)) !important;
+  bottom: max(14px, var(--ux-safe-bottom)) !important;
+  width: auto !important;
+  max-width: min(1180px, calc(100vw - 28px)) !important;
+  margin: 0 auto !important;
+  z-index: 32 !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="home"] #room-carousel {
+  min-height: 150px !important;
+  max-height: 220px !important;
+  overflow: hidden !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="home"] .room-card {
+  min-width: 0 !important;
+  border-radius: 8px !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="home"] .room-card img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+@media (max-width: 599px) {
+  body.ux-foundation-v1 #app[data-shell="home"] {
+    background-image: url('/static/assets/bg_home_clean.webp') !important;
+    background-position: center top !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="home"] .header {
+    height: 42px !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="home"] .avatar-area {
+    left: 12px !important;
+    bottom: 230px !important;
+    width: min(42vw, 170px) !important;
+    height: min(44vw, 190px) !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="home"] #mission-cta {
+    left: auto !important;
+    right: 10px !important;
+    bottom: 244px !important;
+    width: min(54vw, 220px) !important;
+    max-height: 132px !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="home"] .mission-subtitle,
+  body.ux-foundation-v1 #app[data-shell="home"] .mission-progress-row,
+  body.ux-foundation-v1 #app[data-shell="home"] .room-carousel-sub {
+    display: none !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="home"] #room-carousel {
+    min-height: 132px !important;
+    max-height: 152px !important;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  body.ux-foundation-v1 #app[data-shell="home"] {
+    background-image: url('/static/assets/bg_home_clean_tablet.webp') !important;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1439px) {
+  body.ux-foundation-v1 #app[data-shell="home"] {
+    background-image: url('/static/assets/bg_home_clean_tablet.webp') !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
+  body.ux-foundation-v1 #app[data-shell="home"] {
+    background-position: center center !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="home"] .header {
+    top: max(6px, var(--ux-safe-top)) !important;
+    height: 34px !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="home"] .header-left,
+  body.ux-foundation-v1 #app[data-shell="home"] .home-welcome-bubble,
+  body.ux-foundation-v1 #app[data-shell="home"] #vyvy-status,
+  body.ux-foundation-v1 #app[data-shell="home"] #home-grade-badge,
+  body.ux-foundation-v1 #app[data-shell="home"] .mission-subtitle,
+  body.ux-foundation-v1 #app[data-shell="home"] .mission-progress-row,
+  body.ux-foundation-v1 #app[data-shell="home"] .mission-later-btn,
+  body.ux-foundation-v1 #app[data-shell="home"] .room-carousel-head {
+    display: none !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="home"] .avatar-area {
+    left: 18px !important;
+    bottom: 78px !important;
+    width: min(19vw, 142px) !important;
+    height: min(26dvh, 150px) !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="home"] #mission-cta {
+    left: 170px !important;
+    right: auto !important;
+    bottom: 88px !important;
+    width: min(300px, 34vw) !important;
+    max-height: 74px !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="home"] .mission-heading {
+    font-size: 14px !important;
+    line-height: 1.15 !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="home"] .room-carousel-wrap {
+    left: auto !important;
+    right: max(10px, var(--ux-safe-right)) !important;
+    bottom: max(8px, var(--ux-safe-bottom)) !important;
+    width: min(44vw, 390px) !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="home"] #room-carousel {
+    min-height: 86px !important;
+    max-height: 104px !important;
+  }
+}
+
+@media (min-width: 1920px) {
+  body.ux-foundation-v1 #app[data-shell="home"] .room-carousel-wrap {
+    max-width: 1320px !important;
+  }
+}
+
+/* StudyPickerShell */
+body.ux-foundation-v1 #app[data-shell="picker"] #learning-view,
+body.ux-foundation-v1 #app[data-shell="picker"] #learning-view-content,
+body.ux-foundation-v1 #app[data-shell="picker"] #learn-panel {
+  width: 100vw !important;
+  height: 100svh !important;
+  height: 100dvh !important;
+  max-width: none !important;
+  max-height: none !important;
+  overflow: hidden !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="picker"] #learn-panel {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  padding: max(8px, var(--ux-safe-top)) max(10px, var(--ux-safe-right)) max(10px, var(--ux-safe-bottom)) max(10px, var(--ux-safe-left)) !important;
+  background: linear-gradient(180deg, rgba(255, 250, 240, 0.98), rgba(235, 246, 255, 0.96)) !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="picker"] .study-topbar {
+  min-height: 44px !important;
+  gap: 8px !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="picker"] #learn-panel-title {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  font-size: clamp(18px, 2.4vw, 28px) !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="picker"] .study-picker-hero {
+  min-height: 0 !important;
+  height: 100% !important;
+  overflow: auto !important;
+  overscroll-behavior: contain !important;
+  padding: 8px 0 0 !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="picker"] .study-picker-card {
+  width: min(1180px, calc(100vw - 24px)) !important;
+  margin: 0 auto !important;
+  border-radius: 8px !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="picker"] .study-picker-heading p,
+body.ux-foundation-v1 #app[data-shell="picker"] .learn-intro,
+body.ux-foundation-v1 #app[data-shell="picker"] .study-reward-strip {
+  display: none !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="picker"] .study-step-label {
+  margin: 6px 0 !important;
+  min-height: 30px !important;
+  font-size: 14px !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="picker"] .study-lesson-layout {
+  min-height: 0 !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="picker"] .lesson-list-content {
+  max-height: none !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="picker"] .study-picker-footer {
+  position: sticky !important;
+  bottom: max(0px, var(--ux-safe-bottom)) !important;
+  z-index: 20 !important;
+  padding: 8px 0 !important;
+  background: linear-gradient(180deg, rgba(255, 250, 240, 0), rgba(255, 250, 240, 0.96) 35%) !important;
+}
+
+@media (max-width: 599px) {
+  body.ux-foundation-v1 #app[data-shell="picker"] .study-hud {
+    display: none !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="picker"] .study-picker-card {
+    width: calc(100vw - 16px) !important;
+    padding: 10px !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="picker"] .study-picker-heading h3 {
+    font-size: 18px !important;
+    line-height: 1.2 !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="picker"] .subject-cards {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* PracticeShell */
+body.ux-foundation-v1 #app[data-shell="practice"] #learning-view,
+body.ux-foundation-v1 #app[data-shell="practice"] #learning-view-content,
+body.ux-foundation-v1 #app[data-shell="practice"] #learn-panel,
+body.ux-foundation-v1 #app[data-shell="practice"] #learn-session {
+  width: 100% !important;
+  height: 100svh !important;
+  height: 100dvh !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] #learn-panel {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  padding: max(8px, var(--ux-safe-top)) max(10px, var(--ux-safe-right)) max(10px, var(--ux-safe-bottom)) max(10px, var(--ux-safe-left)) !important;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 223, 132, 0.36), transparent 24%),
+    linear-gradient(135deg, rgba(255, 248, 235, 0.98), rgba(230, 245, 255, 0.98)) !important;
+  box-sizing: border-box !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] #study-picker-hero,
+body.ux-foundation-v1 #app[data-shell="practice"] #learn-reading,
+body.ux-foundation-v1 #app[data-shell="practice"] #learn-progress {
+  display: none !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] #learn-session {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  gap: 10px !important;
+  padding: 0 !important;
+  height: 100% !important;
+  width: 100% !important;
+  max-height: 100% !important;
+  max-width: 100% !important;
+  min-height: 0 !important;
+  box-sizing: border-box !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] .learn-session-header {
+  width: min(980px, 100%) !important;
+  margin: 0 auto !important;
+  max-width: 100% !important;
+  min-height: 44px !important;
+  gap: 8px !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] .learn-session-title {
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  font-size: clamp(16px, 2vw, 24px) !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] .learn-session-area {
+  position: relative !important;
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) auto auto !important;
+  gap: 10px !important;
+  width: min(980px, calc(100vw - 20px)) !important;
+  min-height: 0 !important;
+  max-height: calc(100dvh - 188px) !important;
+  margin: 0 auto !important;
+  padding: clamp(10px, 2vw, 18px) !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--ux-line) !important;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.92), rgba(255, 250, 240, 0.9)),
+    url('/static/assets/v4/05_study_pdf_assets/study_practice.webp') right 16px bottom 12px / min(22vw, 180px) auto no-repeat !important;
+  box-shadow: 0 18px 40px rgba(96, 63, 38, 0.14) !important;
+  overflow: hidden !important;
+  max-height: calc(100dvh - 188px) !important;
+  box-sizing: border-box !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] .learn-progress-bar {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-height: 30px !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] .practice-question-card {
+  align-self: stretch !important;
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  gap: 12px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: var(--ux-ink) !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] .practice-card-head {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] .practice-step-badge,
+body.ux-foundation-v1 #app[data-shell="practice"] .practice-star-count {
+  display: inline-flex !important;
+  align-items: center !important;
+  min-height: 32px !important;
+  padding: 6px 10px !important;
+  border-radius: 999px !important;
+  font-weight: 800 !important;
+  font-size: 13px !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] .practice-step-badge {
+  background: rgba(55, 118, 184, 0.14) !important;
+  color: #255f9a !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] .practice-star-count {
+  background: rgba(255, 213, 84, 0.28) !important;
+  color: #7a5420 !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] .practice-card-body {
+  display: grid !important;
+  grid-template-columns: minmax(92px, 150px) minmax(0, 1fr) !important;
+  gap: clamp(10px, 2vw, 18px) !important;
+  align-items: center !important;
+  min-height: 0 !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] .practice-vyvy {
+  width: 100% !important;
+  max-height: min(28dvh, 210px) !important;
+  object-fit: contain !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] .practice-copy {
+  display: grid !important;
+  gap: 10px !important;
+  min-width: 0 !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] .practice-feedback-line {
+  padding: 10px 12px !important;
+  border-radius: 8px !important;
+  background: rgba(47, 143, 107, 0.12) !important;
+  color: #286b54 !important;
+  font-weight: 800 !important;
+  line-height: 1.35 !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] .practice-question-text {
+  max-width: 760px !important;
+  font-size: clamp(22px, 3.2vw, 36px) !important;
+  line-height: 1.22 !important;
+  font-weight: 900 !important;
+  color: var(--ux-ink) !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] .practice-answer-area {
+  display: flex !important;
+  align-items: stretch !important;
+  gap: 10px !important;
+  min-height: 56px !important;
+  margin: 0 !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] .learn-answer-input {
+  min-width: 0 !important;
+  min-height: 56px !important;
+  border-radius: 8px !important;
+  font-size: 18px !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] .learn-answer-btn,
+body.ux-foundation-v1 #app[data-shell="practice"] .learn-next-btn,
+body.ux-foundation-v1 #app[data-shell="practice"] .mc-option-btn {
+  min-height: 52px !important;
+  border-radius: 8px !important;
+  font-weight: 900 !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] .mc-options {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  width: 100% !important;
+}
+
+body.ux-foundation-v1 #app[data-shell="practice"] .learn-stars {
+  min-height: 28px !important;
+  text-align: center !important;
+  font-size: 24px !important;
+}
+
+@media (max-width: 599px) {
+  body.ux-foundation-v1 #app[data-shell="practice"] #learn-panel {
+    padding: max(6px, var(--ux-safe-top)) 8px max(8px, var(--ux-safe-bottom)) !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="practice"] .study-topbar .study-hud {
+    display: none !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="practice"] .learn-session-header {
+    min-height: 38px !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="practice"] .learn-back-btn {
+    min-height: 36px !important;
+    padding: 0 10px !important;
+    white-space: nowrap !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="practice"] .learn-session-area {
+    grid-template-rows: auto minmax(0, 1fr) auto auto !important;
+    gap: 8px !important;
+    padding: 10px !important;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 250, 240, 0.94)),
+      url('/static/assets/v4/05_study_pdf_assets/study_practice.webp') right 8px bottom 8px / 118px auto no-repeat !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="practice"] .practice-card-body {
+    grid-template-columns: 74px minmax(0, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="practice"] .practice-vyvy {
+    max-height: 118px !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="practice"] .practice-question-text {
+    font-size: clamp(20px, 7vw, 30px) !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="practice"] .practice-answer-area {
+    flex-direction: column !important;
+    min-height: 0 !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="practice"] .learn-answer-input,
+  body.ux-foundation-v1 #app[data-shell="practice"] .learn-answer-btn {
+    width: 100% !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="practice"] .mc-options {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
+  body.ux-foundation-v1 #app[data-shell="practice"] #learn-panel {
+    padding: 6px max(8px, var(--ux-safe-right)) 6px max(8px, var(--ux-safe-left)) !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="practice"] .study-topbar {
+    display: none !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="practice"] #learn-session {
+    grid-template-rows: 34px minmax(0, 1fr) !important;
+    gap: 6px !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="practice"] .learn-session-area {
+    grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr) !important;
+    grid-template-rows: auto minmax(0, 1fr) auto !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="practice"] .practice-question-card {
+    grid-column: 1 !important;
+    grid-row: 1 / span 3 !important;
+  }
+
+  body.ux-foundation-v1 #app[data-shell="practice"] .practice-answer-area,
+  body.ux-foundation-v1 #app[data-shell="practice"] .learn-actions,
+  body.ux-foundation-v1 #app[data-shell="practice"] .learn-stars {
+    grid-column: 2 !important;
+  }
+}
+
+/* ReaderShell */
+body.ux-foundation-v1.shell-reader.reading-pdf-mode,
+body.ux-foundation-v1.shell-reader.reading-pdf-mode #app,
+body.ux-foundation-v1.shell-reader.reading-pdf-mode #learning-view,
+body.ux-foundation-v1.shell-reader.reading-pdf-mode #learning-view-content,
+body.ux-foundation-v1.shell-reader.reading-pdf-mode #learn-panel,
+body.ux-foundation-v1.shell-reader.reading-pdf-mode #learn-reading {
+  width: 100vw !important;
+  height: 100svh !important;
+  height: 100dvh !important;
+  max-width: none !important;
+  max-height: none !important;
+  overflow: hidden !important;
+}
+
+body.ux-foundation-v1.shell-reader.reading-pdf-mode #learn-panel {
+  padding: 0 !important;
+  background: var(--ux-reader-bg) !important;
+}
+
+body.ux-foundation-v1.shell-reader.reading-pdf-mode #learn-reading {
+  --reader-pad-x: clamp(8px, 1.1vw, 18px);
+  --reader-pad-top: max(6px, var(--ux-safe-top));
+  --reader-pad-bottom: max(8px, var(--ux-safe-bottom));
+  --reader-gap: clamp(6px, 0.8vw, 10px);
+  --reader-topbar-h: 48px;
+  --reader-toolbar-h: 38px;
+  --reader-pill-h: 22px;
+  --reader-coach-h: 0px;
+  --reader-controls-h: 52px;
+  --reader-rail-w: clamp(236px, 19vw, 320px);
+  display: grid !important;
+  grid-template-rows: var(--reader-topbar-h) minmax(0, 1fr) !important;
+  gap: var(--reader-gap) !important;
+  padding: var(--reader-pad-top) var(--reader-pad-x) var(--reader-pad-bottom) !important;
+  box-sizing: border-box !important;
+}
+
+body.ux-foundation-v1.shell-reader.reading-pdf-mode .reading-pdf-topbar {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) minmax(132px, 180px) minmax(220px, 560px) !important;
+  grid-template-rows: var(--reader-topbar-h) !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: min(1520px, 100%) !important;
+  height: var(--reader-topbar-h) !important;
+  min-height: 0 !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+}
+
+body.ux-foundation-v1.shell-reader.reading-pdf-mode .reading-title {
+  display: block !important;
+  grid-column: 2 !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  font-size: clamp(15px, 1.25vw, 19px) !important;
+  line-height: 1.2 !important;
+}
+
+body.ux-foundation-v1.shell-reader.reading-pdf-mode .reading-hud {
+  display: none !important;
+}
+
+body.ux-foundation-v1.shell-reader.reading-pdf-mode .reading-topbar-select {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+body.ux-foundation-v1.shell-reader.reading-pdf-mode .reading-pdf-main {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) var(--reader-rail-w) !important;
+  grid-template-rows: minmax(0, 1fr) !important;
+  gap: var(--reader-gap) !important;
+  width: min(1840px, 100%) !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 auto !important;
+  overflow: hidden !important;
+}
+
+body.ux-foundation-v1.shell-reader.reading-pdf-mode .study-pdf-panel {
+  position: relative !important;
+  display: grid !important;
+  grid-template-rows: var(--reader-toolbar-h) minmax(0, 1fr) var(--reader-pill-h) var(--reader-coach-h) var(--reader-controls-h) !important;
+  gap: 4px !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+body.ux-foundation-v1.shell-reader.reading-pdf-mode .study-pdf-toolbar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  width: 100% !important;
+  height: var(--reader-toolbar-h) !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+body.ux-foundation-v1.shell-reader.reading-pdf-mode .study-pdf-toolbar button,
+body.ux-foundation-v1.shell-reader.reading-pdf-mode .study-pdf-toolbar span {
+  flex: 0 0 auto !important;
+  height: 30px !important;
+  min-height: 30px !important;
+  border-radius: 8px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+body.ux-foundation-v1.shell-reader.reading-pdf-mode .study-pdf-canvas-reader,
+body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-pdf-wrap {
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+body.ux-foundation-v1.shell-reader.reading-pdf-mode .study-pdf-spread {
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  padding: 4px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+}
+
+body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-vyvy-corner {
+  grid-row: 4 !important;
+  display: none !important;
+  position: static !important;
+  min-width: 0 !important;
+}
+
+body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-controls {
+  grid-row: 5 !important;
+  position: static !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr) 78px !important;
+  gap: 6px !important;
+  width: 100% !important;
+  height: var(--reader-controls-h) !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 5px !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(255, 255, 255, 0.72) !important;
+  background: rgba(255, 250, 242, 0.9) !important;
+  box-shadow: 0 10px 22px rgba(88, 61, 39, 0.16) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(10px) !important;
+  overflow: hidden !important;
+}
+
+body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-controls button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  min-height: 44px !important;
+  margin: 0 !important;
+  padding: 0 10px !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  font-size: 12px !important;
+  line-height: 1.1 !important;
+}
+
+body.ux-foundation-v1.shell-reader.reading-pdf-mode .study-side-rail {
+  display: grid !important;
+  gap: 8px !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-explanation-panel {
+  position: fixed !important;
+  right: max(18px, var(--ux-safe-right)) !important;
+  bottom: calc(76px + var(--ux-safe-bottom)) !important;
+  left: auto !important;
+  width: min(420px, calc(100vw - 36px)) !important;
+  max-height: min(52dvh, 420px) !important;
+  overflow: auto !important;
+  border-radius: 8px !important;
+  z-index: 120 !important;
+}
+
+body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-nav {
+  display: none !important;
+}
+
+@media (max-width: 899px) {
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #learn-reading {
+    --reader-rail-w: 0px;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode .reading-pdf-main {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode .study-side-rail {
+    display: none !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-vyvy-corner {
+    display: grid !important;
+  }
+}
+
+@media (max-width: 599px) {
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #learn-reading {
+    --reader-pad-x: 8px;
+    --reader-topbar-h: 76px;
+    --reader-toolbar-h: 38px;
+    --reader-pill-h: 20px;
+    --reader-coach-h: 44px;
+    --reader-controls-h: 84px;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode .reading-pdf-topbar {
+    grid-template-columns: auto minmax(0, 1fr) !important;
+    grid-template-rows: 36px 34px !important;
+    height: var(--reader-topbar-h) !important;
+    gap: 4px !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode .reading-pdf-topbar .learn-back-btn {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    min-height: 34px !important;
+    height: 34px !important;
+    padding: 0 10px !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode .reading-title {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    font-size: 14px !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-subject-chip {
+    display: none !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-lesson-chip {
+    grid-column: 1 / span 2 !important;
+    grid-row: 2 !important;
+    height: 32px !important;
+    min-height: 32px !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode .study-pdf-toolbar {
+    display: grid !important;
+    grid-template-columns: 36px minmax(74px, 1fr) 36px 34px 46px 34px !important;
+    gap: 4px !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #study-pdf-crop-toggle,
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #study-pdf-focus-toggle {
+    display: none !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode .study-reading-page-pill {
+    font-size: 11px !important;
+    padding: 1px 8px !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-vyvy-corner {
+    grid-template-columns: 38px minmax(0, 1fr) !important;
+    gap: 8px !important;
+    padding: 3px 8px !important;
+    border-radius: 8px !important;
+    background: rgba(255, 255, 255, 0.88) !important;
+    border: 1px solid var(--ux-line) !important;
+    overflow: hidden !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-vyvy-img {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-vyvy-bubble {
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-controls {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-template-rows: 44px 24px !important;
+    height: var(--reader-controls-h) !important;
+    padding: 5px !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-controls button {
+    min-height: 0 !important;
+    height: 100% !important;
+    padding: 0 6px !important;
+    font-size: 11px !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-skip-audio {
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+    min-height: 24px !important;
+    height: 24px !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    color: var(--ux-muted) !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-explanation-panel {
+    left: max(10px, var(--ux-safe-left)) !important;
+    right: max(10px, var(--ux-safe-right)) !important;
+    bottom: calc(var(--reader-controls-h) + 18px + var(--ux-safe-bottom)) !important;
+    width: auto !important;
+    max-height: min(36dvh, 280px) !important;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #learn-reading {
+    --reader-topbar-h: 46px;
+    --reader-toolbar-h: 38px;
+    --reader-controls-h: 52px;
+    --reader-coach-h: 0px;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode .reading-pdf-topbar {
+    grid-template-columns: auto minmax(0, 1fr) minmax(190px, 320px) !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-subject-chip {
+    display: none !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-lesson-chip {
+    grid-column: 3 !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #learn-reading {
+    --reader-pad-x: 6px;
+    --reader-pad-top: max(4px, var(--ux-safe-top));
+    --reader-pad-bottom: max(6px, var(--ux-safe-bottom));
+    --reader-gap: 4px;
+    --reader-topbar-h: 38px;
+    --reader-toolbar-h: 32px;
+    --reader-pill-h: 0px;
+    --reader-coach-h: 0px;
+    --reader-controls-h: 42px;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode .reading-pdf-topbar {
+    grid-template-columns: auto minmax(0, 1fr) minmax(150px, 260px) !important;
+    grid-template-rows: 38px !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-subject-chip,
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode .study-reading-page-pill,
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-vyvy-corner,
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #study-pdf-crop-toggle,
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #study-pdf-focus-toggle {
+    display: none !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-lesson-chip {
+    grid-column: 3 !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-controls {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr) 72px !important;
+    grid-template-rows: 1fr !important;
+    height: var(--reader-controls-h) !important;
+    padding: 4px !important;
+  }
+
+  body.ux-foundation-v1.shell-reader.reading-pdf-mode #reading-controls button {
+    min-height: 34px !important;
+    height: 34px !important;
+  }
+}
