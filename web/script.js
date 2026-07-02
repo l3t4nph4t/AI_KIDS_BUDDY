@@ -3884,10 +3884,18 @@
 
   function _pa1_setReadingVyvy(pose, message) {
     var catalog = (window.VYVY_CATALOG && window.VYVY_CATALOG.states) || {};
+    var fallbackAssets = {
+      idle: 'vyvy_idle.png',
+      explaining: 'vyvy_explaining.png',
+      happy: 'vyvy_cheering.png',
+      reading: 'vyvy_reading.png',
+      listening: 'vyvy_listening.png',
+      thinking: 'vyvy_thinking.png'
+    };
     var poseDef = catalog[pose] || catalog['idle'] || {};
     var imgSrc  = poseDef.asset
       ? '/static/assets/vyvy/' + poseDef.asset
-      : '/static/assets/vyvy/vyvy.png';
+      : '/static/assets/vyvy/' + (fallbackAssets[pose] || fallbackAssets.idle || 'vyvy.png');
 
     var img    = document.getElementById('reading-vyvy-img');
     var bubble = document.getElementById('reading-vyvy-bubble');

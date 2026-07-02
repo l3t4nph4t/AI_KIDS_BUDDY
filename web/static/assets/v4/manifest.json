@@ -1,0 +1,510 @@
+{
+  "package": "AI_KIDS_BUDDY_ASSETS_v4_APPROVED",
+  "description": "Approved asset pack: clean base rooms for later decoration, warm VyVy in school uniform, empty room spaces, and 3D main menu UI. PNG master source; app team may convert to WebP after approval.",
+  "requirements": [
+    "PNG master source",
+    "sRGB color profile",
+    "transparent PNG for character/object/menu/prop/effect assets",
+    "no UI text inside runtime assets",
+    "rooms are empty/clean so children can decorate later"
+  ],
+  "runtime_asset_count_png": 52,
+  "preview_count_png": 3,
+  "assets": [
+    {
+      "path": "00_preview/approved_master_v4.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "category": "00_preview"
+    },
+    {
+      "path": "00_preview/exported_assets_preview.png",
+      "size": [
+        2200,
+        1600
+      ],
+      "mode": "RGB",
+      "category": "00_preview"
+    },
+    {
+      "path": "00_preview/latest_generation_preview.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "category": "00_preview"
+    },
+    {
+      "path": "01_home_backgrounds/bg_home_clean.png",
+      "size": [
+        964,
+        1632
+      ],
+      "mode": "RGB",
+      "category": "01_home_backgrounds"
+    },
+    {
+      "path": "01_home_backgrounds/bg_home_clean_desktop.png",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGB",
+      "category": "01_home_backgrounds"
+    },
+    {
+      "path": "01_home_backgrounds/bg_home_clean_tablet.png",
+      "size": [
+        1448,
+        1086
+      ],
+      "mode": "RGB",
+      "category": "01_home_backgrounds"
+    },
+    {
+      "path": "02_room_spaces_clean/room_art.png",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "category": "02_room_spaces_clean"
+    },
+    {
+      "path": "02_room_spaces_clean/room_bedroom.png",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "category": "02_room_spaces_clean"
+    },
+    {
+      "path": "02_room_spaces_clean/room_games.png",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "category": "02_room_spaces_clean"
+    },
+    {
+      "path": "02_room_spaces_clean/room_library.png",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "category": "02_room_spaces_clean"
+    },
+    {
+      "path": "02_room_spaces_clean/room_music.png",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "category": "02_room_spaces_clean"
+    },
+    {
+      "path": "02_room_spaces_clean/room_study.png",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGBA",
+      "category": "02_room_spaces_clean"
+    },
+    {
+      "path": "03_vyvy_characters/vyvy.png",
+      "size": [
+        1600,
+        2400
+      ],
+      "mode": "RGBA",
+      "category": "03_vyvy_characters"
+    },
+    {
+      "path": "03_vyvy_characters/vyvy_cheering.png",
+      "size": [
+        1600,
+        2400
+      ],
+      "mode": "RGBA",
+      "category": "03_vyvy_characters"
+    },
+    {
+      "path": "03_vyvy_characters/vyvy_explaining.png",
+      "size": [
+        1600,
+        2400
+      ],
+      "mode": "RGBA",
+      "category": "03_vyvy_characters"
+    },
+    {
+      "path": "03_vyvy_characters/vyvy_idle.png",
+      "size": [
+        1600,
+        2400
+      ],
+      "mode": "RGBA",
+      "category": "03_vyvy_characters"
+    },
+    {
+      "path": "03_vyvy_characters/vyvy_listening.png",
+      "size": [
+        1600,
+        2400
+      ],
+      "mode": "RGBA",
+      "category": "03_vyvy_characters"
+    },
+    {
+      "path": "03_vyvy_characters/vyvy_reading.png",
+      "size": [
+        1600,
+        2400
+      ],
+      "mode": "RGBA",
+      "category": "03_vyvy_characters"
+    },
+    {
+      "path": "03_vyvy_characters/vyvy_thinking.png",
+      "size": [
+        1600,
+        2400
+      ],
+      "mode": "RGBA",
+      "category": "03_vyvy_characters"
+    },
+    {
+      "path": "04_main_menu_ui/menu_art.png",
+      "size": [
+        768,
+        512
+      ],
+      "mode": "RGBA",
+      "category": "04_main_menu_ui"
+    },
+    {
+      "path": "04_main_menu_ui/menu_bedroom.png",
+      "size": [
+        768,
+        512
+      ],
+      "mode": "RGBA",
+      "category": "04_main_menu_ui"
+    },
+    {
+      "path": "04_main_menu_ui/menu_games.png",
+      "size": [
+        768,
+        512
+      ],
+      "mode": "RGBA",
+      "category": "04_main_menu_ui"
+    },
+    {
+      "path": "04_main_menu_ui/menu_learn.png",
+      "size": [
+        768,
+        512
+      ],
+      "mode": "RGBA",
+      "category": "04_main_menu_ui"
+    },
+    {
+      "path": "04_main_menu_ui/menu_library.png",
+      "size": [
+        768,
+        512
+      ],
+      "mode": "RGBA",
+      "category": "04_main_menu_ui"
+    },
+    {
+      "path": "04_main_menu_ui/menu_music.png",
+      "size": [
+        768,
+        512
+      ],
+      "mode": "RGBA",
+      "category": "04_main_menu_ui"
+    },
+    {
+      "path": "05_study_pdf_assets/study_audio_vyvy.png",
+      "size": [
+        1200,
+        800
+      ],
+      "mode": "RGBA",
+      "category": "05_study_pdf_assets"
+    },
+    {
+      "path": "05_study_pdf_assets/study_book_open.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "category": "05_study_pdf_assets"
+    },
+    {
+      "path": "05_study_pdf_assets/study_book_stack.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "category": "05_study_pdf_assets"
+    },
+    {
+      "path": "05_study_pdf_assets/study_practice.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "category": "05_study_pdf_assets"
+    },
+    {
+      "path": "05_study_pdf_assets/study_star_reward.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "category": "05_study_pdf_assets"
+    },
+    {
+      "path": "06_decor_objects/deco_backpack.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "category": "06_decor_objects"
+    },
+    {
+      "path": "06_decor_objects/deco_ball.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "category": "06_decor_objects"
+    },
+    {
+      "path": "06_decor_objects/deco_cloud_light.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "category": "06_decor_objects"
+    },
+    {
+      "path": "06_decor_objects/deco_desk_lamp.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "category": "06_decor_objects"
+    },
+    {
+      "path": "06_decor_objects/deco_drawer.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "category": "06_decor_objects"
+    },
+    {
+      "path": "06_decor_objects/deco_frame.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "category": "06_decor_objects"
+    },
+    {
+      "path": "06_decor_objects/deco_pencil_cup.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "category": "06_decor_objects"
+    },
+    {
+      "path": "06_decor_objects/deco_plant.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "category": "06_decor_objects"
+    },
+    {
+      "path": "06_decor_objects/deco_rug.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "category": "06_decor_objects"
+    },
+    {
+      "path": "06_decor_objects/deco_shelf.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "category": "06_decor_objects"
+    },
+    {
+      "path": "06_decor_objects/deco_star_lamp.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "category": "06_decor_objects"
+    },
+    {
+      "path": "06_decor_objects/deco_teddy.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "category": "06_decor_objects"
+    },
+    {
+      "path": "07_study_props/prop_bookmark.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "category": "07_study_props"
+    },
+    {
+      "path": "07_study_props/prop_hourglass.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "category": "07_study_props"
+    },
+    {
+      "path": "07_study_props/prop_idea_light.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "category": "07_study_props"
+    },
+    {
+      "path": "07_study_props/prop_magnifier.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "category": "07_study_props"
+    },
+    {
+      "path": "07_study_props/prop_mug.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "category": "07_study_props"
+    },
+    {
+      "path": "07_study_props/prop_notes.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "category": "07_study_props"
+    },
+    {
+      "path": "07_study_props/prop_paper_plane.png",
+      "size": [
+        768,
+        768
+      ],
+      "mode": "RGBA",
+      "category": "07_study_props"
+    },
+    {
+      "path": "08_ui_effects/fx_cloud.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "category": "08_ui_effects"
+    },
+    {
+      "path": "08_ui_effects/fx_confetti.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "category": "08_ui_effects"
+    },
+    {
+      "path": "08_ui_effects/fx_glow.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "category": "08_ui_effects"
+    },
+    {
+      "path": "08_ui_effects/fx_hearts.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "category": "08_ui_effects"
+    },
+    {
+      "path": "08_ui_effects/fx_rays.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "category": "08_ui_effects"
+    },
+    {
+      "path": "08_ui_effects/fx_sparkles.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "category": "08_ui_effects"
+    }
+  ]
+}
