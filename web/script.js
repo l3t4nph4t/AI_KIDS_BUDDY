@@ -1903,12 +1903,29 @@
     var sessionDiv = document.getElementById('learn-session');
     var readingDiv = document.getElementById('learn-reading');
     var lessonListDiv = document.getElementById('learn-lesson-list');
+    var lessonListContent = document.getElementById('lesson-list-content');
+    var subjectToRender = learnState.selectedSubject || learnState.subject;
     setLearningStage('picker');
     if (readingDiv) readingDiv.classList.add('hidden');
     if (sessionDiv) sessionDiv.classList.add('hidden');
-    if (learnState.selectedSubject) {
+    if (subjectToRender) {
+      learnState.subject = subjectToRender;
+      learnState.selectedSubject = subjectToRender;
+      learnState.selectedSubjectLabel = getSubjectLabel(subjectToRender);
       if (subjectsDiv) subjectsDiv.classList.add('hidden');
       if (lessonListDiv) lessonListDiv.classList.remove('hidden');
+      if (!lessonListContent || !lessonListContent.querySelector('.study-lesson-row')) {
+        loadLessonList(subjectToRender);
+      } else if (learnState.selectedLessonUnitId) {
+        selectLessonForStudy({
+          unitId: learnState.selectedLessonUnitId,
+          subject: subjectToRender,
+          title: learnState.selectedLessonTitle,
+          completedCount: learnState.selectedLessonMeta ? learnState.selectedLessonMeta.completedCount : 0,
+          unitCount: learnState.selectedLessonMeta ? learnState.selectedLessonMeta.unitCount : 0,
+          status: learnState.selectedLessonMeta ? learnState.selectedLessonMeta.status : ''
+        });
+      }
     } else {
       if (subjectsDiv) subjectsDiv.classList.remove('hidden');
       if (lessonListDiv) lessonListDiv.classList.add('hidden');
@@ -3898,8 +3915,10 @@
       : '/static/assets/vyvy/' + (fallbackAssets[pose] || fallbackAssets.idle || 'vyvy.png');
 
     var img    = document.getElementById('reading-vyvy-img');
+    var railImg = document.getElementById('reading-vyvy-rail-img');
     var bubble = document.getElementById('reading-vyvy-bubble');
     if (img) img.src = imgSrc;
+    if (railImg) railImg.src = imgSrc;
     if (bubble && message) {
       bubble.textContent = message;
       bubble.classList.remove('hidden');

@@ -612,6 +612,10 @@
                             <button id="reading-pdf-modal-btn" style="display:none">📄 Mở sách to hơn</button>
                         </div>
                         <div class="study-reading-page-pill">Đang học từ SGK gốc</div>
+                        <div id="reading-vyvy-corner" class="reading-coach-strip">
+                            <img id="reading-vyvy-img" src="/static/assets/vyvy/vyvy.png" alt="VyVy" />
+                            <div id="reading-vyvy-bubble" class="vyvy-bubble hidden"></div>
+                        </div>
                         <div id="reading-controls" class="reading-pdf-controls">
                             <button id="reading-audio-btn" class="reading-audio-btn">▶ VyVy đọc bài</button>
                             <button id="reading-explanation-btn" class="reading-skip-btn hidden" type="button" aria-expanded="false" style="flex:0 1 116px">Giải thích</button>
@@ -656,7 +660,7 @@
 
                     <aside class="study-side-rail">
                         <section class="study-rail-card study-rail-vyvy">
-                            <img src="/static/assets/vyvy/vyvy.png" alt="VyVy">
+                            <img id="reading-vyvy-rail-img" src="/static/assets/vyvy/vyvy.png" alt="VyVy">
                             <strong>VyVy đồng hành</strong>
                             <p>Cùng nhau đọc thật nhẹ nhàng nhé! VyVy ở đây hỗ trợ bạn mỗi lúc.</p>
                         </section>
@@ -675,11 +679,6 @@
                             <p id="study-glossary-preview">Bấm “Giải thích” để VyVy mở phần hỗ trợ nhanh.</p>
                         </section>
                     </aside>
-                </div>
-
-                <div id="reading-vyvy-corner">
-                    <img id="reading-vyvy-img" src="/static/assets/vyvy/vyvy.png" alt="VyVy" />
-                    <div id="reading-vyvy-bubble" class="vyvy-bubble hidden"></div>
                 </div>
 
                 <div id="reading-explanation-panel" class="hidden" aria-live="polite" style="position:fixed;left:12px;right:12px;bottom:84px;z-index:230;max-height:min(45dvh,360px);overflow:auto;background:rgba(255,255,255,.97);border:1px solid rgba(95,55,28,.14);border-radius:18px;padding:12px;box-shadow:0 14px 34px rgba(95,55,28,.22);">
