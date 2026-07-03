@@ -1905,6 +1905,11 @@
     var lessonListDiv = document.getElementById('learn-lesson-list');
     var lessonListContent = document.getElementById('lesson-list-content');
     var subjectToRender = learnState.selectedSubject || learnState.subject;
+    var existingRows = lessonListContent ? lessonListContent.querySelectorAll('.study-lesson-row') : [];
+    var firstRowSubject = existingRows.length ? existingRows[0].dataset.subject : '';
+    var needsReload = !lessonListContent ||
+      existingRows.length === 0 ||
+      (subjectToRender && firstRowSubject && firstRowSubject !== subjectToRender);
     setLearningStage('picker');
     if (readingDiv) readingDiv.classList.add('hidden');
     if (sessionDiv) sessionDiv.classList.add('hidden');
@@ -1914,7 +1919,7 @@
       learnState.selectedSubjectLabel = getSubjectLabel(subjectToRender);
       if (subjectsDiv) subjectsDiv.classList.add('hidden');
       if (lessonListDiv) lessonListDiv.classList.remove('hidden');
-      if (!lessonListContent || !lessonListContent.querySelector('.study-lesson-row')) {
+      if (needsReload) {
         loadLessonList(subjectToRender);
       } else if (learnState.selectedLessonUnitId) {
         selectLessonForStudy({
@@ -4153,6 +4158,7 @@
     } else {
       // Restore text input if previously replaced
       if (inputArea) {
+        inputArea.classList.remove('hidden');
         inputArea.innerHTML = '<input type="text" id="learn-answer-input" class="learn-answer-input" placeholder="Nhập câu trả lời..." autocomplete="off"><button id="learn-answer-btn" class="learn-answer-btn">Gửi</button>';
         var newInput = document.getElementById('learn-answer-input');
         var newBtn = document.getElementById('learn-answer-btn');
