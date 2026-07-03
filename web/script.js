@@ -52,6 +52,28 @@
   var CHAT_ENDPOINT = API_BASE + '/chat';
   var HEALTH_ENDPOINT = API_BASE + '/health';
 
+  window.VYVY_CATALOG = window.VYVY_CATALOG || {
+    basePath: '/static/assets/vyvy/',
+    states: {
+      idle:       { asset: 'vyvy_idle.webp' },
+      default:    { asset: 'vyvy_idle.webp' },
+      reading:    { asset: 'vyvy_reading.webp' },
+      explaining: { asset: 'vyvy_explaining.webp' },
+      listening:  { asset: 'vyvy_listening.webp' },
+      thinking:   { asset: 'vyvy_thinking.webp' },
+      happy:      { asset: 'vyvy_cheering.webp' },
+      cheering:   { asset: 'vyvy_cheering.webp' }
+    }
+  };
+
+  function getVyvyAssetUrl(stateName) {
+    var catalog = window.VYVY_CATALOG || {};
+    var states = catalog.states || {};
+    var pose = states[stateName] || states.default || states.idle || {};
+    var basePath = catalog.basePath || '/static/assets/vyvy/';
+    return basePath + (pose.asset || 'vyvy_idle.webp');
+  }
+
   /* ── Storage Keys ──────────────────────── */
   var SK = {
     PIN: 'vyvy_pin',
@@ -735,7 +757,7 @@
     bubble.className = 'bubble typing-bubble';
     var avatar = document.createElement('img');
     avatar.className = 'typing-avatar';
-    avatar.src = '/static/assets/vyvy/vyvy.png';
+    avatar.src = getVyvyAssetUrl('thinking');
     avatar.alt = '';
     avatar.setAttribute('aria-hidden', 'true');
     var content = document.createElement('div');
@@ -2254,7 +2276,7 @@
 
         var thumbSpan = document.createElement('span');
         thumbSpan.className = 'lesson-card-thumb';
-        thumbSpan.innerHTML = '<img src="' + studyAssetUrl('lesson_card_book_default.webp') + '" alt="" loading="lazy">';
+        thumbSpan.innerHTML = '<img src="' + studyAssetUrl('study_book_open.webp') + '" alt="" loading="lazy">';
         card.appendChild(thumbSpan);
 
         var statusSpan = document.createElement('span');
@@ -3905,19 +3927,21 @@
   }
 
   function _pa1_setReadingVyvy(pose, message) {
-    var catalog = (window.VYVY_CATALOG && window.VYVY_CATALOG.states) || {};
+    var catalogRoot = window.VYVY_CATALOG || {};
+    var catalog = catalogRoot.states || {};
     var fallbackAssets = {
-      idle: 'vyvy_idle.png',
-      explaining: 'vyvy_explaining.png',
-      happy: 'vyvy_cheering.png',
-      reading: 'vyvy_reading.png',
-      listening: 'vyvy_listening.png',
-      thinking: 'vyvy_thinking.png'
+      idle: 'vyvy_idle.webp',
+      explaining: 'vyvy_explaining.webp',
+      happy: 'vyvy_cheering.webp',
+      reading: 'vyvy_reading.webp',
+      listening: 'vyvy_listening.webp',
+      thinking: 'vyvy_thinking.webp'
     };
     var poseDef = catalog[pose] || catalog['idle'] || {};
+    var basePath = catalogRoot.basePath || '/static/assets/vyvy/';
     var imgSrc  = poseDef.asset
-      ? '/static/assets/vyvy/' + poseDef.asset
-      : '/static/assets/vyvy/' + (fallbackAssets[pose] || fallbackAssets.idle || 'vyvy.png');
+      ? basePath + poseDef.asset
+      : basePath + (fallbackAssets[pose] || fallbackAssets.idle || 'vyvy_idle.webp');
 
     var img    = document.getElementById('reading-vyvy-img');
     var railImg = document.getElementById('reading-vyvy-rail-img');

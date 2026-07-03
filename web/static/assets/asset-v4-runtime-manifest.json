@@ -1,0 +1,53 @@
+{
+  "sourcePack": "web/static/assets/v4",
+  "runtimeBase": "/static/assets",
+  "homeBackgrounds": {
+    "mobile": "/static/assets/bg_home_clean.webp",
+    "tablet": "/static/assets/bg_home_clean_tablet.webp",
+    "desktop": "/static/assets/bg_home_clean_desktop.webp"
+  },
+  "homeMenu": {
+    "learn": "/static/assets/menu/menu_learn.webp",
+    "decor": "/static/assets/menu/menu_decor.webp",
+    "games": "/static/assets/menu/menu_games.webp",
+    "library": "/static/assets/menu/menu_library.webp",
+    "art": "/static/assets/menu/menu_art.webp",
+    "music": "/static/assets/menu/menu_music.webp"
+  },
+  "vyvy": {
+    "basePath": "/static/assets/vyvy/",
+    "states": {
+      "idle": "vyvy_idle.webp",
+      "default": "vyvy_idle.webp",
+      "reading": "vyvy_reading.webp",
+      "explaining": "vyvy_explaining.webp",
+      "listening": "vyvy_listening.webp",
+      "thinking": "vyvy_thinking.webp",
+      "happy": "vyvy_cheering.webp",
+      "cheering": "vyvy_cheering.webp"
+    }
+  },
+  "decor": {
+    "basePath": "/static/assets/decor/",
+    "slotFallbacks": {
+      "wall-poster": "deco_frame.webp",
+      "wall-clock": "deco_cloud_light.webp",
+      "desk-lamp": "deco_desk_lamp.webp",
+      "pencil-box": "deco_pencil_cup.webp",
+      "desk-plant": "deco_plant.webp",
+      "bookshelf": "deco_shelf.webp",
+      "pet": "deco_teddy.webp",
+      "floor-rug": "deco_rug.webp",
+      "water-cup": "deco_pencil_cup.webp",
+      "toy-basket": "deco_ball.webp",
+      "backpack": "deco_backpack.webp"
+    }
+  },
+  "study": {
+    "bookOpen": "/static/assets/study/study_book_open.webp",
+    "bookStack": "/static/assets/study/study_book_stack.webp",
+    "practice": "/static/assets/study/study_practice.webp",
+    "starReward": "/static/assets/study/study_star_reward.webp",
+    "audioVyvy": "/static/assets/study/study_audio_vyvy.webp"
+  }
+}

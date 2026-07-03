@@ -2,6 +2,7 @@ import os
 import re
 import json
 import logging
+import mimetypes
 from fastapi import FastAPI, Request, Query, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse
@@ -66,6 +67,8 @@ app = FastAPI(title="VyVy — bạn AI của con")
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WEB_DIR = os.path.join(PROJECT_ROOT, "web")
+
+mimetypes.add_type("image/webp", ".webp")
 
 app.add_middleware(
     CORSMiddleware,

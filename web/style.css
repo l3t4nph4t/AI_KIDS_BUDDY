@@ -6099,7 +6099,7 @@ body.reading-pdf-mode #reading-controls .reading-start-btn:disabled {
   overflow: auto;
   background:
     linear-gradient(180deg, rgba(255, 250, 242, 0.72), rgba(255, 239, 223, 0.92)),
-    url("/static/assets/bg_home_clean_desktop.png") center / cover no-repeat,
+    url("/static/assets/bg_home_clean_desktop.webp") center / cover no-repeat,
     #fff1df;
   box-shadow: none;
 }
@@ -6590,7 +6590,7 @@ body.reading-pdf-mode #learn-reading {
   box-sizing: border-box;
   background:
     linear-gradient(180deg, rgba(255, 250, 242, 0.76), rgba(255, 239, 223, 0.94)),
-    url("/static/assets/bg_home_clean_desktop.png") center / cover no-repeat,
+    url("/static/assets/bg_home_clean_desktop.webp") center / cover no-repeat,
     #fff1df;
 }
 
@@ -8224,7 +8224,7 @@ body.reading-pdf-mode #reading-controls #reading-explanation-btn {
   min-height: 100dvh;
   background-image:
     linear-gradient(180deg, rgba(255,247,236,0.12), rgba(255,242,229,0.28)),
-    url('/static/assets/bg_home_clean.png');
+    url('/static/assets/bg_home_clean.webp');
   background-size: cover;
   background-position: 48% 0%;
   background-repeat: no-repeat;
@@ -8271,7 +8271,7 @@ body.reading-pdf-mode #reading-controls #reading-explanation-btn {
   #app:not(.home-state) {
     background-image:
       linear-gradient(180deg, rgba(255,247,236,0.10), rgba(255,242,229,0.24)),
-      url('/static/assets/bg_home_clean_tablet.png');
+      url('/static/assets/bg_home_clean_tablet.webp');
     background-position: 50% 36%;
   }
 
@@ -8296,7 +8296,7 @@ body.reading-pdf-mode #reading-controls #reading-explanation-btn {
   #app:not(.home-state) {
     background-image:
       linear-gradient(180deg, rgba(255,247,236,0.08), rgba(255,242,229,0.20)),
-      url('/static/assets/bg_home_clean_desktop.png');
+      url('/static/assets/bg_home_clean_desktop.webp');
     background-position: 50% 40%;
   }
 
@@ -10536,7 +10536,7 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
 
 /* Home responsive asset authority: keep the final Home override from pinning every viewport to the mobile background. */
 #app.home-state {
-  background-image: url('/static/assets/bg_home_clean.png') !important;
+  background-image: url('/static/assets/bg_home_clean.webp') !important;
   background-size: cover !important;
   background-position: 48% 0% !important;
   background-repeat: no-repeat !important;
@@ -10544,14 +10544,14 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
 
 @media (min-width: 900px) and (max-width: 1439px) {
   #app.home-state {
-    background-image: url('/static/assets/bg_home_clean_tablet.png') !important;
+    background-image: url('/static/assets/bg_home_clean_tablet.webp') !important;
     background-position: 50% 36% !important;
   }
 }
 
 @media (min-width: 1440px) {
   #app.home-state {
-    background-image: url('/static/assets/bg_home_clean_desktop.png') !important;
+    background-image: url('/static/assets/bg_home_clean_desktop.webp') !important;
     background-position: 50% 40% !important;
   }
 }
@@ -10612,7 +10612,7 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
   height: var(--home-viewport-h);
   min-height: var(--home-viewport-h);
   overflow: hidden !important;
-  background-image: url('/static/assets/bg_home_clean.png') !important;
+  background-image: url('/static/assets/bg_home_clean.webp') !important;
   background-size: cover !important;
   background-position: 48% 0% !important;
   background-repeat: no-repeat !important;
@@ -10952,7 +10952,7 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
     --home-mission-w: min(450px, calc(100vw - var(--home-mission-left) - var(--home-safe-right)));
     --home-carousel-h: clamp(180px, 23dvh, 206px);
     --home-card-w: clamp(190px, 18vw, 238px);
-    background-image: url('/static/assets/bg_home_clean_tablet.png') !important;
+    background-image: url('/static/assets/bg_home_clean_tablet.webp') !important;
     background-position: 50% 36% !important;
   }
 
@@ -11021,7 +11021,7 @@ body.reading-pdf-mode #reading-controls .reading-skip-audio {
     --home-mission-top: clamp(126px, 17dvh, 162px);
     --home-carousel-h: 202px;
     --home-card-w: clamp(206px, 15vw, 246px);
-    background-image: url('/static/assets/bg_home_clean_desktop.png') !important;
+    background-image: url('/static/assets/bg_home_clean_desktop.webp') !important;
     background-position: 50% 40% !important;
   }
 }

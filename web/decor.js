@@ -142,6 +142,37 @@
     {id:'ot-gold',      slot:'vyvy-outfit', level:0, name:'VyVy Vàng',     emoji:'⭐', cost:200, bg:'all', desc:'Toàn thân vàng ánh kim'},
   ];
 
+  var DECOR_ASSET_BASE = '/static/assets/decor/';
+  var DECOR_SLOT_ASSETS = {
+    'wall-poster': 'deco_frame.webp',
+    'wall-clock': 'deco_cloud_light.webp',
+    'desk-lamp': 'deco_desk_lamp.webp',
+    'pencil-box': 'deco_pencil_cup.webp',
+    'desk-plant': 'deco_plant.webp',
+    'bookshelf': 'deco_shelf.webp',
+    'pet': 'deco_teddy.webp',
+    'floor-rug': 'deco_rug.webp',
+    'water-cup': 'deco_pencil_cup.webp',
+    'toy-basket': 'deco_ball.webp',
+    'backpack': 'deco_backpack.webp',
+    'learn-lamp': 'deco_star_lamp.webp',
+    'practice-notebook': 'deco_drawer.webp',
+    'practice-eraser': 'deco_pencil_cup.webp',
+    'practice-sticker': 'deco_star_lamp.webp',
+    'games-board': 'deco_ball.webp',
+    'games-puzzle': 'deco_ball.webp',
+    'games-cushion': 'deco_rug.webp',
+    'music-speaker': 'deco_cloud_light.webp',
+    'drawing-paint': 'deco_pencil_cup.webp',
+    'reading-lamp': 'deco_star_lamp.webp',
+    'reading-pillow': 'deco_teddy.webp'
+  };
+
+  DECOR_ITEMS.forEach(function (item) {
+    var asset = DECOR_SLOT_ASSETS[item.slot];
+    if (asset) item.asset = DECOR_ASSET_BASE + asset;
+  });
+
   /* =========================================================
      VYVY LEVELS
   ========================================================= */
@@ -173,6 +204,10 @@
       '  transition:transform .35s cubic-bezier(.34,1.56,.64,1), opacity .3s;',
       '  pointer-events:none;',
       '  user-select:none;',
+      '}',
+      '.decor-slot img{',
+      '  width:clamp(42px,8vmin,92px);height:auto;max-width:16vw;max-height:16vh;',
+      '  object-fit:contain;display:block;filter:drop-shadow(0 6px 14px rgba(80,54,28,.18));',
       '}',
       '.decor-slot.just-added{',
       '  animation:decorPop .6s cubic-bezier(.34,1.56,.64,1) both;',
@@ -301,6 +336,7 @@
       '.shop-item-card.owned{border-color:#A5D6A7;background:#F1FAF1;}',
       '.shop-item-card.placed{border-color:#90CAF9;background:#EAF4FE;}',
       '.shop-item-card .item-emoji{font-size:clamp(24px,6vmin,48px);}',
+      '.shop-item-card .item-asset{width:clamp(48px,11vmin,86px);height:clamp(48px,11vmin,86px);object-fit:contain;display:block;}',
       '.shop-item-card .item-name{font-size:clamp(10px,2vw,13px);font-weight:600;text-align:center;color:#263238;}',
       '.shop-item-card .item-cost{',
       '  font-size:clamp(11px,2.2vw,14px);font-weight:700;color:#FF8FAB;',
@@ -472,6 +508,19 @@
     return e;
   }
 
+  function createDecorVisual(item, className) {
+    if (item && item.asset) {
+      return el('img', {
+        cls: className || 'decor-asset',
+        src: item.asset,
+        alt: item.name || '',
+        loading: 'lazy',
+        decoding: 'async'
+      });
+    }
+    return el('span', {cls: className || 'item-emoji', text: item && item.emoji ? item.emoji : ''});
+  }
+
   /* =========================================================
      STAR SYSTEM
   ========================================================= */
@@ -607,7 +656,7 @@
       var slotName = node.getAttribute('data-slot');
       var entry = placed[slotName];
       if (!entry) {
-        node.textContent = '';
+        node.innerHTML = '';
         node.style.display = 'none';
         return;
       }
@@ -616,7 +665,12 @@
       if (!item) { node.style.display = 'none'; return; }
       var visible = (item.bg === bgName || item.bg === 'all' || item.slot === 'vyvy-outfit');
       if (!visible) { node.style.display = 'none'; return; }
-      node.textContent = entry.emoji || item.emoji;
+      node.innerHTML = '';
+      node.appendChild(createDecorVisual({
+        asset: entry.asset || item.asset,
+        emoji: entry.emoji || item.emoji,
+        name: item.name
+      }, item.asset || entry.asset ? 'decor-slot-asset' : 'decor-slot-emoji'));
       node.style.display = 'flex';
     });
   }
@@ -650,7 +704,7 @@
     var item = DECOR_ITEMS.filter(function (i) { return i.id === itemId; })[0];
     if (!item) return;
     var placed = getPlacedDecor();
-    placed[item.slot] = {id: itemId, level: item.level, emoji: item.emoji};
+    placed[item.slot] = {id: itemId, level: item.level, asset: item.asset || '', emoji: item.emoji};
     localStorage.setItem(window.DECOR_SK.DECOR_PLACED, JSON.stringify(placed));
     var currentBg = (document.getElementById('app') || {}).getAttribute ?
       (document.getElementById('app').getAttribute('data-bg') || 'home') : 'home';
@@ -805,7 +859,7 @@
 
       var card = el('div', {cls: 'shop-item-card' + (isPlaced ? ' placed' : isOwned ? ' owned' : '')});
 
-      card.appendChild(el('span', {cls:'item-emoji', text:item.emoji}));
+      card.appendChild(createDecorVisual(item, item.asset ? 'item-asset' : 'item-emoji'));
       card.appendChild(el('span', {cls:'item-name',  text:item.name}));
       card.appendChild(el('span', {cls:'item-desc',  text:item.desc}));
 
