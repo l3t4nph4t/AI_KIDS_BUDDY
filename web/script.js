@@ -1730,6 +1730,8 @@
     tieng_viet: 'subject_tieng_viet.webp',
     tiengviet: 'subject_tieng_viet.webp',
     van: 'subject_tieng_viet.webp',
+    tieng_anh: 'study_book_stack.webp',
+    english: 'study_book_stack.webp',
     tu_nhien_xa_hoi: 'subject_tu_nhien_xa_hoi.webp',
     tu_nhien: 'subject_tu_nhien_xa_hoi.webp',
     khoa_hoc: 'subject_tu_nhien_xa_hoi.webp',

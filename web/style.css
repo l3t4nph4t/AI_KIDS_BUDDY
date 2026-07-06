@@ -12356,3 +12356,158 @@ body.reading-pdf-mode #reading-vyvy-corner img {
   height: clamp(52px, 13vw, 72px) !important;
   object-fit: contain !important;
 }
+
+/* Final UI surface cleanup: remove nested button-like layers and modal bleed. */
+#app[data-view="learning"] .subject-go,
+#app[data-view="learning"] .lesson-card-arrow {
+  width: 28px !important;
+  min-width: 28px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #d86c82 !important;
+  font-size: 24px !important;
+  line-height: 1 !important;
+}
+
+#app[data-view="learning"] .subject-asset,
+#app[data-view="learning"] .lesson-card-thumb {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+#app[data-view="learning"] .subject-card .subject-status,
+#app[data-view="learning"] .subject-card.suggested .subject-status {
+  min-height: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #9b6a4f !important;
+  text-align: left !important;
+}
+
+#app[data-view="learning"] .study-check {
+  width: auto !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #ff7f8f !important;
+  box-shadow: none !important;
+}
+
+#app[data-view="learning"] .study-lesson-row {
+  overflow: hidden !important;
+}
+
+#decor-shop-overlay:not(.hidden) {
+  display: block !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  z-index: 260 !important;
+  background: rgba(74, 42, 24, 0.46) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+#decor-shop-panel.open,
+#decor-shop-panel.open.hidden {
+  z-index: 270 !important;
+}
+
+#app.home-state.decor-shop-open #mission-cta,
+#app.home-state.decor-shop-open .room-carousel-wrap,
+#app.home-state.decor-shop-open .room-carousel-controls,
+#app.home-state.decor-shop-open .avatar-shop-btn,
+#app.home-state.decor-shop-open .home-hotspots,
+#app.home-state.decor-shop-open .home-talk-btn,
+#app.home-state.decor-shop-open .bottom-nav {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.shop-item-card {
+  cursor: default !important;
+}
+
+.shop-item-card:hover {
+  transform: none !important;
+}
+
+@media (max-width: 760px) {
+  body.reading-pdf-mode #learn-reading {
+    --reader-toolbar-h: 92px !important;
+  }
+
+  body.reading-pdf-mode .study-pdf-panel {
+    grid-template-rows: 92px minmax(0, 1fr) var(--reader-pill-h) var(--reader-coach-h) var(--reader-controls-h) !important;
+  }
+
+  body.reading-pdf-mode .study-pdf-toolbar {
+    display: grid !important;
+    grid-template-columns: 44px minmax(64px, 1fr) 44px 44px 44px 44px !important;
+    grid-template-rows: 44px 44px !important;
+    align-content: stretch !important;
+    align-items: stretch !important;
+    justify-content: stretch !important;
+    height: 92px !important;
+    min-height: 92px !important;
+    overflow: hidden !important;
+    padding: 2px 6px !important;
+  }
+
+  body.reading-pdf-mode .study-pdf-toolbar button,
+  body.reading-pdf-mode .study-pdf-toolbar span {
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+
+  body.reading-pdf-mode .study-pdf-toolbar #study-pdf-prev,
+  body.reading-pdf-mode .study-pdf-toolbar #study-pdf-next,
+  body.reading-pdf-mode .study-pdf-toolbar #study-pdf-zoom-out,
+  body.reading-pdf-mode .study-pdf-toolbar #study-pdf-zoom-in {
+    width: auto !important;
+    min-width: 0 !important;
+  }
+}
+
+@media (max-width: 720px) {
+  #app[data-view="learning"] #learn-panel:has(#learn-lesson-list:not(.hidden)) .study-picker-card {
+    padding-bottom: 18px !important;
+  }
+
+  #app[data-view="learning"] #learn-panel:has(#learn-lesson-list:not(.hidden)) .lesson-list-header {
+    justify-content: flex-start !important;
+  }
+
+  #app[data-view="learning"] #learn-panel:has(#learn-lesson-list:not(.hidden)) .lesson-list-title {
+    display: none !important;
+  }
+
+  #app[data-view="learning"] .lesson-list-content {
+    height: min(36dvh, 280px) !important;
+    max-height: min(36dvh, 280px) !important;
+    min-height: 190px !important;
+    padding-bottom: 8px !important;
+    scroll-padding-bottom: 8px !important;
+  }
+
+  #app[data-view="learning"] .study-picker-footer {
+    position: static !important;
+    z-index: auto !important;
+    margin-top: 16px !important;
+    padding: 0 !important;
+  }
+
+  #app[data-view="learning"] .study-start-btn {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+}

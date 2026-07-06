@@ -769,8 +769,54 @@
     {key:'all',      label:'🦸 Outfit'},
   ];
 
+  function ensureDecorShellBindings() {
+    var panel = qs('#decor-shop-panel');
+    if (!panel || panel.dataset.decorBound === '1') return;
+    panel.dataset.decorBound = '1';
+
+    var closeBtn = qs('#decor-shop-close');
+    if (closeBtn) closeBtn.addEventListener('click', closeDecorShop);
+
+    qsAll('.decor-tab').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var tabKey = btn.getAttribute('data-bg') || btn.getAttribute('data-tab') || 'home';
+        currentShopBg = tabKey;
+        setDecorActiveTab(tabKey);
+        renderShop(tabKey);
+      });
+    });
+
+    panel.addEventListener('click', function (e) {
+      if (e.target === panel) closeDecorShop();
+    });
+
+    if (!qs('#decor-toast-container')) {
+      document.body.appendChild(el('div', {id:'decor-toast-container'}));
+    }
+  }
+
+  function setDecorActiveTab(tabKey) {
+    qsAll('.decor-tab-btn').forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-tab') === tabKey);
+    });
+    qsAll('.decor-tab').forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-bg') === tabKey || b.getAttribute('data-tab') === tabKey);
+    });
+  }
+
+  function updateDecorShopStars() {
+    var value = getStars();
+    var shopStars = qs('#decor-shop-stars-display');
+    if (shopStars) shopStars.textContent = '\u2b50 ' + value;
+    var staticStars = qs('#decor-shop-star-count');
+    if (staticStars) staticStars.textContent = String(value);
+  }
+
   function buildShopDOM() {
-    if (qs('#decor-shop-panel')) return;
+    if (qs('#decor-shop-panel')) {
+      ensureDecorShellBindings();
+      return;
+    }
 
     var panel = el('div', {id:'decor-shop-panel'});
     var inner = el('div', {id:'decor-shop-inner'});
@@ -788,8 +834,7 @@
       var btn = el('button', {cls:'decor-tab-btn', 'data-tab':tab.key, text:tab.label});
       btn.addEventListener('click', function () {
         currentShopBg = tab.key;
-        qsAll('.decor-tab-btn').forEach(function (b) { b.classList.remove('active'); });
-        btn.classList.add('active');
+        setDecorActiveTab(tab.key);
         renderShop(tab.key);
       });
       tabsDiv.appendChild(btn);
@@ -821,6 +866,8 @@
     buildShopDOM();
     var panel = qs('#decor-shop-panel');
     if (panel) panel.classList.add('open');
+    var overlay = qs('#decor-shop-overlay');
+    if (overlay) overlay.classList.remove('hidden');
     // Set active tab to current bg
     var app = document.getElementById('app');
     if (app) app.classList.add('decor-shop-open');
@@ -831,12 +878,16 @@
     });
     var shopStars = qs('#decor-shop-stars-display');
     if (shopStars) shopStars.textContent = '⭐ ' + getStars();
+    setDecorActiveTab(curBg);
+    updateDecorShopStars();
     renderShop(currentShopBg);
   }
 
   function closeDecorShop() {
     var panel = qs('#decor-shop-panel');
     if (panel) panel.classList.remove('open');
+    var overlay = qs('#decor-shop-overlay');
+    if (overlay) overlay.classList.add('hidden');
     var app = document.getElementById('app');
     if (app) app.classList.remove('decor-shop-open');
   }
