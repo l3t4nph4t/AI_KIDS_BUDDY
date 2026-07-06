@@ -6120,7 +6120,9 @@
       card.classList.toggle('is-next', isNext);
       card.classList.toggle('is-prev', isPrev);
       card.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-      card.tabIndex = 0;
+      var isKeyboardReachable = isActive || isNext || isPrev;
+      card.tabIndex = isKeyboardReachable ? 0 : -1;
+      card.setAttribute('aria-hidden', isKeyboardReachable ? 'false' : 'true');
       if (isActive) activeCard = card;
     });
 

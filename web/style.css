@@ -11976,3 +11976,252 @@ body.reading-pdf-mode.reading-pdf-focus-mode #reading-vyvy-corner {
     padding-bottom: 8px !important;
   }
 }
+
+/* UX stabilization V2: live layout defects after v4 asset rollout. */
+@media (min-width: 600px) and (max-width: 899px) {
+  #app.home-state {
+    background-image: url('/static/assets/bg_home_clean_tablet.webp') !important;
+    background-position: 50% 24% !important;
+  }
+
+  #app.home-state .room-card,
+  #app.home-state .room-card.is-active,
+  #app.home-state .room-card.is-next,
+  #app.home-state .room-card.is-prev {
+    height: 92px !important;
+    min-height: 92px !important;
+  }
+
+  #app.home-state .room-card-sub {
+    display: none !important;
+  }
+}
+
+#app.home-state .avatar-shop-btn,
+#app.home-state .mission-side-btn,
+#app.home-state .mission-later-btn,
+#app.home-state .home-hotspot,
+#app.home-state .mission-start-btn {
+  min-height: 44px !important;
+}
+
+#app.home-state .avatar-shop-btn,
+#app.home-state .room-carousel-arrow {
+  min-width: 44px !important;
+}
+
+#app.home-state .room-carousel-arrow {
+  width: 44px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  font-size: 20px !important;
+  line-height: 1 !important;
+}
+
+#app.home-state .room-carousel-controls {
+  min-height: 48px !important;
+}
+
+@media (min-width: 900px) and (max-width: 1439px) {
+  #app.home-state #room-carousel {
+    gap: 10px !important;
+    padding-inline: 4px !important;
+    overflow-x: auto !important;
+  }
+
+  #app.home-state .room-card,
+  #app.home-state .room-card.is-active,
+  #app.home-state .room-card.is-next,
+  #app.home-state .room-card.is-prev {
+    flex: 0 0 clamp(176px, 14vw, 198px) !important;
+    width: clamp(176px, 14vw, 198px) !important;
+  }
+}
+
+@media (min-width: 1440px) {
+  #app.home-state #room-carousel {
+    gap: 10px !important;
+    padding-inline: 4px !important;
+  }
+
+  #app.home-state .room-card,
+  #app.home-state .room-card.is-active,
+  #app.home-state .room-card.is-next,
+  #app.home-state .room-card.is-prev {
+    flex: 0 0 clamp(220px, 13vw, 252px) !important;
+    width: clamp(220px, 13vw, 252px) !important;
+    height: 94px !important;
+    min-height: 94px !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
+  #app.home-state {
+    --home-carousel-h: clamp(104px, 28dvh, 118px) !important;
+    --home-card-w: clamp(118px, 15vw, 132px) !important;
+    --home-carousel-bottom: max(6px, env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  #app.home-state .home-hotspot.hotspot-reward {
+    display: none !important;
+  }
+
+  #app.home-state .room-carousel-wrap {
+    height: var(--home-carousel-h) !important;
+    bottom: var(--home-carousel-bottom) !important;
+  }
+
+  #app.home-state #room-carousel {
+    gap: 8px !important;
+    padding: 4px !important;
+    overflow-x: auto !important;
+  }
+
+  #app.home-state .room-card,
+  #app.home-state .room-card.is-active,
+  #app.home-state .room-card.is-next,
+  #app.home-state .room-card.is-prev {
+    flex: 0 0 var(--home-card-w) !important;
+    width: var(--home-card-w) !important;
+    height: calc(var(--home-carousel-h) - 14px) !important;
+    min-height: 88px !important;
+    padding: 6px 8px !important;
+  }
+
+  #app.home-state .room-card img {
+    height: min(48px, 48%) !important;
+  }
+
+  #app.home-state .room-card-label {
+    font-size: 11.5px !important;
+    line-height: 1.1 !important;
+  }
+
+  #app.home-state .room-card-sub {
+    display: none !important;
+  }
+}
+
+@media (max-width: 720px) {
+  #app[data-view="learning"] .lesson-list-content {
+    height: clamp(118px, 16dvh, 148px) !important;
+    max-height: clamp(118px, 16dvh, 148px) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding-bottom: 12px !important;
+    scroll-padding-bottom: 12px !important;
+  }
+
+  #app[data-view="learning"] .learn-lesson-list {
+    min-height: 0 !important;
+  }
+
+  #app[data-view="learning"] .study-lesson-layout {
+    min-height: 0 !important;
+  }
+
+  #app[data-view="learning"] .study-picker-footer {
+    position: static !important;
+    bottom: auto !important;
+    z-index: 35 !important;
+    margin-top: 8px !important;
+    padding-top: 8px !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+    background: transparent !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body.reading-pdf-mode #learn-reading {
+    --reader-topbar-h: 96px !important;
+    --reader-toolbar-h: 52px !important;
+  }
+
+  body.reading-pdf-mode .reading-pdf-topbar {
+    grid-template-columns: minmax(96px, auto) minmax(0, 1fr) !important;
+    grid-template-rows: 44px 44px !important;
+    height: 96px !important;
+    min-height: 96px !important;
+    gap: 6px !important;
+    overflow: visible !important;
+  }
+
+  body.reading-pdf-mode .reading-pdf-topbar .learn-back-btn,
+  body.reading-pdf-mode .reading-topbar-select {
+    min-height: 44px !important;
+    height: 44px !important;
+  }
+
+  body.reading-pdf-mode .reading-title {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    white-space: normal !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    line-height: 1.15 !important;
+  }
+
+  body.reading-pdf-mode #reading-subject-chip {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+  }
+
+  body.reading-pdf-mode #reading-lesson-chip {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+  }
+
+  body.reading-pdf-mode .study-pdf-panel {
+    grid-template-rows: 52px minmax(0, 1fr) var(--reader-pill-h) var(--reader-coach-h) var(--reader-controls-h) !important;
+  }
+
+  body.reading-pdf-mode .study-pdf-toolbar {
+    height: 52px !important;
+    min-height: 52px !important;
+    justify-content: flex-start !important;
+    gap: 6px !important;
+    padding: 4px 8px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: thin !important;
+    scroll-padding-inline: 8px !important;
+  }
+
+  body.reading-pdf-mode .study-pdf-toolbar button,
+  body.reading-pdf-mode .study-pdf-toolbar span {
+    flex: 0 0 auto !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
+  }
+
+  body.reading-pdf-mode .study-pdf-toolbar #study-pdf-prev,
+  body.reading-pdf-mode .study-pdf-toolbar #study-pdf-next,
+  body.reading-pdf-mode .study-pdf-toolbar #study-pdf-zoom-out,
+  body.reading-pdf-mode .study-pdf-toolbar #study-pdf-zoom-in {
+    width: 44px !important;
+    min-width: 44px !important;
+  }
+
+  body.reading-pdf-mode #study-pdf-crop-toggle {
+    min-width: 148px !important;
+    max-width: none !important;
+  }
+
+  body.reading-pdf-mode #study-pdf-focus-toggle {
+    min-width: 168px !important;
+    max-width: none !important;
+  }
+
+  body.reading-pdf-mode #reading-controls {
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+}
+
+.decor-tab {
+  min-height: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
