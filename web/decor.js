@@ -823,6 +823,7 @@
     if (panel) panel.classList.add('open');
     // Set active tab to current bg
     var app = document.getElementById('app');
+    if (app) app.classList.add('decor-shop-open');
     var curBg = (app && app.getAttribute('data-bg')) || 'home';
     currentShopBg = curBg;
     qsAll('.decor-tab-btn').forEach(function (b) {
@@ -836,6 +837,8 @@
   function closeDecorShop() {
     var panel = qs('#decor-shop-panel');
     if (panel) panel.classList.remove('open');
+    var app = document.getElementById('app');
+    if (app) app.classList.remove('decor-shop-open');
   }
 
   function renderShop(bgName) {

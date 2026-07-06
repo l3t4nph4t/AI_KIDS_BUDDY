@@ -809,7 +809,11 @@ body {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: url('/static/ui/nav/nav_bar_mobile.png') center / 100% 100% no-repeat;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 235, 207, 0.94)),
+    linear-gradient(135deg, rgba(255, 143, 171, 0.18), rgba(201, 160, 255, 0.18));
+  border: 2px solid rgba(255, 168, 126, 0.42);
+  border-radius: 28px;
   filter: drop-shadow(0 12px 20px rgba(92, 45, 26, 0.18));
   pointer-events: none;
 }
@@ -4951,7 +4955,9 @@ body.reading-pdf-mode #reading-controls .reading-skip-btn {
   }
 
   .bottom-nav-bg {
-    background-image: url('/static/ui/nav/nav_bar_tablet.png');
+    background-image:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 235, 207, 0.94)),
+      linear-gradient(135deg, rgba(255, 143, 171, 0.18), rgba(201, 160, 255, 0.18));
   }
 }
 
@@ -4965,7 +4971,9 @@ body.reading-pdf-mode #reading-controls .reading-skip-btn {
   }
 
   .bottom-nav-bg {
-    background-image: url('/static/ui/nav/nav_bar_pc.png');
+    background-image:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 235, 207, 0.94)),
+      linear-gradient(135deg, rgba(255, 143, 171, 0.18), rgba(201, 160, 255, 0.18));
   }
 }
 
@@ -12224,4 +12232,127 @@ body.reading-pdf-mode.reading-pdf-focus-mode #reading-vyvy-corner {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
+}
+
+/* V4 asset presentation authority: show menu artwork as the primary button visual. */
+#app.home-state {
+  --home-menu-card-h: clamp(138px, 17dvh, 166px);
+  --home-menu-art-w: clamp(146px, 38vw, 178px);
+}
+
+#app.home-state .room-card,
+#app.home-state .room-card.is-active,
+#app.home-state .room-card.is-next,
+#app.home-state .room-card.is-prev {
+  height: var(--home-menu-card-h) !important;
+  min-height: var(--home-menu-card-h) !important;
+  grid-template-rows: minmax(92px, 1fr) auto !important;
+  align-content: center !important;
+  justify-items: center !important;
+  gap: 4px !important;
+  padding: 2px 6px 6px !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+#app.home-state .room-card::before {
+  display: none !important;
+}
+
+#app.home-state .room-card.is-active {
+  transform: translateY(-3px) scale(1.02) !important;
+  filter: drop-shadow(0 12px 18px rgba(92, 45, 26, 0.20)) !important;
+}
+
+#app.home-state .room-card img {
+  width: min(100%, var(--home-menu-art-w)) !important;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  aspect-ratio: 3 / 2 !important;
+  object-fit: contain !important;
+  object-position: center bottom !important;
+  display: block !important;
+  filter: drop-shadow(0 10px 12px rgba(92, 45, 26, 0.18)) !important;
+}
+
+#app.home-state .room-card-label {
+  display: block !important;
+  max-width: 100% !important;
+  min-height: 18px !important;
+  color: #63311f !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  line-height: 1.12 !important;
+  text-align: center !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.82) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+#app.home-state .room-card-sub {
+  display: none !important;
+}
+
+#app.home-state.decor-shop-open .room-carousel-wrap,
+#app.home-state.decor-shop-open .room-carousel-controls {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.bottom-nav-bg {
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 235, 207, 0.94)),
+    linear-gradient(135deg, rgba(255, 143, 171, 0.18), rgba(201, 160, 255, 0.18)) !important;
+}
+
+@media (max-width: 520px) {
+  #app.home-state {
+    --home-carousel-h: 182px !important;
+    --home-menu-card-h: 144px;
+    --home-menu-art-w: clamp(150px, 43vw, 170px);
+  }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  #app.home-state {
+    --home-carousel-h: 186px !important;
+    --home-menu-card-h: 148px;
+    --home-menu-art-w: clamp(160px, 24vw, 184px);
+  }
+}
+
+@media (min-width: 900px) {
+  #app.home-state {
+    --home-menu-card-h: clamp(150px, 18dvh, 178px);
+    --home-menu-art-w: clamp(168px, 13vw, 198px);
+  }
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
+  #app.home-state {
+    --home-carousel-h: clamp(126px, 33dvh, 148px) !important;
+    --home-menu-card-h: clamp(106px, 28dvh, 128px);
+    --home-menu-art-w: clamp(112px, 15vw, 132px);
+  }
+
+  #app.home-state .room-card,
+  #app.home-state .room-card.is-active,
+  #app.home-state .room-card.is-next,
+  #app.home-state .room-card.is-prev {
+    grid-template-rows: minmax(74px, 1fr) auto !important;
+  }
+
+  #app.home-state .room-card-label {
+    font-size: 11px !important;
+  }
+}
+
+body.reading-pdf-mode #reading-vyvy-corner img {
+  width: clamp(52px, 13vw, 72px) !important;
+  height: clamp(52px, 13vw, 72px) !important;
+  object-fit: contain !important;
 }
