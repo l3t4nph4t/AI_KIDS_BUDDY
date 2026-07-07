@@ -33,6 +33,62 @@
   var currentView = 'home';
   var viewStack = [];
 
+  function getCurrentStudyStage() {
+    var panel = document.getElementById('learn-panel');
+    return (panel && panel.dataset.studyStage) || '';
+  }
+
+  function setShell(shell, context) {
+    context = context || {};
+    var app = document.getElementById('app');
+    var stage = context.studyStage || getCurrentStudyStage();
+    if (app) {
+      app.classList.add('layout-v1');
+      app.dataset.shell = shell || 'home';
+      app.dataset.view = currentView || shell || 'home';
+      if (stage) app.dataset.studyStage = stage;
+      else delete app.dataset.studyStage;
+    }
+    document.body.dataset.shell = shell || 'home';
+
+    if (shell !== 'learning' || stage !== 'reading') {
+      document.body.classList.remove('reading-pdf-mode');
+      document.body.classList.remove('pdfjs-reader-active');
+      document.body.classList.remove('reading-pdf-focus-mode');
+    }
+  }
+
+  function setPickerStep(step) {
+    var panel = document.getElementById('learn-panel');
+    if (panel) panel.dataset.pickerStep = step || 'subjects';
+    var app = document.getElementById('app');
+    if (app) app.dataset.pickerStep = step || 'subjects';
+  }
+
+  function resetLearningPickerSelection() {
+    if (typeof learnState === 'undefined' || !learnState) return;
+    learnState.subject = '';
+    learnState.selectedSubject = '';
+    learnState.selectedSubjectLabel = '';
+    resetSelectedLesson();
+  }
+
+  function normalizeReaderActionLabels() {
+    var audioBtn = document.getElementById('reading-audio-btn');
+    var explainBtn = document.getElementById('reading-explanation-btn') ||
+      document.getElementById('reading-explanation-toggle');
+    var practiceBtn = document.getElementById('reading-start-practice');
+    var skipBtn = document.getElementById('reading-skip-audio');
+    var cropBtn = document.getElementById('study-pdf-crop-toggle');
+    var focusBtn = document.getElementById('study-pdf-focus-toggle');
+    if (audioBtn) audioBtn.textContent = 'Nghe';
+    if (explainBtn) explainBtn.textContent = 'Hỏi VyVy';
+    if (practiceBtn) practiceBtn.textContent = 'Luyện tập';
+    if (skipBtn) skipBtn.textContent = 'Bỏ qua';
+    if (cropBtn) cropBtn.textContent = 'Cắt lề';
+    if (focusBtn) focusBtn.textContent = 'Sách lớn';
+  }
+
   /* ── Room Carousel State ──────────────── */
   var activeRoom = 'entertainment';
 
@@ -1779,11 +1835,16 @@
   }
 
   function showLearningPanel() {
-    openLearningPicker();
+    openLearningPicker({ resetSelection: true });
   }
 
-  function openLearningPicker() {
+  function openLearningPicker(options) {
+    options = options || {};
     if (window.VyvyDecor) window.VyvyDecor.setBg('learn');
+    if (options.resetSelection) {
+      resetLearningPickerSelection();
+      setPickerStep('subjects');
+    }
     showView('learning');
     backToPickerPreserveSelection();
   }
@@ -1842,6 +1903,8 @@
     var picker = document.getElementById('study-picker-hero');
     if (panel) panel.dataset.studyStage = stage || 'picker';
     if (picker) picker.classList.toggle('hidden', stage !== 'picker');
+    setShell('learning', { studyStage: stage || 'picker' });
+    if (stage === 'reading') normalizeReaderActionLabels();
   }
 
   function getSubjectLabel(subject) {
@@ -1934,10 +1997,12 @@
     var needsReload = !lessonListContent ||
       existingRows.length === 0 ||
       (subjectToRender && firstRowSubject && firstRowSubject !== subjectToRender);
+    clearReadingPdfFrame();
     setLearningStage('picker');
     if (readingDiv) readingDiv.classList.add('hidden');
     if (sessionDiv) sessionDiv.classList.add('hidden');
     if (subjectToRender) {
+      setPickerStep('lessons');
       learnState.subject = subjectToRender;
       learnState.selectedSubject = subjectToRender;
       learnState.selectedSubjectLabel = getSubjectLabel(subjectToRender);
@@ -1956,6 +2021,7 @@
         });
       }
     } else {
+      setPickerStep('subjects');
       if (subjectsDiv) subjectsDiv.classList.remove('hidden');
       if (lessonListDiv) lessonListDiv.classList.add('hidden');
     }
@@ -2072,6 +2138,7 @@
     loadSubjectCards();
     var lessonListDiv = document.getElementById('learn-lesson-list');
     var subjectsDiv   = document.getElementById('learn-subjects');
+    setPickerStep('subjects');
     if (lessonListDiv) lessonListDiv.classList.add('hidden');
     if (subjectsDiv)   subjectsDiv.classList.remove('hidden');
     loadProgressDisplay();
@@ -2165,6 +2232,7 @@
     var lessonListDiv = document.getElementById('learn-lesson-list');
     clearReadingPdfFrame();
     setLearningStage('picker');
+    setPickerStep('lessons');
     if (subjectsDiv) subjectsDiv.classList.add('hidden');
     if (sessionDiv) sessionDiv.classList.add('hidden');
     if (readingDiv) readingDiv.classList.add('hidden');
@@ -2383,7 +2451,7 @@
         var subject = (data && data.subject) || (unit && unit.subject) || learnState.selectedSubject || learnState.subject;
         if (!unitId || !subject) {
           showToast('VyVy chưa tìm được bài tiếp theo, mình chọn bài nhé.', 'info', 2600);
-          openLearningPicker();
+          openLearningPicker({ resetSelection: true });
           return null;
         }
         learnState.subject = subject;
@@ -2396,7 +2464,7 @@
       })
       .catch(function() {
         showToast('VyVy chưa tìm được bài tiếp theo, mình chọn bài nhé.', 'info', 2600);
-        openLearningPicker();
+        openLearningPicker({ resetSelection: true });
       })
       .finally(function() {
         setTodayLessonLoading(false);
@@ -6030,7 +6098,7 @@
     } else if (roomId === 'library') {
       closeHomeChatDrawer();
       setVyvyOutfit('uniform');
-      openLearningPicker();
+      openLearningPicker({ resetSelection: true });
     } else if (roomId === 'decor') {
       openRewardsPanel();
     } else if (roomId === 'art') {
@@ -6348,7 +6416,7 @@
           } else if (target === 'learning') {
             closeHomeChatDrawer();
             setVyvyOutfit('uniform');
-            openLearningPicker();
+            openLearningPicker({ resetSelection: true });
           } else if (target === 'chat') {
             if (currentView === 'home') {
               toggleHomeChatDrawer();
@@ -6375,7 +6443,7 @@
     var learnBtn = document.getElementById('learn-btn');
     if (learnBtn) {
       learnBtn.addEventListener('click', function() {
-        openLearningPicker();
+        openLearningPicker({ resetSelection: true });
       });
     }
   }
@@ -6436,6 +6504,9 @@
     var bn = state.settings.bot_name || 'VyVy';
 
     if (appEl) appEl.dataset.view = currentView;
+    setShell(currentView === 'home' ? 'home' : currentView, {
+      studyStage: currentView === 'learning' ? getCurrentStudyStage() : ''
+    });
 
     var allViews = document.querySelectorAll('.view-container');
     for (var i = 0; i < allViews.length; i++) {
@@ -6647,7 +6718,7 @@
     var homeLearnBtn = document.getElementById('home-learn-btn');
     if (homeLearnBtn) {
       homeLearnBtn.addEventListener('click', function() {
-        openLearningPicker();
+        openLearningPicker({ resetSelection: true });
       });
     }
 
@@ -7694,6 +7765,7 @@
   /* ── Init ───────────────────────────────── */
   function init() {
     cacheDom();
+    setShell('home');
     loadSettings();
     updateHomeProfileBadges();
     loadStarBalance();

@@ -1,0 +1,1346 @@
+/* Layout Foundation V1
+   One scoped layout layer for Home, Study Picker, Reader, and Games.
+   This file intentionally loads after legacy CSS while the old cascade is retired in stages. */
+
+:root {
+  --lf-safe-top: max(10px, env(safe-area-inset-top, 0px));
+  --lf-safe-right: max(12px, env(safe-area-inset-right, 0px));
+  --lf-safe-bottom: max(10px, env(safe-area-inset-bottom, 0px));
+  --lf-safe-left: max(12px, env(safe-area-inset-left, 0px));
+  --lf-surface: rgba(255, 250, 242, 0.94);
+  --lf-surface-solid: #fff9ef;
+  --lf-border: rgba(126, 78, 42, 0.18);
+  --lf-text: #643927;
+  --lf-muted: #9b725d;
+  --lf-accent: #ff7892;
+  --lf-green: #76c69a;
+  --lf-shadow: 0 14px 34px rgba(101, 57, 31, 0.16);
+  --lf-radius: 18px;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body[data-shell] {
+  overflow: hidden !important;
+  background: #fff2e4;
+}
+
+#app.layout-v1 {
+  width: 100vw !important;
+  max-width: none !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  max-height: none !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+@supports (height: 100dvh) {
+  #app.layout-v1 {
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+  }
+}
+
+#app.layout-v1 *,
+#app.layout-v1 *::before,
+#app.layout-v1 *::after {
+  box-sizing: border-box;
+}
+
+#app.layout-v1:not(.home-state) {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255, 227, 145, 0.35), transparent 30%),
+    linear-gradient(180deg, #fff8ec 0%, #ffe8d0 100%) !important;
+}
+
+#app.layout-v1:not(.home-state) > .header {
+  display: none !important;
+}
+
+#app.layout-v1:not(.home-state) .bottom-nav {
+  display: none !important;
+}
+
+#app.layout-v1 .view-container {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+#app.layout-v1 .view-container.active {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+#app.layout-v1 .view-container.active .view-content,
+#app.layout-v1 .view-container.active .chat-view-container {
+  width: 100% !important;
+  max-width: none !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Home shell */
+#app.layout-v1.home-state {
+  --home-vyvy-h: clamp(230px, 35dvh, 455px);
+  --home-vyvy-w: calc(var(--home-vyvy-h) * 0.68);
+  --home-menu-h: clamp(196px, 23dvh, 250px);
+  --home-card-h: calc(var(--home-menu-h) - 42px);
+  --home-card-w: clamp(160px, 20vw, 252px);
+  background-image: url("/static/assets/bg_home_clean.webp") !important;
+  background-size: cover !important;
+  background-position: center top !important;
+  background-repeat: no-repeat !important;
+}
+
+#app.layout-v1.home-state .home-content {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+#app.layout-v1.home-state .header {
+  position: fixed !important;
+  top: var(--lf-safe-top) !important;
+  left: var(--lf-safe-left) !important;
+  right: var(--lf-safe-right) !important;
+  width: auto !important;
+  height: 56px !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  z-index: 80 !important;
+}
+
+#app.layout-v1.home-state .header-left,
+#app.layout-v1.home-state #parent-settings-btn,
+#app.layout-v1.home-state .star-balance-bar,
+#app.layout-v1.home-state #mission-cta,
+#app.layout-v1.home-state .home-hotspot,
+#app.layout-v1.home-state .room-carousel-wrap,
+#app.layout-v1.home-state #room-carousel,
+#app.layout-v1.home-state .room-card {
+  pointer-events: auto !important;
+}
+
+#app.layout-v1.home-state .header-left {
+  max-width: 260px !important;
+  height: 54px !important;
+}
+
+#app.layout-v1.home-state #parent-settings-btn {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+}
+
+#app.layout-v1.home-state .star-balance-bar {
+  position: fixed !important;
+  top: var(--lf-safe-top) !important;
+  right: calc(var(--lf-safe-right) + 58px) !important;
+  left: auto !important;
+  width: auto !important;
+  max-width: min(58vw, 430px) !important;
+  min-height: 48px !important;
+  height: 48px !important;
+  z-index: 78 !important;
+  overflow: hidden !important;
+}
+
+#app.layout-v1.home-state .avatar-area {
+  position: absolute !important;
+  inset: 0 !important;
+  min-height: 0 !important;
+  pointer-events: none !important;
+}
+
+#app.layout-v1.home-state #vyvy-avatar {
+  position: absolute !important;
+  left: clamp(32px, 11vw, 300px) !important;
+  top: clamp(118px, 15dvh, 170px) !important;
+  width: var(--home-vyvy-w) !important;
+  height: var(--home-vyvy-h) !important;
+  max-width: 32vw !important;
+  max-height: calc(100% - var(--home-menu-h) - 116px) !important;
+  z-index: 10 !important;
+}
+
+#app.layout-v1.home-state #mission-cta {
+  position: absolute !important;
+  left: clamp(150px, 32vw, 620px) !important;
+  top: clamp(136px, 16dvh, 190px) !important;
+  width: min(430px, calc(100vw - clamp(150px, 32vw, 620px) - 24px)) !important;
+  max-height: min(248px, calc(100% - var(--home-menu-h) - 150px)) !important;
+  min-height: 0 !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 12px !important;
+  padding: 16px !important;
+  overflow: hidden !important;
+  border-radius: 22px !important;
+  z-index: 22 !important;
+}
+
+#app.layout-v1.home-state .mission-heading {
+  font-size: clamp(18px, 1.45vw, 24px) !important;
+  line-height: 1.14 !important;
+}
+
+#app.layout-v1.home-state .mission-action-stack {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  min-width: 0 !important;
+}
+
+#app.layout-v1.home-state .mission-start-btn,
+#app.layout-v1.home-state .mission-side-btn,
+#app.layout-v1.home-state .mission-later-btn {
+  flex: 1 1 130px !important;
+  min-width: 0 !important;
+  min-height: 48px !important;
+  white-space: nowrap !important;
+}
+
+#app.layout-v1.home-state .mission-later-btn {
+  flex-basis: 100% !important;
+  min-height: 34px !important;
+}
+
+#app.layout-v1.home-state .room-carousel-wrap {
+  position: fixed !important;
+  left: max(var(--lf-safe-left), clamp(12px, 6vw, 132px)) !important;
+  right: max(var(--lf-safe-right), clamp(12px, 6vw, 132px)) !important;
+  bottom: var(--lf-safe-bottom) !important;
+  top: auto !important;
+  height: var(--home-menu-h) !important;
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  gap: 8px !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  z-index: 42 !important;
+}
+
+#app.layout-v1.home-state .room-carousel-head {
+  width: fit-content !important;
+  max-width: min(380px, 80vw) !important;
+  margin: 0 !important;
+  padding: 8px 12px !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+#app.layout-v1.home-state #room-carousel {
+  display: flex !important;
+  align-items: flex-end !important;
+  gap: clamp(12px, 2.8vw, 28px) !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  padding: 0 4px 4px !important;
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+  scroll-snap-type: x proximity !important;
+  scrollbar-width: none !important;
+}
+
+#app.layout-v1.home-state #room-carousel::-webkit-scrollbar {
+  display: none !important;
+}
+
+#app.layout-v1.home-state .room-card,
+#app.layout-v1.home-state .room-card.is-active,
+#app.layout-v1.home-state .room-card.is-next,
+#app.layout-v1.home-state .room-card.is-prev {
+  display: grid !important;
+  flex: 0 0 var(--home-card-w) !important;
+  width: var(--home-card-w) !important;
+  height: var(--home-card-h) !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  grid-template-rows: minmax(0, 1fr) auto !important;
+  gap: 4px !important;
+  align-content: end !important;
+  justify-items: center !important;
+  padding: 0 8px 8px !important;
+  overflow: visible !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  scroll-snap-align: center !important;
+}
+
+#app.layout-v1.home-state .room-card.is-active {
+  transform: translateY(-4px) scale(1.02) !important;
+}
+
+#app.layout-v1.home-state .room-card img {
+  width: min(100%, clamp(132px, 13vw, 220px)) !important;
+  height: auto !important;
+  max-height: calc(var(--home-card-h) - 30px) !important;
+  aspect-ratio: 3 / 2 !important;
+  object-fit: contain !important;
+  object-position: center bottom !important;
+}
+
+#app.layout-v1.home-state .room-card-label {
+  display: block !important;
+  width: 100% !important;
+  min-height: 18px !important;
+  font-size: clamp(12px, 1vw, 14px) !important;
+  line-height: 1.15 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+#app.layout-v1.home-state .room-card-sub,
+#app.layout-v1.home-state .room-carousel-controls,
+#app.layout-v1.home-state .bottom-nav {
+  display: none !important;
+}
+
+#app.layout-v1.home-state .home-hotspot.hotspot-reward {
+  right: clamp(12px, 8vw, 150px) !important;
+  top: clamp(330px, 42dvh, 510px) !important;
+}
+
+@media (max-width: 599px) {
+  #app.layout-v1.home-state {
+    --home-vyvy-h: clamp(250px, 34dvh, 286px);
+    --home-menu-h: 208px;
+    --home-card-h: 156px;
+    --home-card-w: clamp(160px, 43vw, 180px);
+    background-position: 50% 0 !important;
+  }
+
+  #app.layout-v1.home-state .header {
+    height: 52px !important;
+  }
+
+  #app.layout-v1.home-state .header-sub,
+  #app.layout-v1.home-state .mission-subtitle,
+  #app.layout-v1.home-state .mission-progress-row,
+  #app.layout-v1.home-state .mission-loop-row,
+  #app.layout-v1.home-state .avatar-shop-btn .shop-text,
+  #app.layout-v1.home-state .home-streak-chip .hud-label {
+    display: none !important;
+  }
+
+  #app.layout-v1.home-state .star-balance-bar {
+    top: calc(var(--lf-safe-top) + 66px) !important;
+    right: 12px !important;
+    max-width: 194px !important;
+    height: 44px !important;
+  }
+
+  #app.layout-v1.home-state #vyvy-avatar {
+    left: 18px !important;
+    top: clamp(132px, 17dvh, 152px) !important;
+    max-width: 44vw !important;
+  }
+
+  #app.layout-v1.home-state #mission-cta {
+    left: clamp(144px, 38vw, 162px) !important;
+    top: clamp(150px, 18dvh, 170px) !important;
+    width: calc(100vw - clamp(144px, 38vw, 162px) - 14px) !important;
+    max-height: 224px !important;
+    padding: 12px !important;
+    border-radius: 18px !important;
+  }
+
+  #app.layout-v1.home-state .mission-action-stack {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  #app.layout-v1.home-state .mission-start-btn,
+  #app.layout-v1.home-state .mission-side-btn {
+    min-height: 44px !important;
+  }
+
+  #app.layout-v1.home-state .mission-later-btn {
+    min-height: 30px !important;
+    font-size: 11px !important;
+  }
+
+  #app.layout-v1.home-state .room-carousel-wrap {
+    left: 16px !important;
+    right: 16px !important;
+  }
+
+  #app.layout-v1.home-state .room-carousel-head {
+    display: none !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
+  #app.layout-v1.home-state {
+    --home-vyvy-h: clamp(136px, 42dvh, 190px);
+    --home-menu-h: clamp(126px, 34dvh, 148px);
+    --home-card-h: calc(var(--home-menu-h) - 8px);
+    --home-card-w: clamp(128px, 16vw, 154px);
+  }
+
+  #app.layout-v1.home-state .header-sub,
+  #app.layout-v1.home-state .room-carousel-head,
+  #app.layout-v1.home-state .mission-subtitle,
+  #app.layout-v1.home-state .mission-progress-row,
+  #app.layout-v1.home-state .mission-loop-row,
+  #app.layout-v1.home-state .home-hotspot.hotspot-reward {
+    display: none !important;
+  }
+
+  #app.layout-v1.home-state #vyvy-avatar {
+    top: clamp(46px, 12dvh, 70px) !important;
+  }
+
+  #app.layout-v1.home-state #mission-cta {
+    top: clamp(58px, 16dvh, 76px) !important;
+    left: clamp(248px, 31vw, 340px) !important;
+    max-height: 118px !important;
+  }
+}
+
+/* Shared app shells */
+#app.layout-v1[data-shell="learning"],
+#app.layout-v1[data-shell="games"],
+#app.layout-v1[data-shell="music"],
+#app.layout-v1[data-shell="drawing"],
+#app.layout-v1[data-shell="chat"] {
+  width: 100vw !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  max-width: none !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+@supports (height: 100dvh) {
+  #app.layout-v1[data-shell="learning"],
+  #app.layout-v1[data-shell="games"],
+  #app.layout-v1[data-shell="music"],
+  #app.layout-v1[data-shell="drawing"],
+  #app.layout-v1[data-shell="chat"] {
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+  }
+}
+
+/* Study picker shell */
+#app.layout-v1[data-shell="learning"] #learning-view,
+#app.layout-v1[data-shell="learning"] #learning-view-content {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+#app.layout-v1[data-shell="learning"] #learn-panel.feature-panel {
+  position: absolute !important;
+  inset: 0 !important;
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  width: 100% !important;
+  max-width: none !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: var(--lf-safe-top) var(--lf-safe-right) var(--lf-safe-bottom) var(--lf-safe-left) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: linear-gradient(180deg, #fff7ec 0%, #ffe8d2 100%) !important;
+  overflow: hidden !important;
+}
+
+#app.layout-v1[data-shell="learning"] #learn-panel.feature-panel.hidden {
+  display: none !important;
+}
+
+#app.layout-v1[data-shell="learning"] #learn-panel.feature-panel[data-study-stage="reading"] {
+  grid-template-rows: minmax(0, 1fr) !important;
+  padding: 0 !important;
+}
+
+#app.layout-v1[data-shell="learning"] #learn-panel.feature-panel[data-study-stage="reading"] > .study-topbar {
+  display: none !important;
+}
+
+#app.layout-v1[data-shell="learning"] #learn-panel .study-topbar {
+  position: relative !important;
+  top: auto !important;
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: min(1180px, 100%) !important;
+  min-height: 58px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  background: transparent !important;
+  z-index: 5 !important;
+}
+
+#app.layout-v1[data-shell="learning"] #learn-panel-title {
+  min-width: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+}
+
+#app.layout-v1[data-shell="learning"] #study-picker-hero {
+  width: min(1180px, 100%) !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+#app.layout-v1[data-shell="learning"] .study-picker-card {
+  display: grid !important;
+  grid-template-rows: auto auto minmax(0, 1fr) !important;
+  gap: 12px !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: clamp(12px, 2vw, 26px) !important;
+  border-radius: var(--lf-radius) !important;
+  border: 1px solid var(--lf-border) !important;
+  background: var(--lf-surface) !important;
+  box-shadow: var(--lf-shadow) !important;
+  overflow: hidden !important;
+}
+
+#app.layout-v1[data-shell="learning"] .study-picker-heading {
+  min-height: 0 !important;
+  margin: 0 !important;
+}
+
+#app.layout-v1[data-shell="learning"] .study-picker-heading h3 {
+  margin: 0 !important;
+  font-size: clamp(22px, 2.2vw, 32px) !important;
+  line-height: 1.12 !important;
+}
+
+#app.layout-v1[data-shell="learning"] .study-picker-heading p,
+#app.layout-v1[data-shell="learning"] .learn-vyvy-helper,
+#app.layout-v1[data-shell="learning"] .study-reward-strip,
+#app.layout-v1[data-shell="learning"] #learn-progress {
+  display: none !important;
+}
+
+#app.layout-v1[data-shell="learning"] #learn-grade-bar {
+  display: grid !important;
+  grid-template-rows: auto auto !important;
+  gap: 8px !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+#app.layout-v1[data-shell="learning"] #learn-grade-buttons {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+#app.layout-v1[data-shell="learning"] .grade-btn {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 74px !important;
+  min-height: 74px !important;
+  padding: 8px 4px !important;
+  border-radius: 14px !important;
+}
+
+#app.layout-v1[data-shell="learning"] .grade-asset {
+  width: 34px !important;
+  height: 34px !important;
+}
+
+#app.layout-v1[data-shell="learning"] .grade-label {
+  font-size: 13px !important;
+  line-height: 1.1 !important;
+}
+
+#app.layout-v1[data-shell="learning"] #learn-subjects {
+  display: grid !important;
+  grid-template-rows: auto auto minmax(0, 1fr) !important;
+  gap: 8px !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+#app.layout-v1[data-shell="learning"] #learn-subjects.hidden {
+  display: none !important;
+}
+
+#app.layout-v1[data-shell="learning"] .learn-intro {
+  margin: 0 !important;
+  font-size: 14px !important;
+}
+
+#app.layout-v1[data-shell="learning"] #subject-cards {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+  gap: 10px !important;
+  min-height: 0 !important;
+  overflow: auto !important;
+  padding: 2px 2px 12px !important;
+}
+
+#app.layout-v1[data-shell="learning"] .subject-card {
+  min-height: 72px !important;
+  padding: 10px 12px !important;
+  border-radius: 16px !important;
+}
+
+#app.layout-v1[data-shell="learning"] .subject-asset {
+  width: 52px !important;
+  height: 52px !important;
+}
+
+#app.layout-v1[data-shell="learning"] .subject-name {
+  font-size: 16px !important;
+  line-height: 1.15 !important;
+}
+
+#app.layout-v1[data-shell="learning"] .subject-count,
+#app.layout-v1[data-shell="learning"] .subject-status {
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+}
+
+#app.layout-v1[data-shell="learning"] #learn-lesson-list {
+  min-height: 0 !important;
+  height: 100% !important;
+}
+
+#app.layout-v1[data-shell="learning"] #learn-lesson-list:not(.hidden) {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) auto !important;
+  gap: 12px !important;
+}
+
+#app.layout-v1[data-shell="learning"] #learn-panel[data-picker-step="lessons"] .study-picker-card {
+  grid-template-rows: minmax(0, 1fr) !important;
+}
+
+#app.layout-v1[data-shell="learning"] #learn-panel[data-picker-step="lessons"] .study-picker-heading,
+#app.layout-v1[data-shell="learning"] #learn-panel[data-picker-step="lessons"] #learn-grade-bar {
+  display: none !important;
+}
+
+#app.layout-v1[data-shell="learning"] .lesson-list-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-height: 48px !important;
+}
+
+#app.layout-v1[data-shell="learning"] .study-lesson-layout {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 300px) !important;
+  gap: 16px !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+#app.layout-v1[data-shell="learning"] .study-lesson-column {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  gap: 8px !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+#app.layout-v1[data-shell="learning"] #lesson-list-content {
+  height: 100% !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  padding-right: 6px !important;
+  scroll-padding-bottom: 88px !important;
+}
+
+#app.layout-v1[data-shell="learning"] .lesson-book {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+#app.layout-v1[data-shell="learning"] .lesson-card.study-lesson-row {
+  min-height: 68px !important;
+  padding: 10px 12px !important;
+}
+
+#app.layout-v1[data-shell="learning"] .study-picker-footer {
+  position: static !important;
+  display: flex !important;
+  justify-content: center !important;
+  min-height: 58px !important;
+  padding: 0 !important;
+  background: transparent !important;
+  z-index: 2 !important;
+}
+
+#app.layout-v1[data-shell="learning"] #study-start-selected {
+  width: min(360px, 100%) !important;
+  min-height: 54px !important;
+}
+
+@media (max-width: 760px) {
+  #app.layout-v1[data-shell="learning"] #learn-panel.feature-panel {
+    padding: var(--lf-safe-top) 10px var(--lf-safe-bottom) !important;
+  }
+
+  #app.layout-v1[data-shell="learning"] #learn-panel .study-topbar {
+    min-height: 52px !important;
+    grid-template-columns: auto minmax(0, 1fr) !important;
+  }
+
+  #app.layout-v1[data-shell="learning"] #learn-panel .study-hud,
+  #app.layout-v1[data-shell="learning"] #learn-panel .close-panel-btn {
+    display: none !important;
+  }
+
+  #app.layout-v1[data-shell="learning"] .study-picker-card {
+    padding: 12px !important;
+    gap: 10px !important;
+  }
+
+  #app.layout-v1[data-shell="learning"] .study-picker-heading h3 {
+    font-size: 23px !important;
+  }
+
+  #app.layout-v1[data-shell="learning"] .grade-btn {
+    height: 68px !important;
+    min-height: 68px !important;
+  }
+
+  #app.layout-v1[data-shell="learning"] #subject-cards {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  #app.layout-v1[data-shell="learning"] .subject-card {
+    min-height: 70px !important;
+  }
+
+  #app.layout-v1[data-shell="learning"] .study-lesson-layout {
+    display: block !important;
+  }
+
+  #app.layout-v1[data-shell="learning"] .study-vyvy-card {
+    display: none !important;
+  }
+
+  #app.layout-v1[data-shell="learning"] .lesson-list-title {
+    display: none !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
+  #app.layout-v1[data-shell="learning"] #learn-panel.feature-panel {
+    padding: 6px 12px !important;
+  }
+
+  #app.layout-v1[data-shell="learning"] #learn-panel .study-topbar {
+    min-height: 44px !important;
+  }
+
+  #app.layout-v1[data-shell="learning"] .study-picker-heading {
+    display: none !important;
+  }
+
+  #app.layout-v1[data-shell="learning"] .grade-btn {
+    height: 54px !important;
+    min-height: 54px !important;
+  }
+
+  #app.layout-v1[data-shell="learning"] .grade-asset {
+    width: 28px !important;
+    height: 28px !important;
+  }
+}
+
+/* Reader shell */
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"],
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #learn-panel.feature-panel,
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #learn-reading {
+  width: 100vw !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  max-height: 100vh !important;
+  overflow: hidden !important;
+}
+
+@supports (height: 100dvh) {
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"],
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #learn-panel.feature-panel,
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #learn-reading {
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    max-height: 100dvh !important;
+  }
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #learn-reading {
+  --reader-top-h: 50px !important;
+  --reader-toolbar-h: 46px !important;
+  --reader-pill-h: 24px !important;
+  --reader-coach-h: 0px !important;
+  --reader-controls-h: 58px !important;
+  display: grid !important;
+  grid-template-rows: var(--reader-top-h) minmax(0, 1fr) !important;
+  gap: 8px !important;
+  grid-row: 1 !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: var(--lf-safe-top) var(--lf-safe-left) var(--lf-safe-bottom) var(--lf-safe-right) !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-pdf-topbar {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) minmax(120px, 170px) minmax(160px, 360px) !important;
+  grid-template-rows: 1fr !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: min(1500px, 100%) !important;
+  height: var(--reader-top-h) !important;
+  min-height: 0 !important;
+  max-height: var(--reader-top-h) !important;
+  margin: 0 auto !important;
+  overflow: hidden !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-title {
+  display: block !important;
+  min-width: 0 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-hud {
+  display: none !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-topbar-select,
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-pdf-topbar .learn-back-btn {
+  height: 38px !important;
+  min-height: 38px !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-pdf-main {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 292px) !important;
+  gap: 10px !important;
+  width: min(1760px, 100%) !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 auto !important;
+  overflow: hidden !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-pdf-panel {
+  display: grid !important;
+  grid-template-rows: var(--reader-toolbar-h) minmax(0, 1fr) var(--reader-pill-h) var(--reader-coach-h) var(--reader-controls-h) !important;
+  gap: 5px !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  width: 100% !important;
+  height: var(--reader-toolbar-h) !important;
+  max-height: var(--reader-toolbar-h) !important;
+  min-height: 0 !important;
+  padding: 2px 4px !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scrollbar-width: none !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar::-webkit-scrollbar {
+  display: none !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar button,
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar span {
+  flex: 0 0 auto !important;
+  width: auto !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  max-height: 38px !important;
+  min-width: 38px !important;
+  max-width: none !important;
+  padding: 0 10px !important;
+  white-space: nowrap !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #study-pdf-crop-toggle,
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #study-pdf-focus-toggle {
+  min-width: 86px !important;
+  max-width: 168px !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-pdf-canvas-reader,
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-pdf-wrap {
+  min-height: 0 !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-pdf-spread {
+  height: 100% !important;
+  min-height: 0 !important;
+  padding: 4px !important;
+  overflow: hidden !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-reading-page-pill {
+  align-self: center !important;
+  justify-self: center !important;
+  min-height: 0 !important;
+  padding: 2px 10px !important;
+  font-size: 12px !important;
+  white-space: nowrap !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-vyvy-corner {
+  grid-row: 4 !important;
+  display: none !important;
+  position: static !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-controls {
+  grid-row: 5 !important;
+  position: static !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) minmax(0, 1fr) minmax(58px, 0.7fr) !important;
+  align-items: stretch !important;
+  gap: 6px !important;
+  width: 100% !important;
+  height: var(--reader-controls-h) !important;
+  min-height: 0 !important;
+  padding: 4px !important;
+  overflow: hidden !important;
+  background: rgba(255, 250, 242, 0.92) !important;
+  border: 1px solid var(--lf-border) !important;
+  border-radius: 16px !important;
+  z-index: 20 !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-controls button {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  min-height: 44px !important;
+  padding: 0 6px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  font-size: 13px !important;
+  line-height: 1 !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-controls button.hidden {
+  display: none !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-side-rail {
+  min-height: 0 !important;
+  overflow: auto !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation-panel {
+  left: auto !important;
+  right: max(14px, env(safe-area-inset-right, 0px)) !important;
+  bottom: calc(var(--reader-controls-h) + 24px + env(safe-area-inset-bottom, 0px)) !important;
+  width: min(430px, calc(100vw - 28px)) !important;
+  max-height: min(44vh, 320px) !important;
+  z-index: 120 !important;
+}
+
+@media (max-width: 1023px) {
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #learn-reading {
+    --reader-top-h: 88px !important;
+    --reader-toolbar-h: 46px !important;
+    --reader-coach-h: 46px !important;
+    --reader-controls-h: 58px !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-pdf-topbar {
+    grid-template-columns: minmax(82px, auto) minmax(0, 1fr) !important;
+    grid-template-rows: 40px 40px !important;
+    height: var(--reader-top-h) !important;
+    gap: 6px !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-pdf-topbar .learn-back-btn {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-title {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    white-space: normal !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    line-height: 1.1 !important;
+    font-size: 14px !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-subject-chip {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-lesson-chip {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-pdf-main {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-side-rail {
+    display: none !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-vyvy-corner {
+    display: grid !important;
+    grid-template-columns: 36px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 4px 10px !important;
+    border-radius: 14px !important;
+    background: rgba(255, 255, 255, 0.88) !important;
+    border: 1px solid var(--lf-border) !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-vyvy-img {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-vyvy-bubble {
+    min-width: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-size: 12px !important;
+  }
+}
+
+@media (max-width: 520px) {
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #learn-reading {
+    --reader-top-h: 94px !important;
+    --reader-toolbar-h: 44px !important;
+    --reader-coach-h: 44px !important;
+    --reader-controls-h: 58px !important;
+    gap: 5px !important;
+    padding: 6px 8px var(--lf-safe-bottom) !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar button,
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar span {
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+    min-width: 36px !important;
+    padding: 0 8px !important;
+    font-size: 12px !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-controls {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1fr) 58px !important;
+    gap: 4px !important;
+    padding: 4px !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-controls button {
+    font-size: 12px !important;
+  }
+}
+
+@media (max-width: 599px) {
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #learn-reading {
+    --reader-top-h: 48px !important;
+    --reader-toolbar-h: 40px !important;
+    --reader-pill-h: 0px !important;
+    --reader-coach-h: 0px !important;
+    --reader-controls-h: 58px !important;
+    gap: 4px !important;
+    padding: 6px 8px var(--lf-safe-bottom) !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-pdf-topbar {
+    grid-template-columns: minmax(88px, auto) minmax(0, 1fr) !important;
+    grid-template-rows: 1fr !important;
+    height: var(--reader-top-h) !important;
+    min-height: 0 !important;
+    max-height: var(--reader-top-h) !important;
+    gap: 8px !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-pdf-topbar .learn-back-btn {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-title {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    white-space: normal !important;
+    font-size: 14px !important;
+    line-height: 1.08 !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-subject-chip,
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-lesson-chip,
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #study-pdf-crop-toggle,
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #study-pdf-focus-toggle,
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-reading-page-pill,
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-vyvy-corner {
+    display: none !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-pdf-panel {
+    grid-template-rows: var(--reader-toolbar-h) minmax(0, 1fr) var(--reader-controls-h) !important;
+    gap: 4px !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar {
+    height: var(--reader-toolbar-h) !important;
+    min-height: 0 !important;
+    max-height: var(--reader-toolbar-h) !important;
+    padding: 2px !important;
+    overflow: hidden !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar button,
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar span {
+    width: auto !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+    min-width: 36px !important;
+    padding: 0 8px !important;
+    font-size: 12px !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-controls {
+    grid-row: 3 !important;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) minmax(52px, 0.68fr) !important;
+    gap: 4px !important;
+    height: var(--reader-controls-h) !important;
+    padding: 4px !important;
+    border-radius: 14px !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-controls:has(#reading-explanation-btn:not(.hidden)) {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(52px, 0.64fr) !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #learn-reading {
+    --reader-top-h: 42px !important;
+    --reader-toolbar-h: 38px !important;
+    --reader-pill-h: 0px !important;
+    --reader-coach-h: 0px !important;
+    --reader-controls-h: 46px !important;
+    gap: 5px !important;
+    padding: 5px 10px !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-pdf-topbar {
+    grid-template-columns: auto minmax(0, 1fr) minmax(120px, 160px) minmax(160px, 320px) !important;
+    grid-template-rows: 1fr !important;
+    height: var(--reader-top-h) !important;
+    min-height: 0 !important;
+    max-height: var(--reader-top-h) !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-title {
+    white-space: nowrap !important;
+    display: block !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-reading-page-pill,
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-vyvy-corner {
+    display: none !important;
+  }
+}
+
+/* Games shell */
+#app.layout-v1[data-shell="games"] #games-view,
+#app.layout-v1[data-shell="games"] #games-view-content {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+#app.layout-v1[data-shell="games"] #games-panel.feature-panel {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  width: 100% !important;
+  max-width: none !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: var(--lf-safe-top) var(--lf-safe-left) var(--lf-safe-bottom) var(--lf-safe-right) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, #fff4e8 0%, #ffe2d2 100%) !important;
+  overflow: hidden !important;
+}
+
+#app.layout-v1[data-shell="games"] #games-panel .panel-header {
+  width: min(900px, 100%) !important;
+  min-height: 56px !important;
+  margin: 0 auto 10px !important;
+  padding: 0 !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  background: transparent !important;
+  color: var(--lf-text) !important;
+}
+
+#app.layout-v1[data-shell="games"] #games-panel .panel-header h2 {
+  color: var(--lf-text) !important;
+  text-shadow: none !important;
+}
+
+#app.layout-v1[data-shell="games"] #games-menu {
+  width: min(900px, 100%) !important;
+  height: auto !important;
+  max-height: 100% !important;
+  min-height: 0 !important;
+  align-self: start !important;
+  margin: 0 auto !important;
+  padding: 10px !important;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+  grid-auto-rows: minmax(118px, 148px) !important;
+  align-content: start !important;
+  gap: 12px !important;
+  overflow: auto !important;
+  background: var(--lf-surface) !important;
+  border: 1px solid var(--lf-border) !important;
+  border-radius: var(--lf-radius) !important;
+  box-shadow: var(--lf-shadow) !important;
+}
+
+#app.layout-v1[data-shell="games"] .game-card {
+  min-height: 0 !important;
+  height: 100% !important;
+  padding: 14px 10px !important;
+  border-radius: 16px !important;
+}
+
+#app.layout-v1[data-shell="games"] .game-icon {
+  font-size: 34px !important;
+  line-height: 1 !important;
+}
+
+#app.layout-v1[data-shell="games"] .game-name {
+  font-size: 16px !important;
+  line-height: 1.15 !important;
+}
+
+#app.layout-v1[data-shell="games"] .game-desc {
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+}
+
+#app.layout-v1[data-shell="games"] #game-area:not(.hidden) {
+  width: min(900px, 100%) !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 auto !important;
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) auto !important;
+  gap: 10px !important;
+  overflow: hidden !important;
+}
+
+#app.layout-v1[data-shell="games"] .game-canvas {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
+@media (max-width: 520px) {
+  #app.layout-v1[data-shell="games"] #games-panel.feature-panel {
+    padding: var(--lf-safe-top) 10px var(--lf-safe-bottom) !important;
+  }
+
+  #app.layout-v1[data-shell="games"] #games-menu {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: minmax(112px, 124px) !important;
+    gap: 10px !important;
+  }
+
+  #app.layout-v1[data-shell="games"] .game-card {
+    min-height: 0 !important;
+  }
+}

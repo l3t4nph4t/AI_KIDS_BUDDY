@@ -1119,7 +1119,7 @@ async def serve_index():
 _ROOT_ASSETS = [
     "style.css", "script.js", "manifest.json", "sw.js",
     "favicon.ico", "robots.txt", "content.js",
-    "theme.css", "decor.js", "vyvy-ui.css",
+    "theme.css", "decor.js", "vyvy-ui.css", "layout-foundation.css",
 ]
 
 for _asset in _ROOT_ASSETS:
