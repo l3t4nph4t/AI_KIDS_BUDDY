@@ -1689,17 +1689,19 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   }
 }
 
-/* Home Layout Rebuild V1
-   Scene-first Home shell. This replaces the old mission/card carousel presentation. */
+/* Home Background-First Layout V2
+   P0 background art direction, P1 floor-anchored VyVy, P2 compact controls. */
 #app.layout-v1.home-state {
   --home-shell-pad-x: clamp(14px, 4vw, 72px);
   --home-shell-pad-y: max(10px, env(safe-area-inset-top, 0px));
   --home-dock-gap: clamp(8px, 1.2vw, 16px);
-  --home-dock-h: clamp(164px, 22dvh, 210px);
-  --home-action-w: min(390px, calc(100vw - 32px));
+  --home-dock-h: clamp(150px, 19dvh, 184px);
+  --home-vyvy-foot-gap: clamp(26px, 4dvh, 42px);
+  --home-action-w: min(380px, calc(100vw - 32px));
   background-image: url("/static/assets/bg_home_clean.webp") !important;
   background-size: cover !important;
-  background-position: center top !important;
+  background-position: 50% 0% !important;
+  background-repeat: no-repeat !important;
   overflow: hidden !important;
 }
 
@@ -1802,11 +1804,11 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
 
 #app.layout-v1.home-state #vyvy-avatar {
   position: absolute !important;
-  left: clamp(48px, 12vw, 260px) !important;
+  left: clamp(56px, 11vw, 220px) !important;
   top: auto !important;
-  bottom: calc(var(--home-dock-h) + 34px) !important;
-  width: clamp(158px, 16vw, 235px) !important;
-  height: clamp(238px, 24vw, 352px) !important;
+  bottom: calc(var(--home-dock-h) + var(--home-vyvy-foot-gap)) !important;
+  width: clamp(170px, 15vw, 230px) !important;
+  height: clamp(255px, 23vw, 345px) !important;
   max-width: none !important;
   max-height: none !important;
   z-index: 3 !important;
@@ -1831,8 +1833,8 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
 
 #app.layout-v1.home-state .home-primary-action {
   position: absolute !important;
-  left: clamp(280px, 35vw, 650px) !important;
-  top: clamp(132px, 17dvh, 220px) !important;
+  left: clamp(320px, 37vw, 660px) !important;
+  top: clamp(118px, 15dvh, 190px) !important;
   width: var(--home-action-w) !important;
   max-width: var(--home-action-w) !important;
   min-height: 0 !important;
@@ -1842,11 +1844,11 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   gap: 14px !important;
   padding: 18px !important;
   border-radius: 22px !important;
-  background: rgba(255, 249, 239, 0.90) !important;
+  background: rgba(255, 249, 239, 0.86) !important;
   border: 1px solid rgba(116, 74, 45, 0.14) !important;
   box-shadow: 0 18px 36px rgba(101, 57, 31, 0.16) !important;
   color: #573629 !important;
-  backdrop-filter: blur(12px) saturate(1.12) !important;
+  backdrop-filter: blur(8px) saturate(1.08) !important;
   z-index: 20 !important;
   overflow: hidden !important;
 }
@@ -1963,16 +1965,16 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   height: 100% !important;
   min-width: 0 !important;
   min-height: 72px !important;
-  padding: 10px 10px 12px !important;
-  border-radius: 20px !important;
-  background: rgba(255, 249, 239, 0.84) !important;
-  border: 1px solid rgba(116, 74, 45, 0.14) !important;
-  box-shadow: 0 14px 28px rgba(101, 57, 31, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.82) !important;
+  padding: 8px 8px 10px !important;
+  border-radius: 18px !important;
+  background: rgba(255, 249, 239, 0.30) !important;
+  border: 1px solid rgba(116, 74, 45, 0.06) !important;
+  box-shadow: none !important;
   transform: none !important;
   filter: none !important;
-  overflow: hidden !important;
+  overflow: visible !important;
   pointer-events: auto !important;
-  backdrop-filter: blur(10px) !important;
+  backdrop-filter: none !important;
 }
 
 #app.layout-v1.home-state #room-carousel.home-dock-grid .room-card,
@@ -1996,8 +1998,9 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
 }
 
 #app.layout-v1.home-state .home-dock-grid .room-card.is-active {
-  border-color: rgba(255, 111, 140, 0.42) !important;
-  box-shadow: 0 18px 30px rgba(101, 57, 31, 0.18), 0 0 0 3px rgba(255, 111, 140, 0.16) !important;
+  border-color: rgba(255, 111, 140, 0.22) !important;
+  background: rgba(255, 249, 239, 0.46) !important;
+  box-shadow: 0 0 0 2px rgba(255, 111, 140, 0.12) !important;
 }
 
 #app.layout-v1.home-state .home-dock-grid .room-card img {
@@ -2017,16 +2020,16 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   display: block !important;
   width: 100% !important;
   min-height: 26px !important;
-  padding: 6px 8px !important;
-  border-radius: 999px !important;
-  background: rgba(255, 255, 255, 0.70) !important;
+  padding: 2px 4px !important;
+  border-radius: 0 !important;
+  background: transparent !important;
   color: #573629 !important;
-  border: 1px solid rgba(116, 74, 45, 0.10) !important;
+  border: 0 !important;
   font-size: 13px !important;
   font-weight: 900 !important;
   line-height: 1.05 !important;
   text-align: center !important;
-  text-shadow: none !important;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.70) !important;
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
@@ -2039,9 +2042,12 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
 @media (max-width: 599px) {
   #app.layout-v1.home-state {
     --home-shell-pad-x: 14px;
-    --home-dock-h: 184px;
+    --home-dock-h: 176px;
+    --home-vyvy-foot-gap: clamp(44px, 7dvh, 66px);
     --home-action-w: calc(100vw - 166px);
-    background-position: 52% top !important;
+    background-image: url("/static/assets/bg_home_clean.webp") !important;
+    background-size: cover !important;
+    background-position: 50% 0% !important;
   }
 
   #app.layout-v1.home-state .header {
@@ -2080,16 +2086,16 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   }
 
   #app.layout-v1.home-state #vyvy-avatar {
-    left: 18px !important;
+    left: 20px !important;
     top: auto !important;
-    bottom: calc(var(--home-dock-h) + 66px) !important;
-    width: clamp(128px, 35vw, 152px) !important;
-    height: clamp(198px, 52vw, 236px) !important;
+    bottom: calc(var(--home-dock-h) + var(--home-vyvy-foot-gap)) !important;
+    width: clamp(132px, 36vw, 158px) !important;
+    height: clamp(198px, 54vw, 237px) !important;
   }
 
   #app.layout-v1.home-state .home-primary-action {
     left: 150px !important;
-    top: clamp(152px, 19dvh, 188px) !important;
+    top: clamp(138px, 17dvh, 172px) !important;
     width: calc(100vw - 164px) !important;
     padding: 12px !important;
     gap: 10px !important;
@@ -2153,12 +2159,24 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
 
 @media (min-width: 600px) and (max-width: 899px) {
   #app.layout-v1.home-state {
-    --home-dock-h: 214px;
+    --home-dock-h: 204px;
+    --home-vyvy-foot-gap: 24px;
+    background-image: url("/static/assets/bg_home_clean_tablet.webp") !important;
+    background-size: cover !important;
+    background-position: 50% 0% !important;
+  }
+
+  #app.layout-v1.home-state #vyvy-avatar {
+    left: clamp(56px, 9vw, 92px) !important;
+    bottom: calc(var(--home-dock-h) + var(--home-vyvy-foot-gap)) !important;
+    width: clamp(160px, 21vw, 190px) !important;
+    height: clamp(240px, 31vw, 286px) !important;
   }
 
   #app.layout-v1.home-state .home-primary-action {
-    left: clamp(245px, 34vw, 330px) !important;
-    width: min(400px, calc(100vw - clamp(245px, 34vw, 330px) - 24px)) !important;
+    left: clamp(270px, 36vw, 340px) !important;
+    top: clamp(128px, 15dvh, 164px) !important;
+    width: min(390px, calc(100vw - clamp(270px, 36vw, 340px) - 24px)) !important;
   }
 
   #app.layout-v1.home-state .home-dock-grid {
@@ -2172,28 +2190,59 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   }
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 900px) and (max-width: 1439px) {
   #app.layout-v1.home-state {
-    --home-dock-h: clamp(168px, 17dvh, 196px);
+    --home-dock-h: clamp(138px, 18dvh, 164px);
+    --home-vyvy-foot-gap: clamp(16px, 2.6dvh, 26px);
+    background-image: url("/static/assets/bg_home_clean_desktop.webp") !important;
+    background-size: cover !important;
+    background-position: 50% 0% !important;
   }
 
   #app.layout-v1.home-state #vyvy-avatar {
-    left: clamp(120px, 13vw, 330px) !important;
-    top: auto !important;
-    bottom: calc(var(--home-dock-h) + 42px) !important;
-    width: clamp(190px, 15vw, 270px) !important;
-    height: clamp(286px, 22vw, 405px) !important;
+    left: clamp(72px, 10vw, 150px) !important;
+    bottom: calc(var(--home-dock-h) + var(--home-vyvy-foot-gap)) !important;
+    width: clamp(182px, 15vw, 220px) !important;
+    height: clamp(273px, 22.5vw, 330px) !important;
   }
 
   #app.layout-v1.home-state .home-primary-action {
-    left: clamp(520px, 34vw, 740px) !important;
+    left: clamp(360px, 36vw, 560px) !important;
+    top: clamp(94px, 13dvh, 142px) !important;
+    width: min(380px, calc(100vw - clamp(360px, 36vw, 560px) - 32px)) !important;
+  }
+}
+
+@media (min-width: 1440px) {
+  #app.layout-v1.home-state {
+    --home-dock-h: clamp(148px, 16dvh, 186px);
+    --home-vyvy-foot-gap: clamp(28px, 3.5dvh, 46px);
+    background-image: url("/static/assets/bg_home_clean_desktop.webp") !important;
+    background-size: cover !important;
+    background-position: 50% 0% !important;
+  }
+
+  #app.layout-v1.home-state #vyvy-avatar {
+    left: clamp(150px, 13vw, 300px) !important;
+    top: auto !important;
+    bottom: calc(var(--home-dock-h) + var(--home-vyvy-foot-gap)) !important;
+    width: clamp(220px, 14vw, 278px) !important;
+    height: clamp(330px, 21vw, 417px) !important;
+  }
+
+  #app.layout-v1.home-state .home-primary-action {
+    left: clamp(560px, 36vw, 780px) !important;
+    top: clamp(116px, 14dvh, 170px) !important;
   }
 }
 
 @media (min-width: 1920px) {
   #app.layout-v1.home-state {
-    --home-dock-h: 158px;
+    --home-dock-h: 160px;
+    --home-vyvy-foot-gap: 42px;
     --home-shell-pad-x: 88px;
+    background-size: cover !important;
+    background-position: 50% 0% !important;
   }
 
   #app.layout-v1.home-state .home-dock-grid .room-card img {
@@ -2204,8 +2253,11 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
 @media (orientation: landscape) and (max-height: 560px) {
   #app.layout-v1.home-state {
     --home-dock-h: clamp(104px, 28dvh, 128px);
+    --home-vyvy-foot-gap: clamp(10px, 3dvh, 18px);
     --home-shell-pad-x: max(12px, env(safe-area-inset-left, 0px));
-    background-position: center 34% !important;
+    background-image: url("/static/assets/bg_home_clean_desktop.webp") !important;
+    background-size: cover !important;
+    background-position: 50% 34% !important;
   }
 
   #app.layout-v1.home-state .header-left,
@@ -2234,11 +2286,11 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   }
 
   #app.layout-v1.home-state #vyvy-avatar {
-    left: clamp(42px, 11vw, 110px) !important;
+    left: clamp(38px, 10vw, 96px) !important;
     top: auto !important;
-    bottom: calc(var(--home-dock-h) + 18px) !important;
-    width: clamp(92px, 16vw, 138px) !important;
-    height: clamp(138px, 24vw, 206px) !important;
+    bottom: calc(var(--home-dock-h) + var(--home-vyvy-foot-gap)) !important;
+    width: clamp(96px, 15vw, 132px) !important;
+    height: clamp(144px, 22vw, 198px) !important;
   }
 
   #app.layout-v1.home-state .home-primary-action {
