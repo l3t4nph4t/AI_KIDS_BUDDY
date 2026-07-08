@@ -1807,8 +1807,8 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   left: clamp(56px, 11vw, 220px) !important;
   top: auto !important;
   bottom: calc(var(--home-dock-h) + var(--home-vyvy-foot-gap)) !important;
-  width: clamp(170px, 15vw, 230px) !important;
-  height: clamp(255px, 23vw, 345px) !important;
+  width: clamp(182px, 16vw, 250px) !important;
+  height: clamp(273px, 24vw, 375px) !important;
   max-width: none !important;
   max-height: none !important;
   z-index: 3 !important;
@@ -2089,8 +2089,8 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
     left: 20px !important;
     top: auto !important;
     bottom: calc(var(--home-dock-h) + var(--home-vyvy-foot-gap)) !important;
-    width: clamp(132px, 36vw, 158px) !important;
-    height: clamp(198px, 54vw, 237px) !important;
+    width: clamp(150px, 41vw, 173px) !important;
+    height: clamp(226px, 62vw, 260px) !important;
   }
 
   #app.layout-v1.home-state .home-primary-action {
@@ -2169,8 +2169,8 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   #app.layout-v1.home-state #vyvy-avatar {
     left: clamp(56px, 9vw, 92px) !important;
     bottom: calc(var(--home-dock-h) + var(--home-vyvy-foot-gap)) !important;
-    width: clamp(160px, 21vw, 190px) !important;
-    height: clamp(240px, 31vw, 286px) !important;
+    width: clamp(176px, 24vw, 210px) !important;
+    height: clamp(264px, 36vw, 315px) !important;
   }
 
   #app.layout-v1.home-state .home-primary-action {
@@ -2202,8 +2202,8 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   #app.layout-v1.home-state #vyvy-avatar {
     left: clamp(72px, 10vw, 150px) !important;
     bottom: calc(var(--home-dock-h) + var(--home-vyvy-foot-gap)) !important;
-    width: clamp(182px, 15vw, 220px) !important;
-    height: clamp(273px, 22.5vw, 330px) !important;
+    width: clamp(205px, 16vw, 245px) !important;
+    height: clamp(308px, 24vw, 368px) !important;
   }
 
   #app.layout-v1.home-state .home-primary-action {
@@ -2226,8 +2226,8 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
     left: clamp(150px, 13vw, 300px) !important;
     top: auto !important;
     bottom: calc(var(--home-dock-h) + var(--home-vyvy-foot-gap)) !important;
-    width: clamp(220px, 14vw, 278px) !important;
-    height: clamp(330px, 21vw, 417px) !important;
+    width: clamp(240px, 16vw, 314px) !important;
+    height: clamp(360px, 24vw, 470px) !important;
   }
 
   #app.layout-v1.home-state .home-primary-action {
@@ -2289,8 +2289,8 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
     left: clamp(38px, 10vw, 96px) !important;
     top: auto !important;
     bottom: calc(var(--home-dock-h) + var(--home-vyvy-foot-gap)) !important;
-    width: clamp(96px, 15vw, 132px) !important;
-    height: clamp(144px, 22vw, 198px) !important;
+    width: clamp(104px, 15vw, 140px) !important;
+    height: clamp(156px, 22vw, 210px) !important;
   }
 
   #app.layout-v1.home-state .home-primary-action {
