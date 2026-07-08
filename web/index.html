@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="style.css?v=20">
     <link rel="stylesheet" href="theme.css?v=1">
     <link rel="stylesheet" href="vyvy-ui.css?v=1">
-    <link rel="stylesheet" href="layout-foundation.css?v=4">
+    <link rel="stylesheet" href="layout-foundation.css?v=5">
     <style id="ui-bugfix-overrides">
         #parent-panel.parent-panel {
             position: fixed !important;
@@ -114,9 +114,10 @@
         </header>
 
         <!-- Home Content -->
-        <div class="home-content">
+        <div class="home-content home-scene-shell">
         <!-- Avatar Area (compact) -->
-        <div class="avatar-area">
+        <section class="home-scene-layer" aria-label="Phòng học của VyVy">
+        <div class="avatar-area home-vyvy-stage">
             <div id="vyvy-avatar" class="vyvy-avatar idle">
                 <img class="vyvy-home-img" src="/static/assets/vyvy/vyvy_idle.webp" alt="VyVy">
                 <div id="vyvy-particles" class="vyvy-particles"></div>
@@ -129,7 +130,7 @@
                 <span class="home-talk-text">Nói với VyVy</span>
             </button>
             <!-- Star Balance & Avatar Shop Button -->
-            <div class="star-balance-bar">
+            <div class="star-balance-bar home-status-hud">
                 <div class="star-balance home-hud-chip" id="star-balance" aria-label="Sao hiện có">
                     <span class="star-icon">⭐</span>
                     <span class="star-count" id="star-count">0</span>
@@ -148,44 +149,23 @@
             </div>
         </div>
 
-        <!-- VyVy Bubble CTA -->
-        <div class="mission-cta" id="mission-cta">
+        </section>
+
+        <!-- Home primary action -->
+        <section class="home-primary-action mission-cta" id="mission-cta" aria-label="Học cùng VyVy">
             <div class="mission-cta-body">
                 <div class="mission-heading">VyVy học cùng bạn 1 bài nhé?</div>
-                <div class="mission-subtitle">Hôm nay mình còn 1 bài nữa là mở được quà.</div>
-                <div class="mission-progress-row">
-                    <div class="mission-progress-track" aria-hidden="true">
-                        <span class="mission-progress-fill" style="width:50%"></span>
-                    </div>
-                    <span class="mission-progress-count">1/2</span>
-                </div>
-                <div class="mission-loop-row" aria-label="Vòng thưởng học tập">
-                    <span class="mission-loop-step">📚 Học bài</span>
-                    <span class="mission-loop-arrow">→</span>
-                    <span class="mission-loop-step">⭐ + Sao</span>
-                    <span class="mission-loop-arrow">→</span>
-                    <span class="mission-loop-step">🏠 Đổi decor</span>
-                </div>
+                <div class="mission-subtitle">Hôm nay mình học gọn một bài, nhận sao rồi mở quà.</div>
             </div>
             <div class="mission-action-stack">
                 <button class="mission-start-btn" id="mission-begin-btn" type="button">Học cùng VyVy</button>
                 <button class="mission-side-btn" id="home-bubble-chat-btn" type="button">Kể VyVy nghe</button>
-                <button class="mission-later-btn" id="home-bubble-later-btn" type="button">Lát nữa chơi tiếp</button>
             </div>
-        </div>
+        </section>
 
-        <!-- Room object hotspots -->
-        <div class="home-hotspots" aria-label="Lối vào trong phòng học">
-            <button class="home-hotspot hotspot-reward" type="button" data-home-hotspot="rewards">⭐ Rương sao</button>
-        </div>
-
-        <!-- Room Carousel -->
-        <div class="room-carousel-wrap">
-            <div class="room-carousel-head">
-                <span class="room-carousel-title">Khám phá phòng của VyVy</span>
-                <span class="room-carousel-sub">Chọn góc học, đọc sách, sáng tạo, nghe nhạc hoặc chơi nhẹ.</span>
-            </div>
-            <div class="room-carousel" id="room-carousel" role="list" aria-label="Chọn phòng">
+        <!-- Home dock -->
+        <nav class="home-dock room-carousel-wrap" aria-label="Lối vào trong phòng học">
+            <div class="room-carousel home-dock-grid" id="room-carousel" role="list" aria-label="Chọn phòng">
                 <button class="room-card is-active" type="button"
                         data-room-id="learn"
                         aria-label="Bài hôm nay" aria-pressed="true">
@@ -234,7 +214,7 @@
                 <div id="room-carousel-dots" class="room-carousel-dots" aria-hidden="true"></div>
                 <button id="room-next-btn" class="room-carousel-arrow" type="button" aria-label="Phòng sau">›</button>
             </div>
-        </div>
+        </nav>
 
         <!-- Chat Area -->
         <div id="chat-area" class="chat-area" aria-label="Trò chuyện với VyVy">

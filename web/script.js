@@ -6180,6 +6180,7 @@
     var nextRoom = getNextRoomId(activeRoom);
     var prevRoom = getPrevRoomId(activeRoom);
     var activeCard = null;
+    var isDockLayout = carousel.classList.contains('home-dock-grid');
 
     carousel.querySelectorAll('.room-card').forEach(function(card) {
       var roomId = card.dataset.roomId;
@@ -6190,7 +6191,7 @@
       card.classList.toggle('is-next', isNext);
       card.classList.toggle('is-prev', isPrev);
       card.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-      var isKeyboardReachable = isActive || isNext || isPrev;
+      var isKeyboardReachable = isDockLayout || isActive || isNext || isPrev;
       card.tabIndex = isKeyboardReachable ? 0 : -1;
       card.setAttribute('aria-hidden', isKeyboardReachable ? 'false' : 'true');
       if (isActive) activeCard = card;
