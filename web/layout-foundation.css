@@ -1803,7 +1803,8 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
 #app.layout-v1.home-state #vyvy-avatar {
   position: absolute !important;
   left: clamp(48px, 12vw, 260px) !important;
-  top: clamp(108px, 16dvh, 190px) !important;
+  top: auto !important;
+  bottom: calc(var(--home-dock-h) + 34px) !important;
   width: clamp(158px, 16vw, 235px) !important;
   height: clamp(238px, 24vw, 352px) !important;
   max-width: none !important;
@@ -1986,6 +1987,14 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   scroll-snap-align: none !important;
 }
 
+#app.layout-v1.home-state #room-carousel.home-dock-grid .room-card img {
+  width: min(100%, 142px) !important;
+  height: clamp(76px, 8dvh, 94px) !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  aspect-ratio: auto !important;
+}
+
 #app.layout-v1.home-state .home-dock-grid .room-card.is-active {
   border-color: rgba(255, 111, 140, 0.42) !important;
   box-shadow: 0 18px 30px rgba(101, 57, 31, 0.18), 0 0 0 3px rgba(255, 111, 140, 0.16) !important;
@@ -2072,7 +2081,8 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
 
   #app.layout-v1.home-state #vyvy-avatar {
     left: 18px !important;
-    top: clamp(142px, 20dvh, 188px) !important;
+    top: auto !important;
+    bottom: calc(var(--home-dock-h) + 66px) !important;
     width: clamp(128px, 35vw, 152px) !important;
     height: clamp(198px, 52vw, 236px) !important;
   }
@@ -2128,9 +2138,10 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
     border-radius: 15px !important;
   }
 
-  #app.layout-v1.home-state .home-dock-grid .room-card img {
-    width: min(100%, 82px) !important;
-    max-height: calc(100% - 26px) !important;
+  #app.layout-v1.home-state #room-carousel.home-dock-grid .room-card img {
+    width: min(100%, 96px) !important;
+    height: 48px !important;
+    max-height: none !important;
   }
 
   #app.layout-v1.home-state .home-dock-grid .room-card-label {
@@ -2168,6 +2179,8 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
 
   #app.layout-v1.home-state #vyvy-avatar {
     left: clamp(120px, 13vw, 330px) !important;
+    top: auto !important;
+    bottom: calc(var(--home-dock-h) + 42px) !important;
     width: clamp(190px, 15vw, 270px) !important;
     height: clamp(286px, 22vw, 405px) !important;
   }
@@ -2222,7 +2235,8 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
 
   #app.layout-v1.home-state #vyvy-avatar {
     left: clamp(42px, 11vw, 110px) !important;
-    top: clamp(58px, 14dvh, 86px) !important;
+    top: auto !important;
+    bottom: calc(var(--home-dock-h) + 18px) !important;
     width: clamp(92px, 16vw, 138px) !important;
     height: clamp(138px, 24vw, 206px) !important;
   }
@@ -2273,9 +2287,10 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
     border-radius: 14px !important;
   }
 
-  #app.layout-v1.home-state .home-dock-grid .room-card img {
-    width: min(100%, 72px) !important;
-    max-height: calc(100% - 22px) !important;
+  #app.layout-v1.home-state #room-carousel.home-dock-grid .room-card img {
+    width: min(100%, 88px) !important;
+    height: 50px !important;
+    max-height: none !important;
   }
 
   #app.layout-v1.home-state .home-dock-grid .room-card-label {
