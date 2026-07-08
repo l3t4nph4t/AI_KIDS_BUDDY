@@ -226,7 +226,7 @@ body[data-shell] {
 
 #app.layout-v1.home-state .mission-later-btn {
   flex-basis: 100% !important;
-  min-height: 34px !important;
+  min-height: 44px !important;
 }
 
 #app.layout-v1.home-state .room-carousel-wrap {
@@ -650,6 +650,8 @@ body[data-shell] {
 #app.layout-v1[data-shell="learning"] #learn-lesson-list {
   min-height: 0 !important;
   height: 100% !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
 }
 
 #app.layout-v1[data-shell="learning"] #learn-lesson-list:not(.hidden) {
@@ -678,6 +680,8 @@ body[data-shell] {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) minmax(220px, 300px) !important;
   gap: 16px !important;
+  height: 100% !important;
+  max-height: 100% !important;
   min-height: 0 !important;
   overflow: hidden !important;
 }
@@ -686,17 +690,20 @@ body[data-shell] {
   display: grid !important;
   grid-template-rows: auto minmax(0, 1fr) !important;
   gap: 8px !important;
+  height: 100% !important;
+  max-height: 100% !important;
   min-height: 0 !important;
   overflow: hidden !important;
 }
 
 #app.layout-v1[data-shell="learning"] #lesson-list-content {
-  height: 100% !important;
-  max-height: none !important;
+  height: auto !important;
+  max-height: 100% !important;
   min-height: 0 !important;
   overflow-x: hidden !important;
   overflow-y: auto !important;
   padding-right: 6px !important;
+  padding-bottom: 14px !important;
   scroll-padding-bottom: 88px !important;
 }
 
@@ -822,8 +829,8 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #learn-reading {
 }
 
 body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #learn-reading {
-  --reader-top-h: 50px !important;
-  --reader-toolbar-h: 46px !important;
+  --reader-top-h: 58px !important;
+  --reader-toolbar-h: 52px !important;
   --reader-pill-h: 24px !important;
   --reader-coach-h: 0px !important;
   --reader-controls-h: 58px !important;
@@ -852,12 +859,31 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-pdf-topbar 
   overflow: hidden !important;
 }
 
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-pdf-topbar .learn-back-btn {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+}
+
 body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-title {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
   display: block !important;
   min-width: 0 !important;
+  align-self: center !important;
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
+  line-height: 1.15 !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-subject-chip {
+  grid-column: 3 !important;
+  grid-row: 1 !important;
+}
+
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-lesson-chip {
+  grid-column: 4 !important;
+  grid-row: 1 !important;
 }
 
 body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-hud {
@@ -866,8 +892,8 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-hud {
 
 body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-topbar-select,
 body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-pdf-topbar .learn-back-btn {
-  height: 38px !important;
-  min-height: 38px !important;
+  height: 44px !important;
+  min-height: 44px !important;
 }
 
 body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-pdf-main {
@@ -914,10 +940,10 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar b
 body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar span {
   flex: 0 0 auto !important;
   width: auto !important;
-  height: 38px !important;
-  min-height: 38px !important;
-  max-height: 38px !important;
-  min-width: 38px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  max-height: 44px !important;
+  min-width: 44px !important;
   max-width: none !important;
   padding: 0 10px !important;
   white-space: nowrap !important;
@@ -996,6 +1022,13 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-controls bu
   display: none !important;
 }
 
+body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-nav .reading-nav-btn:not(.hidden) {
+  min-height: 44px !important;
+  height: auto !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
 body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-side-rail {
   min-height: 0 !important;
   overflow: auto !important;
@@ -1012,8 +1045,8 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
 
 @media (max-width: 1023px) {
   body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #learn-reading {
-    --reader-top-h: 88px !important;
-    --reader-toolbar-h: 46px !important;
+    --reader-top-h: 96px !important;
+    --reader-toolbar-h: 52px !important;
     --reader-coach-h: 46px !important;
     --reader-controls-h: 58px !important;
   }
@@ -1087,7 +1120,7 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
 @media (max-width: 520px) {
   body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #learn-reading {
     --reader-top-h: 94px !important;
-    --reader-toolbar-h: 44px !important;
+    --reader-toolbar-h: 48px !important;
     --reader-coach-h: 44px !important;
     --reader-controls-h: 58px !important;
     gap: 5px !important;
@@ -1096,10 +1129,10 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
 
   body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar button,
   body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar span {
-    height: 36px !important;
-    min-height: 36px !important;
-    max-height: 36px !important;
-    min-width: 36px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
+    min-width: 44px !important;
     padding: 0 8px !important;
     font-size: 12px !important;
   }
@@ -1117,8 +1150,8 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
 
 @media (max-width: 599px) {
   body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #learn-reading {
-    --reader-top-h: 48px !important;
-    --reader-toolbar-h: 40px !important;
+    --reader-top-h: 52px !important;
+    --reader-toolbar-h: 48px !important;
     --reader-pill-h: 0px !important;
     --reader-coach-h: 0px !important;
     --reader-controls-h: 58px !important;
@@ -1176,10 +1209,10 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar button,
   body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar span {
     width: auto !important;
-    height: 36px !important;
-    min-height: 36px !important;
-    max-height: 36px !important;
-    min-width: 36px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
+    min-width: 44px !important;
     padding: 0 8px !important;
     font-size: 12px !important;
   }
@@ -1200,11 +1233,11 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
 
 @media (orientation: landscape) and (max-height: 560px) {
   body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #learn-reading {
-    --reader-top-h: 42px !important;
-    --reader-toolbar-h: 38px !important;
+    --reader-top-h: 46px !important;
+    --reader-toolbar-h: 46px !important;
     --reader-pill-h: 0px !important;
     --reader-coach-h: 0px !important;
-    --reader-controls-h: 46px !important;
+    --reader-controls-h: 52px !important;
     gap: 5px !important;
     padding: 5px 10px !important;
   }
@@ -1220,6 +1253,10 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .reading-title {
     white-space: nowrap !important;
     display: block !important;
+  }
+
+  body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-controls button {
+    min-height: 44px !important;
   }
 
   body.reading-pdf-mode #app.layout-v1[data-shell="learning"] .study-reading-page-pill,
