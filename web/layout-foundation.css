@@ -1740,10 +1740,10 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   max-width: min(210px, 46vw) !important;
   padding: 8px 14px !important;
   border-radius: 18px !important;
-  background: rgba(255, 249, 239, 0.86) !important;
-  border: 1px solid rgba(116, 74, 45, 0.14) !important;
-  box-shadow: 0 12px 26px rgba(101, 57, 31, 0.14) !important;
-  backdrop-filter: blur(10px) !important;
+  background: rgba(255, 249, 239, 0.78) !important;
+  border: 1px solid rgba(116, 74, 45, 0.10) !important;
+  box-shadow: 0 10px 22px rgba(101, 57, 31, 0.10) !important;
+  backdrop-filter: blur(8px) !important;
 }
 
 #app.layout-v1.home-state #parent-settings-btn {
@@ -1772,10 +1772,10 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   align-items: center !important;
   gap: 6px !important;
   border-radius: 18px !important;
-  background: rgba(255, 249, 239, 0.88) !important;
-  border: 1px solid rgba(116, 74, 45, 0.14) !important;
-  box-shadow: 0 12px 26px rgba(101, 57, 31, 0.14) !important;
-  backdrop-filter: blur(10px) !important;
+  background: rgba(255, 249, 239, 0.70) !important;
+  border: 1px solid rgba(116, 74, 45, 0.09) !important;
+  box-shadow: 0 10px 22px rgba(101, 57, 31, 0.10) !important;
+  backdrop-filter: blur(8px) !important;
   z-index: 43 !important;
   overflow: hidden !important;
   pointer-events: auto !important;
@@ -1790,7 +1790,7 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   font-size: 12px !important;
   line-height: 1 !important;
   background: rgba(255, 255, 255, 0.62) !important;
-  border: 1px solid rgba(116, 74, 45, 0.10) !important;
+  border: 1px solid rgba(116, 74, 45, 0.08) !important;
   color: #5b3829 !important;
   box-shadow: none !important;
 }
@@ -1844,9 +1844,9 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   gap: 14px !important;
   padding: 18px !important;
   border-radius: 22px !important;
-  background: rgba(255, 249, 239, 0.86) !important;
-  border: 1px solid rgba(116, 74, 45, 0.14) !important;
-  box-shadow: 0 18px 36px rgba(101, 57, 31, 0.16) !important;
+  background: rgba(255, 249, 239, 0.82) !important;
+  border: 1px solid rgba(116, 74, 45, 0.12) !important;
+  box-shadow: 0 14px 28px rgba(101, 57, 31, 0.13) !important;
   color: #573629 !important;
   backdrop-filter: blur(8px) saturate(1.08) !important;
   z-index: 20 !important;
@@ -1888,7 +1888,7 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   height: 56px !important;
   min-height: 56px !important;
   padding: 0 14px !important;
-  border-radius: 16px !important;
+  border-radius: 18px !important;
   border: 0 !important;
   color: #ffffff !important;
   font-size: 15px !important;
@@ -1902,12 +1902,12 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
 
 #app.layout-v1.home-state .home-primary-action .mission-start-btn {
   background: linear-gradient(180deg, #ff87a0 0%, #ee4f78 100%) !important;
-  box-shadow: 0 8px 0 #bd3156, 0 14px 22px rgba(208, 62, 100, 0.24) !important;
+  box-shadow: 0 5px 0 #bd4260, 0 12px 20px rgba(208, 62, 100, 0.18) !important;
 }
 
 #app.layout-v1.home-state .home-primary-action .mission-side-btn {
   background: linear-gradient(180deg, #6bd6a4 0%, #38a775 100%) !important;
-  box-shadow: 0 8px 0 #257f59, 0 14px 22px rgba(44, 140, 97, 0.20) !important;
+  box-shadow: 0 5px 0 #267d59, 0 12px 20px rgba(44, 140, 97, 0.16) !important;
 }
 
 #app.layout-v1.home-state .home-dock {
@@ -1967,8 +1967,8 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   min-height: 72px !important;
   padding: 8px 8px 10px !important;
   border-radius: 18px !important;
-  background: rgba(255, 249, 239, 0.30) !important;
-  border: 1px solid rgba(116, 74, 45, 0.06) !important;
+  background: rgba(255, 249, 239, 0.18) !important;
+  border: 1px solid rgba(116, 74, 45, 0.04) !important;
   box-shadow: none !important;
   transform: none !important;
   filter: none !important;
@@ -1990,29 +1990,29 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
 }
 
 #app.layout-v1.home-state #room-carousel.home-dock-grid .room-card img {
-  width: min(100%, 142px) !important;
-  height: clamp(76px, 8dvh, 94px) !important;
+  width: min(100%, 172px) !important;
+  height: clamp(88px, 10dvh, 112px) !important;
   max-height: none !important;
   object-fit: contain !important;
   aspect-ratio: auto !important;
 }
 
 #app.layout-v1.home-state .home-dock-grid .room-card.is-active {
-  border-color: rgba(255, 111, 140, 0.22) !important;
-  background: rgba(255, 249, 239, 0.46) !important;
-  box-shadow: 0 0 0 2px rgba(255, 111, 140, 0.12) !important;
+  border-color: rgba(255, 111, 140, 0.18) !important;
+  background: rgba(255, 249, 239, 0.30) !important;
+  box-shadow: 0 0 0 2px rgba(255, 111, 140, 0.08) !important;
 }
 
 #app.layout-v1.home-state .home-dock-grid .room-card img {
   align-self: end !important;
   justify-self: center !important;
-  width: min(100%, 136px) !important;
+  width: min(100%, 166px) !important;
   height: auto !important;
   max-height: calc(100% - 36px) !important;
   aspect-ratio: 3 / 2 !important;
   object-fit: contain !important;
   object-position: center bottom !important;
-  filter: drop-shadow(0 8px 10px rgba(92, 45, 26, 0.15)) !important;
+  filter: drop-shadow(0 8px 10px rgba(92, 45, 26, 0.12)) !important;
 }
 
 #app.layout-v1.home-state .home-dock-grid .room-card-label {
@@ -2145,8 +2145,8 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   }
 
   #app.layout-v1.home-state #room-carousel.home-dock-grid .room-card img {
-    width: min(100%, 96px) !important;
-    height: 48px !important;
+    width: min(100%, 108px) !important;
+    height: 56px !important;
     max-height: none !important;
   }
 
@@ -2246,7 +2246,7 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   }
 
   #app.layout-v1.home-state .home-dock-grid .room-card img {
-    width: min(100%, 124px) !important;
+    width: min(100%, 172px) !important;
   }
 }
 
@@ -2340,8 +2340,8 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   }
 
   #app.layout-v1.home-state #room-carousel.home-dock-grid .room-card img {
-    width: min(100%, 88px) !important;
-    height: 50px !important;
+    width: min(100%, 104px) !important;
+    height: 58px !important;
     max-height: none !important;
   }
 
