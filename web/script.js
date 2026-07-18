@@ -2923,6 +2923,8 @@
   var pdfReaderPreloadTimer = null;
   var pdfReaderPreloadIdleId = null;
   var pdfReaderRenderSerial = 0;
+  var pdfReaderChromeTimer = null;
+  var pdfReaderVyvyTimer = null;
   var pdfReaderState = {
     pdfDoc: null,
     pdfUrl: '',
@@ -2944,7 +2946,8 @@
     pendingRender: false,
     activeRenderPromise: null,
     lastRenderSignature: '',
-    renderSizeKey: ''
+    renderSizeKey: '',
+    gestureBound: false
   };
 
   function isPdfDebugEnabled() {
@@ -3009,6 +3012,42 @@
   function setPdfReaderStatus(message) {
     var status = document.getElementById('study-pdf-reader-status');
     if (status) status.textContent = message || '';
+  }
+
+  function setPdfReaderChromeVisible(isVisible, duration) {
+    document.body.classList.toggle('reading-reader-ui-visible', !!isVisible);
+    if (pdfReaderChromeTimer) {
+      clearTimeout(pdfReaderChromeTimer);
+      pdfReaderChromeTimer = null;
+    }
+    if (isVisible && duration !== 0) {
+      pdfReaderChromeTimer = setTimeout(function() {
+        document.body.classList.remove('reading-reader-ui-visible');
+        pdfReaderChromeTimer = null;
+      }, duration || 2800);
+    }
+  }
+
+  function pokePdfReaderChrome(duration) {
+    if (!document.body.classList.contains('reading-pdf-mode')) return;
+    setPdfReaderChromeVisible(true, duration || 2800);
+  }
+
+  function flashPdfPageTurn(direction) {
+    var cls = direction > 0 ? 'reading-page-turn-next' : 'reading-page-turn-prev';
+    document.body.classList.remove('reading-page-turn-next');
+    document.body.classList.remove('reading-page-turn-prev');
+    document.body.classList.add(cls);
+    setTimeout(function() { document.body.classList.remove(cls); }, 260);
+  }
+
+  function showReadingVyvyMoment(duration) {
+    document.body.classList.add('reading-vyvy-active');
+    if (pdfReaderVyvyTimer) clearTimeout(pdfReaderVyvyTimer);
+    pdfReaderVyvyTimer = setTimeout(function() {
+      document.body.classList.remove('reading-vyvy-active');
+      pdfReaderVyvyTimer = null;
+    }, duration || 3600);
   }
 
   function cancelPdfRenderTasks() {
@@ -3266,6 +3305,8 @@
     if (els.text) els.text.style.display = 'none';
     document.body.classList.add('reading-pdf-mode');
     document.body.classList.add('pdfjs-reader-active');
+    document.body.classList.add('reading-immersive-mode');
+    setPdfReaderChromeVisible(false, 0);
   }
 
   function showPdfIframeFallback(lessonId, readStep, reason) {
@@ -3572,8 +3613,13 @@
     var step = pdfReaderState.pagesPerSpread || 1;
     var next = pdfReaderState.currentPage + (delta * step);
     next = Math.max(1, Math.min(next, pdfReaderState.totalPages || 1));
-    if (next === pdfReaderState.currentPage) return;
+    if (next === pdfReaderState.currentPage) {
+      pokePdfReaderChrome(1400);
+      return;
+    }
+    flashPdfPageTurn(delta);
     pdfReaderState.currentPage = next;
+    setPdfReaderChromeVisible(false, 0);
     renderPdfSpread().catch(function(err) {
       fallbackToIframePdf(pdfReaderState.pdfId, pdfReaderState.readStep, 'PDF.js render failed during page navigation: ' + (err && err.message ? err.message : err));
     });
@@ -3597,6 +3643,81 @@
     });
   }
 
+  function shouldIgnoreReaderGesture(target) {
+    if (!target || !target.closest) return false;
+    return !!target.closest('button, select, input, textarea, a, .reading-explanation-panel, #reading-explanation-panel, #reading-controls, .study-pdf-toolbar, .reading-pdf-topbar');
+  }
+
+  function bindPdfReaderGestures() {
+    if (pdfReaderState.gestureBound) return;
+    var els = getPdfReaderElements();
+    var surface = els.canvasReader || els.spread;
+    if (!surface) return;
+    pdfReaderState.gestureBound = true;
+    var startX = 0;
+    var startY = 0;
+    var startT = 0;
+    var moved = false;
+
+    surface.addEventListener('touchstart', function(ev) {
+      if (!document.body.classList.contains('reading-pdf-mode') || shouldIgnoreReaderGesture(ev.target)) return;
+      if (!ev.touches || ev.touches.length !== 1) return;
+      startX = ev.touches[0].clientX;
+      startY = ev.touches[0].clientY;
+      startT = Date.now();
+      moved = false;
+    }, { passive: true });
+
+    surface.addEventListener('touchmove', function(ev) {
+      if (!ev.touches || ev.touches.length !== 1) return;
+      var dx = ev.touches[0].clientX - startX;
+      var dy = ev.touches[0].clientY - startY;
+      if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+        moved = true;
+        ev.preventDefault();
+      }
+    }, { passive: false });
+
+    surface.addEventListener('touchend', function(ev) {
+      if (!document.body.classList.contains('reading-pdf-mode') || shouldIgnoreReaderGesture(ev.target)) return;
+      var touch = ev.changedTouches && ev.changedTouches[0];
+      if (!touch) return;
+      var dx = touch.clientX - startX;
+      var dy = touch.clientY - startY;
+      var dt = Math.max(1, Date.now() - startT);
+      var velocity = Math.abs(dx) / dt;
+      if ((Math.abs(dx) >= 46 || velocity > 0.5) && Math.abs(dx) > Math.abs(dy) * 1.25) {
+        ev.preventDefault();
+        goPdfPage(dx < 0 ? 1 : -1);
+        return;
+      }
+      if (!moved) pokePdfReaderChrome();
+    }, { passive: false });
+
+    surface.addEventListener('click', function(ev) {
+      if (!document.body.classList.contains('reading-pdf-mode') || shouldIgnoreReaderGesture(ev.target)) return;
+      var rect = surface.getBoundingClientRect();
+      var x = ev.clientX - rect.left;
+      if (x < rect.width * 0.18) {
+        goPdfPage(-1);
+      } else if (x > rect.width * 0.82) {
+        goPdfPage(1);
+      } else if (document.body.classList.contains('reading-reader-ui-visible')) {
+        setPdfReaderChromeVisible(false, 0);
+      } else {
+        pokePdfReaderChrome();
+      }
+    });
+
+    surface.addEventListener('wheel', function(ev) {
+      if (!document.body.classList.contains('reading-pdf-mode') || shouldIgnoreReaderGesture(ev.target)) return;
+      if (Math.abs(ev.deltaX) > 36 && Math.abs(ev.deltaX) > Math.abs(ev.deltaY) * 1.1) {
+        ev.preventDefault();
+        goPdfPage(ev.deltaX > 0 ? 1 : -1);
+      }
+    }, { passive: false });
+  }
+
   function handlePdfReaderResize() {
     if (!pdfReaderState.pdfDoc) return;
     if (pdfReaderResizeTimer) clearTimeout(pdfReaderResizeTimer);
@@ -3618,12 +3739,25 @@
     if (els.zoomOut) els.zoomOut.onclick = function() { setPdfZoom(-0.1); };
     if (els.cropToggle) els.cropToggle.onclick = togglePdfCrop;
     if (els.focusToggle) els.focusToggle.onclick = togglePdfReaderFocusMode;
+    bindPdfReaderGestures();
   }
 
   window.addEventListener('resize', handlePdfReaderResize);
   document.addEventListener('keydown', function(ev) {
     if (ev.key === 'Escape' && document.body.classList.contains('reading-pdf-focus-mode')) {
       setPdfReaderFocusMode(false);
+    }
+    if (!document.body.classList.contains('reading-pdf-mode')) return;
+    if (ev.key === 'ArrowLeft') {
+      ev.preventDefault();
+      goPdfPage(-1);
+    } else if (ev.key === 'ArrowRight') {
+      ev.preventDefault();
+      goPdfPage(1);
+    } else if (ev.key === ' ' || ev.key === 'Spacebar') {
+      ev.preventDefault();
+      if (document.body.classList.contains('reading-reader-ui-visible')) setPdfReaderChromeVisible(false, 0);
+      else pokePdfReaderChrome();
     }
   });
   document.addEventListener('visibilitychange', function() {
@@ -3652,6 +3786,8 @@
     if (!frame || !url) return false;
     frame.src = url;
     document.body.classList.add('reading-pdf-mode');
+    document.body.classList.add('reading-immersive-mode');
+    setPdfReaderChromeVisible(false, 0);
     return true;
   }
 
@@ -3659,6 +3795,19 @@
     document.body.classList.remove('reading-pdf-mode');
     document.body.classList.remove('pdfjs-reader-active');
     document.body.classList.remove('reading-pdf-focus-mode');
+    document.body.classList.remove('reading-immersive-mode');
+    document.body.classList.remove('reading-reader-ui-visible');
+    document.body.classList.remove('reading-page-turn-next');
+    document.body.classList.remove('reading-page-turn-prev');
+    document.body.classList.remove('reading-vyvy-active');
+    if (pdfReaderChromeTimer) {
+      clearTimeout(pdfReaderChromeTimer);
+      pdfReaderChromeTimer = null;
+    }
+    if (pdfReaderVyvyTimer) {
+      clearTimeout(pdfReaderVyvyTimer);
+      pdfReaderVyvyTimer = null;
+    }
     var frame = document.getElementById('reading-pdf-frame');
     if (frame && (!frame.src || frame.src === 'undefined' || frame.src === 'null')) {
       frame.src = 'about:blank';
@@ -3704,6 +3853,10 @@
       toggle.textContent = isOpen ? 'Ẩn giải thích' : 'Giải thích';
       toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       toggle.classList.toggle('active', isOpen);
+    }
+    if (isOpen) {
+      showReadingVyvyMoment(5200);
+      pokePdfReaderChrome(5200);
     }
   }
 
@@ -4021,6 +4174,7 @@
     if (bubble && message) {
       bubble.textContent = message;
       bubble.classList.remove('hidden');
+      showReadingVyvyMoment(pose === 'happy' ? 3200 : 4600);
       if (pose === 'happy') {
         setTimeout(function() { bubble.classList.add('hidden'); }, 3000);
       }

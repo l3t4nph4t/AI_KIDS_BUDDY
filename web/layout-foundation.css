@@ -1572,6 +1572,425 @@ body.reading-pdf-mode #app.layout-v1[data-shell="learning"] #reading-explanation
   }
 }
 
+/* Immersive PDF Reader V1
+   The book is the primary surface. Chrome appears only on tap or when VyVy needs context. */
+body.reading-immersive-mode {
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+  background: #1d140e !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"],
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #learn-panel.feature-panel,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #learn-reading {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  max-height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #1d140e !important;
+  box-shadow: none !important;
+  transform: none !important;
+  overflow: hidden !important;
+}
+
+@supports (height: 100dvh) {
+  body.reading-immersive-mode #app.layout-v1[data-shell="learning"],
+  body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #learn-panel.feature-panel,
+  body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #learn-reading {
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    max-height: 100dvh !important;
+  }
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #input-area,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #learn-progress,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-topbar,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-side-rail,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-reading-page-pill,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .reading-hud,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .reading-nav {
+  display: none !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #learn-reading {
+  --reader-safe-top: max(10px, env(safe-area-inset-top, 0px));
+  --reader-safe-right: max(10px, env(safe-area-inset-right, 0px));
+  --reader-safe-bottom: max(10px, env(safe-area-inset-bottom, 0px));
+  --reader-safe-left: max(10px, env(safe-area-inset-left, 0px));
+  display: grid !important;
+  grid-template-rows: minmax(0, 1fr) !important;
+  gap: 0 !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .reading-pdf-main,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-panel,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-canvas-reader,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-pdf-wrap {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: radial-gradient(circle at 50% 48%, #382415 0%, #1d140e 68%) !important;
+  overflow: hidden !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-canvas-reader[hidden] {
+  display: none !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-spread {
+  position: absolute !important;
+  inset: var(--reader-safe-top) var(--reader-safe-right) var(--reader-safe-bottom) var(--reader-safe-left) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: clamp(8px, 1vw, 18px) !important;
+  width: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  touch-action: pan-y pinch-zoom !important;
+  overflow: hidden !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-page-slot {
+  position: relative !important;
+  display: grid !important;
+  place-items: center !important;
+  width: auto !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  background: transparent !important;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.36) !important;
+  overflow: hidden !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-page-clip {
+  display: block !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  border-radius: 8px !important;
+  background: #fff !important;
+  overflow: hidden !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-page-clip canvas {
+  display: block !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-page-label {
+  position: absolute !important;
+  left: 10px !important;
+  top: 10px !important;
+  z-index: 2 !important;
+  padding: 4px 8px !important;
+  border-radius: 999px !important;
+  color: #62402a !important;
+  background: rgba(255, 245, 225, 0.84) !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 180ms ease !important;
+}
+
+body.reading-reader-ui-visible #app.layout-v1[data-shell="learning"] .study-pdf-page-label {
+  opacity: 1 !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .reading-pdf-topbar,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-controls {
+  position: fixed !important;
+  left: 50% !important;
+  width: min(760px, calc(100vw - 24px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))) !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 8px !important;
+  box-sizing: border-box !important;
+  border: 1px solid rgba(136, 88, 46, 0.14) !important;
+  border-radius: 999px !important;
+  background: rgba(255, 246, 230, 0.90) !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18) !important;
+  backdrop-filter: blur(14px) saturate(1.08) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(1.08) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateX(-50%) translateY(-10px) !important;
+  transition: opacity 180ms ease, transform 180ms ease !important;
+  z-index: 240 !important;
+  overflow: hidden !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .reading-pdf-topbar,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-controls {
+  min-height: 58px !important;
+  max-height: 58px !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .reading-pdf-topbar {
+  top: calc(var(--reader-safe-top) + 2px) !important;
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) !important;
+  gap: 8px !important;
+  align-items: center !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar {
+  top: calc(var(--reader-safe-top) + 64px) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-controls {
+  bottom: calc(var(--reader-safe-bottom) + 4px) !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-auto-rows: 44px !important;
+  align-items: center !important;
+  align-content: center !important;
+  gap: 8px !important;
+  transform: translateX(-50%) translateY(10px) !important;
+}
+
+body.reading-reader-ui-visible #app.layout-v1[data-shell="learning"] .reading-pdf-topbar,
+body.reading-reader-ui-visible #app.layout-v1[data-shell="learning"] .study-pdf-toolbar,
+body.reading-reader-ui-visible #app.layout-v1[data-shell="learning"] #reading-controls {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: translateX(-50%) translateY(0) !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-subject-chip,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-lesson-chip,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #study-pdf-crop-toggle,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #study-pdf-focus-toggle,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #study-pdf-zoom-out,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #study-pdf-zoom-in,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #study-pdf-zoom-label,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-skip-audio {
+  display: none !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .reading-title {
+  display: block !important;
+  min-width: 0 !important;
+  color: #4f3424 !important;
+  font-size: 14px !important;
+  font-weight: 900 !important;
+  line-height: 1.12 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .reading-pdf-topbar .learn-back-btn,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar button,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar span,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-controls button {
+  width: auto !important;
+  min-width: 44px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  max-height: 44px !important;
+  padding: 0 14px !important;
+  border: 1px solid rgba(136, 88, 46, 0.14) !important;
+  border-radius: 999px !important;
+  color: #563926 !important;
+  background: linear-gradient(180deg, #fff8ea 0%, #efd09a 100%) !important;
+  box-shadow: 0 4px 0 rgba(161, 103, 43, 0.42) !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #study-page-counter {
+  min-width: 104px !important;
+  box-shadow: none !important;
+  background: rgba(255, 250, 240, 0.78) !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-audio-btn,
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-start-practice {
+  color: #fff !important;
+  background: linear-gradient(180deg, #e9b257 0%, #bd7330 100%) !important;
+  box-shadow: 0 4px 0 #8f511d !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-start-practice:disabled {
+  opacity: 0.62 !important;
+  filter: grayscale(0.15) !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-vyvy-corner {
+  position: fixed !important;
+  right: calc(var(--reader-safe-right) + 10px) !important;
+  bottom: calc(var(--reader-safe-bottom) + 82px) !important;
+  display: grid !important;
+  grid-template-columns: 58px minmax(0, 220px) !important;
+  align-items: end !important;
+  gap: 8px !important;
+  width: auto !important;
+  max-width: min(340px, calc(100vw - 24px)) !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(10px) !important;
+  transition: opacity 180ms ease, transform 180ms ease !important;
+  z-index: 245 !important;
+}
+
+body.reading-vyvy-active #app.layout-v1[data-shell="learning"] #reading-vyvy-corner,
+body.reading-reader-ui-visible.reading-vyvy-active #app.layout-v1[data-shell="learning"] #reading-vyvy-corner {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-vyvy-img {
+  width: 58px !important;
+  height: 78px !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.24)) !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-vyvy-bubble {
+  display: block !important;
+  max-width: 220px !important;
+  max-height: 132px !important;
+  padding: 10px 12px !important;
+  border-radius: 16px !important;
+  color: #4f3424 !important;
+  background: rgba(255, 248, 232, 0.94) !important;
+  border: 1px solid rgba(136, 88, 46, 0.14) !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16) !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  line-height: 1.25 !important;
+  overflow: hidden !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-vyvy-bubble.hidden {
+  display: none !important;
+}
+
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-explanation-panel {
+  position: fixed !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: calc(var(--reader-safe-bottom) + 82px) !important;
+  width: min(560px, calc(100vw - 24px)) !important;
+  max-height: min(52vh, 420px) !important;
+  transform: translateX(-50%) !important;
+  z-index: 250 !important;
+  color: #4f3424 !important;
+  background: rgba(255, 248, 232, 0.96) !important;
+  border: 1px solid rgba(136, 88, 46, 0.16) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.24) !important;
+}
+
+body.reading-page-turn-next #app.layout-v1[data-shell="learning"] .study-pdf-spread {
+  animation: readerPageNext 260ms ease both !important;
+}
+
+body.reading-page-turn-prev #app.layout-v1[data-shell="learning"] .study-pdf-spread {
+  animation: readerPagePrev 260ms ease both !important;
+}
+
+@keyframes readerPageNext {
+  0% { transform: translateX(0); opacity: 1; }
+  45% { transform: translateX(-18px); opacity: 0.86; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes readerPagePrev {
+  0% { transform: translateX(0); opacity: 1; }
+  45% { transform: translateX(18px); opacity: 0.86; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@media (max-width: 599px) {
+  body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-spread {
+    inset: var(--reader-safe-top) 0 var(--reader-safe-bottom) 0 !important;
+  }
+
+  body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .reading-pdf-topbar,
+  body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar,
+  body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-controls {
+    width: calc(100vw - 16px) !important;
+    padding: 6px !important;
+  }
+
+  body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar {
+    top: calc(var(--reader-safe-top) + 60px) !important;
+  }
+
+  body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar button,
+  body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar span,
+  body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-controls button {
+    padding: 0 10px !important;
+    font-size: 12px !important;
+  }
+
+  body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-controls {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-vyvy-corner {
+    right: 10px !important;
+    bottom: calc(var(--reader-safe-bottom) + 136px) !important;
+    grid-template-columns: 46px minmax(0, 180px) !important;
+  }
+
+  body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-vyvy-img {
+    width: 46px !important;
+    height: 64px !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 560px) {
+  body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .reading-pdf-topbar,
+  body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar {
+    width: min(560px, calc(100vw - 120px)) !important;
+  }
+
+  body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-toolbar {
+    top: calc(var(--reader-safe-top) + 64px) !important;
+  }
+
+  body.reading-immersive-mode #app.layout-v1[data-shell="learning"] #reading-controls {
+    width: min(520px, calc(100vw - 120px)) !important;
+    bottom: calc(var(--reader-safe-bottom) + 2px) !important;
+  }
+}
+
 /* Games shell */
 #app.layout-v1[data-shell="games"] #games-view,
 #app.layout-v1[data-shell="games"] #games-view-content {
