@@ -965,6 +965,7 @@ body[data-shell] {
   display: grid !important;
   grid-template-rows: auto minmax(0, 1fr) auto !important;
   gap: 12px !important;
+  isolation: isolate !important;
 }
 
 #app.layout-v1[data-shell="learning"] #learn-panel[data-picker-step="lessons"] .study-picker-card {
@@ -1010,8 +1011,8 @@ body[data-shell] {
   overflow-x: hidden !important;
   overflow-y: auto !important;
   padding-right: 6px !important;
-  padding-bottom: 14px !important;
-  scroll-padding-bottom: 88px !important;
+  padding-bottom: 96px !important;
+  scroll-padding-bottom: 112px !important;
 }
 
 #app.layout-v1[data-shell="learning"] .lesson-book {
@@ -1032,7 +1033,17 @@ body[data-shell] {
   min-height: 58px !important;
   padding: 0 !important;
   background: transparent !important;
-  z-index: 2 !important;
+  z-index: 0 !important;
+  pointer-events: auto !important;
+}
+
+#app.layout-v1[data-shell="learning"] #learn-panel[data-picker-step="lessons"] .study-picker-footer {
+  display: none !important;
+}
+
+#app.layout-v1[data-shell="learning"] #learn-panel[data-picker-step="lessons"] #lesson-list-content {
+  padding-bottom: 24px !important;
+  scroll-padding-bottom: 24px !important;
 }
 
 #app.layout-v1[data-shell="learning"] #study-start-selected {
@@ -1650,6 +1661,35 @@ body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-can
   display: none !important;
 }
 
+body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-canvas-reader::after {
+  content: "Chạm để hiện nút • Vuốt sang trái/phải để lật trang";
+  position: fixed !important;
+  left: 50% !important;
+  bottom: calc(var(--reader-safe-bottom) + 76px) !important;
+  width: min(420px, calc(100vw - 32px)) !important;
+  padding: 10px 14px !important;
+  border-radius: 999px !important;
+  color: #fff8ea !important;
+  background: rgba(45, 28, 16, 0.78) !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.24) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  font-size: 13px !important;
+  font-weight: 850 !important;
+  line-height: 1.25 !important;
+  text-align: center !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateX(-50%) translateY(8px) !important;
+  transition: opacity 180ms ease, transform 180ms ease !important;
+  z-index: 238 !important;
+}
+
+body.reading-reader-hint #app.layout-v1[data-shell="learning"] .study-pdf-canvas-reader::after {
+  opacity: 1 !important;
+  transform: translateX(-50%) translateY(0) !important;
+}
+
 body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-spread {
   position: absolute !important;
   inset: var(--reader-safe-top) var(--reader-safe-right) var(--reader-safe-bottom) var(--reader-safe-left) !important;
@@ -1939,6 +1979,7 @@ body.reading-page-turn-prev #app.layout-v1[data-shell="learning"] .study-pdf-spr
 @media (max-width: 599px) {
   body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .study-pdf-spread {
     inset: var(--reader-safe-top) 0 var(--reader-safe-bottom) 0 !important;
+    align-items: flex-start !important;
   }
 
   body.reading-immersive-mode #app.layout-v1[data-shell="learning"] .reading-pdf-topbar,
@@ -2892,4 +2933,11 @@ body.reading-page-turn-prev #app.layout-v1[data-shell="learning"] .study-pdf-spr
     padding: 4px 3px !important;
     font-size: 10.5px !important;
   }
+}
+
+/* Onboarding should read as a modal lock, not another tappable layer. */
+.onboarding-overlay:not(.hidden) {
+  background: rgba(55, 36, 22, 0.54) !important;
+  backdrop-filter: blur(10px) saturate(0.88) brightness(0.76) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(0.88) brightness(0.76) !important;
 }

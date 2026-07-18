@@ -81,12 +81,12 @@
     var skipBtn = document.getElementById('reading-skip-audio');
     var cropBtn = document.getElementById('study-pdf-crop-toggle');
     var focusBtn = document.getElementById('study-pdf-focus-toggle');
-    if (audioBtn) audioBtn.textContent = 'Nghe';
-    if (explainBtn) explainBtn.textContent = 'Hỏi VyVy';
-    if (practiceBtn) practiceBtn.textContent = 'Luyện tập';
-    if (skipBtn) skipBtn.textContent = 'Bỏ qua';
-    if (cropBtn) cropBtn.textContent = 'Cắt lề';
-    if (focusBtn) focusBtn.textContent = 'Sách lớn';
+    if (audioBtn) audioBtn.textContent = '\u25b6 Nghe';
+    if (explainBtn) explainBtn.textContent = 'H\u1ecfi VyVy';
+    if (practiceBtn) practiceBtn.textContent = 'Luy\u1ec7n t\u1eadp';
+    if (skipBtn) skipBtn.textContent = 'B\u1ecf qua';
+    if (cropBtn) cropBtn.textContent = 'C\u1eaft l\u1ec1';
+    if (focusBtn) focusBtn.textContent = 'S\u00e1ch l\u1edbn';
   }
 
   /* ── Room Carousel State ──────────────── */
@@ -2341,6 +2341,7 @@
               unitCount: unitCount,
               status: doneCount === unitCount && unitCount > 0 ? 'Đã học' : (doneCount > 0 ? 'Đang học' : 'Chưa học')
             });
+            startSpecificLesson(unitId, subj);
           };
         })(firstUnitId, subject, lesson.title, lesson, completedCount, units.length);
 
@@ -2925,6 +2926,7 @@
   var pdfReaderRenderSerial = 0;
   var pdfReaderChromeTimer = null;
   var pdfReaderVyvyTimer = null;
+  var pdfReaderHintTimer = null;
   var pdfReaderState = {
     pdfDoc: null,
     pdfUrl: '',
@@ -3028,8 +3030,29 @@
     }
   }
 
+  function setPdfReaderHintVisible(isVisible, duration) {
+    document.body.classList.toggle('reading-reader-hint', !!isVisible);
+    if (pdfReaderHintTimer) {
+      clearTimeout(pdfReaderHintTimer);
+      pdfReaderHintTimer = null;
+    }
+    if (isVisible && duration !== 0) {
+      pdfReaderHintTimer = setTimeout(function() {
+        document.body.classList.remove('reading-reader-hint');
+        pdfReaderHintTimer = null;
+      }, duration || 5200);
+    }
+  }
+
+  function showPdfReaderEntryCoach() {
+    if (!document.body.classList.contains('reading-pdf-mode')) return;
+    setPdfReaderHintVisible(true, 5600);
+    setPdfReaderChromeVisible(true, 5600);
+  }
+
   function pokePdfReaderChrome(duration) {
     if (!document.body.classList.contains('reading-pdf-mode')) return;
+    setPdfReaderHintVisible(false, 0);
     setPdfReaderChromeVisible(true, duration || 2800);
   }
 
@@ -3113,6 +3136,7 @@
     pdfReaderState.activeRenderPromise = null;
     pdfReaderState.lastRenderSignature = '';
     pdfReaderState.renderSizeKey = '';
+    setPdfReaderHintVisible(false, 0);
     var els = getPdfReaderElements();
     if (els.spread) {
       while (els.spread.firstChild) els.spread.removeChild(els.spread.firstChild);
@@ -3163,6 +3187,7 @@
 
   function getInitialPdfPage(readStep) {
     readStep = readStep || {};
+    if (readStep.pdf_file || readStep.pdf_lesson_id) return 1;
     var raw = readStep.pdf_page || readStep.page || readStep.page_start || learnState.selectedPage;
     if (Array.isArray(raw)) raw = raw[0];
     var match = String(raw || '').match(/\d+/);
@@ -3433,7 +3458,7 @@
       var profile = pdfReaderState.cropMode === 'on' ? sanitizeCropProfile(pdfReaderState.cropProfile) : null;
       var visibleRatioWidth = profile ? Math.max(0.72, 1 - profile.left - profile.right) : 1;
       var visibleRatioHeight = profile ? Math.max(0.72, 1 - profile.top - profile.bottom) : 1;
-      var targetWidth = Math.max(1, (spreadWidth / pdfReaderState.pagesPerSpread) - (pdfReaderState.pagesPerSpread > 1 ? 0 : 12));
+      var targetWidth = Math.max(1, spreadWidth / pdfReaderState.pagesPerSpread);
       var targetHeight = Math.max(1, spreadHeight - 12);
       var fitScale = Math.min(
         targetWidth / (baseViewport.width * visibleRatioWidth),
@@ -3589,6 +3614,7 @@
       clearPdfReaderCache();
       return renderPdfSpread().then(function() {
         updatePdfReaderControls();
+        showPdfReaderEntryCoach();
         return true;
       });
     }).catch(function(err) {
@@ -3605,10 +3631,12 @@
     cancelPdfPreload();
     var ok = showPdfIframeFallback(lessonId, readStep, reason);
     updatePdfReaderControls();
+    if (ok) showPdfReaderEntryCoach();
     if (ok) _pa1_showPdfModal(lessonId, readStep);
   }
 
   function goPdfPage(delta) {
+    setPdfReaderHintVisible(false, 0);
     if (!pdfReaderState.pdfDoc) return;
     var step = pdfReaderState.pagesPerSpread || 1;
     var next = pdfReaderState.currentPage + (delta * step);
@@ -3800,6 +3828,7 @@
     document.body.classList.remove('reading-page-turn-next');
     document.body.classList.remove('reading-page-turn-prev');
     document.body.classList.remove('reading-vyvy-active');
+    document.body.classList.remove('reading-reader-hint');
     if (pdfReaderChromeTimer) {
       clearTimeout(pdfReaderChromeTimer);
       pdfReaderChromeTimer = null;
@@ -3807,6 +3836,10 @@
     if (pdfReaderVyvyTimer) {
       clearTimeout(pdfReaderVyvyTimer);
       pdfReaderVyvyTimer = null;
+    }
+    if (pdfReaderHintTimer) {
+      clearTimeout(pdfReaderHintTimer);
+      pdfReaderHintTimer = null;
     }
     var frame = document.getElementById('reading-pdf-frame');
     if (frame && (!frame.src || frame.src === 'undefined' || frame.src === 'null')) {
@@ -3838,7 +3871,7 @@
     if (toggle) {
       toggle.classList.add('hidden');
       toggle.disabled = false;
-      toggle.textContent = 'Giải thích';
+      toggle.textContent = 'H\u1ecfi VyVy';
       toggle.setAttribute('aria-expanded', 'false');
     }
     if (panel) panel.classList.add('hidden');
@@ -3850,7 +3883,7 @@
     var panel = document.getElementById('reading-explanation-panel');
     if (panel) panel.classList.toggle('hidden', !isOpen);
     if (toggle) {
-      toggle.textContent = isOpen ? 'Ẩn giải thích' : 'Giải thích';
+      toggle.textContent = isOpen ? '\u1ea8n' : 'H\u1ecfi VyVy';
       toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       toggle.classList.toggle('active', isOpen);
     }
@@ -3922,7 +3955,7 @@
       renderReadingExplanation(contentData);
       toggle.classList.remove('hidden');
       toggle.disabled = false;
-      toggle.textContent = 'Giải thích';
+      toggle.textContent = 'H\u1ecfi VyVy';
       toggle.setAttribute('aria-expanded', 'false');
       toggle.onclick = function() {
         var panel = document.getElementById('reading-explanation-panel');
@@ -4079,22 +4112,21 @@
     audio.load();
 
     if (practiceBtn) {
-      practiceBtn.disabled = true;
-      practiceBtn.title = 'Nghe VyVy đọc bài hoặc bấm Bỏ qua để luyện tập';
+      practiceBtn.disabled = false;
+      practiceBtn.title = 'B\u1eaft \u0111\u1ea7u luy\u1ec7n t\u1eadp khi b\u1ea1n \u0111\u00e3 \u0111\u1ecdc xong';
+      practiceBtn.textContent = 'Luy\u1ec7n t\u1eadp';
     }
     if (audioBtn) {
-      audioBtn.textContent = '▶ VyVy đọc bài';
+      audioBtn.textContent = '\u25b6 Nghe';
       audioBtn.classList.add('vyvy-cta-pulse');
     }
     if (skipBtn) {
-      skipBtn.style.setProperty('display', 'inline-flex', 'important');
-      skipBtn.style.setProperty('align-items', 'center');
-      skipBtn.style.setProperty('justify-content', 'center');
+      skipBtn.style.setProperty('display', 'none', 'important');
     }
 
     var finishDeferredAudio = function() {
       if (audioBtn) {
-        audioBtn.textContent = '▶ Nghe lại';
+        audioBtn.textContent = '\u25b6 Nghe l\u1ea1i';
         audioBtn.classList.add('vyvy-cta-pulse');
       }
       if (practiceBtn) {
@@ -4107,14 +4139,14 @@
     audio.onended = finishDeferredAudio;
     audio.onplaying = function() {
       if (audioBtn) {
-        audioBtn.textContent = '⏸ Đang đọc';
+        audioBtn.textContent = '\u23f8 \u0110ang \u0111\u1ecdc';
         audioBtn.classList.remove('vyvy-cta-pulse');
       }
       _pa1_setReadingVyvy('explaining', 'Mình đọc bài cho bạn nhé!');
     };
     audio.onerror = function() {
       if (audioBtn) {
-        audioBtn.textContent = '▶ VyVy đọc bài';
+        audioBtn.textContent = '\u25b6 Nghe';
         audioBtn.classList.add('vyvy-cta-pulse');
       }
       if (practiceBtn) {
@@ -4127,7 +4159,7 @@
       audioBtn.onclick = function() {
         if (!audio.paused) {
           audio.pause();
-          audioBtn.textContent = '▶ Tiếp tục';
+          audioBtn.textContent = '\u25b6 Ti\u1ebfp t\u1ee5c';
           audioBtn.classList.add('vyvy-cta-pulse');
           return;
         }
@@ -4135,10 +4167,10 @@
           audio.src = audioUrl;
           audio.load();
         }
-        audioBtn.textContent = '⏳ Đang tải...';
+        audioBtn.textContent = '\u23f3 T\u1ea3i...';
         audioBtn.classList.remove('vyvy-cta-pulse');
         audio.play().catch(function() {
-          audioBtn.textContent = '▶ VyVy đọc bài';
+          audioBtn.textContent = '\u25b6 Nghe';
           audioBtn.classList.add('vyvy-cta-pulse');
           if (practiceBtn) {
             practiceBtn.disabled = false;
@@ -4191,7 +4223,7 @@
       practiceBtn.disabled = false;
       practiceBtn.title = 'Bắt đầu luyện tập để nhận sao';
     }
-    if (audioBtn) audioBtn.textContent = '▶ Nghe lại';
+    if (audioBtn) audioBtn.textContent = '? Nghe l?i';
     _pa1_setReadingVyvy('happy', 'Sẵn sàng luyện tập thôi nào! 💪');
   }
   window._pa1_skipAudio = _pa1_skipAudio;
